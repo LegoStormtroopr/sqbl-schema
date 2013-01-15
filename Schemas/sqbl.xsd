@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+SQBL - The Simple ( or Structured ) Questionnaire Building Language 
+  www.sqbl.org
+
+The SQBL Schema is free software distributed within the public domain.
+You are free to download, remix, change and modify these schemas to your hearts content. 
+
+SQBL and associated Schema are distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.
+
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      RFC 2119.
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="sqbl:1" xmlns:qwac="qwac:reusable:1" xmlns:sqbl="sqbl:1"
+   targetNamespace="sqbl:1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+   <xs:annotation>
+      <xs:documentation> The Simple ( or Structured ) Questionnaire Building Language or SQBL is a formalised
+         serialisation of the "Structured Questionnaire Theroum". The purpose of this format is to enable survey
+         designers and researchers to produce questionnaires that are able to effectively target respondents, quicker
+         and easier than has previously been able, while focusing on maximum machine support for processing at all
+         stages of data collection. This is achieved, by encouraging the creation of structured and hierarchical
+         questionnaire specifications. </xs:documentation>
+   </xs:annotation>
+   <xs:element name="QuestionnaireSpecification">
+      <xs:annotation>
+         <xs:documentation>A questionnaire specification in the SQBL format document describing the abstract notion of a
+            questionnaire or survey instrument (this document uses the term questionnaire). The content that is captured
+            within a specification is transformed into a questionnaire instrument and allows for reproducible processes
+            for generating questionnaires. A questionnaire, in the SQBL format, is quite a simple object where it
+            contains a multilingual text component and an ordered list of references to reusable "Question Modules"
+            
+            Questionnaire Specification are still under active development.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="Versionable">
+               <xs:sequence>
+                  <xs:element name="LongName" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                     <xs:annotation>
+                        <xs:documentation>The display name for an instrument</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="QuestionModules">
+                     <xs:annotation>
+                        <xs:documentation>
+                           Contains an ordered list of question modules that comprise of the total logic necessary for a Questionnaire.
+                           The list of Modules in this element MUST retain document order throughout automated transformations
+                           and must be presented to users in the order given.
+                        </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="QuestionModuleReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
+                               <xs:annotation>
+                                  <xs:documentation>A reference to a question module that comprises a part of the final
+                                     questionnaire. This is a URI off to an XML Document that describes a SQBL QuestionModule. The
+                                     URI can either be a standard URL to a static document, or a URI to a server that serves up a
+                                     document via CGI parameters. </xs:documentation>
+                               </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="QuestionModule">
+      <xs:annotation>
+         <xs:documentation>
+            <![CDATA[
+            QuestionModule are the simple, yet powerful, core construct within the SQBL data model. A
+            Question modules is made up of 5 objects, which when compined provide a robust description of the activities
+            necessary to produce a wide variety of static or dynamic questionnaires. These are:
+            
+              * TextComponent - A set of multilingual content necessary for understanding the semantics of this module.
+              * IncomingPopulation - A Reference to a Population ADministration Language (PAdL) population that determines who answers this module.
+              * ModuleLogic - A hierachical structure containing the questions and sequencing rules between those questions.
+              * DerivedDataIitems - A collection of data items that aggregate multiple responses from within this module specific data elements.
+              * Submodules - A list of references to SubModules that are a part of this module and need to be asked as one coherent block. 
+              ]]>
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:complexContent>
+            <xs:extension base="Versionable">
+               <xs:sequence>
+                  <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:all>
+                           <xs:element name="LongName" minOccurs="0" maxOccurs="1" type="xs:string">
+                              <xs:annotation>
+                                 <xs:documentation>The human readable name of this module, used in searching.
+                                    When comparing the Long Name and Title of a module, the Long Name should be considered
+                                    the "internal or private" name and as a stand alone title, whereas the title would be
+                                    "external or public" title presented to a user, within the context of the greater questionnaire.
+                                    
+                                    For example, two modules may share the Title "Pet Ownership" as presented to a user, while one has the more descriptive
+                                    Long Name "Pet Ownership, 2013 Long Form edition", the other "Pet Ownership, Short (4 Question) edition"
+                                    </xs:documentation>
+                              </xs:annotation>
+                           </xs:element>
+                           <xs:element name="Title"  minOccurs="0" maxOccurs="1" type="xs:string">
+                              <xs:annotation>
+                                 <xs:documentation>The name of this module as presented to a respondent of a survey. 
+                                 </xs:documentation>
+                              </xs:annotation>
+                           </xs:element>
+                           <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
+                              <xs:annotation>
+                                 <xs:documentation>Why this specific set of questions is being asked of the chosen respondents in this collection?</xs:documentation>
+                              </xs:annotation>
+                           </xs:element>
+                           <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
+                              <xs:annotation>
+                                 <xs:documentation>Who this module is targetting in a short and general sense. This is different
+                                    to the Deafult ObjectClass as the target respondent is who will answer the question about the
+                                    Object Class.
+                                    For example, a TargetRespondent may be "People who own pets" however, the Object Class may be
+                                    Animal, as in the 11179 Data Element "Animal, Desexed Status".
+                                 </xs:documentation>
+                              </xs:annotation>
+                           </xs:element>
+                        </xs:all>
+                        <xs:attribute ref="xml:lang">
+                           <xs:annotation>
+                              <xs:documentation>The ISO language code for this TextComponent. This must be unique and is enfored in schema.</xs:documentation>
+                           </xs:annotation>
+                        </xs:attribute>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="IncomingPopulation" minOccurs="0" maxOccurs="unbounded" type="ReferenceType">
+                     <xs:annotation>
+                        <xs:documentation>Who can perform this question module? A URI Reference to a Population
+                           ADministration Language (PAdL) population. When a questionnaire is created from a SQBL
+                           Questionnaire Specification, a respondent MUST only perform a given QuestionModule if and
+                           only if they are are determined to be in this population. If no incoming population exists,
+                           it MUST be interpretted that this module is to be answered by all respondents.
+                        </xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="ModuleLogic" minOccurs="1" maxOccurs="1" type="LogicHead">
+                     <xs:annotation>
+                        <xs:documentation>What questions are asked, and how are respondents routed between them? The
+                           concept of questionnaire logic in SQBL documents runs counter to most traditional and
+                           unstructured ways of describing routing within questionnaires. Here questionnaire modules
+                           follow the "Structured Questionnaire Theorum", that describes the routing of questionnaires
+                           using a hierarchical approach similar to structured programming. Within the logical component
+                           of a question module we describe a tree that can then be interpretted by computers and expressed
+                           as a web form, electronic interview instrument or a paper survey froma single specification.
+                           Whether this it is appropriate within a given agency to express a specification in a multi-mode way is
+                           considered outside of scope for SQBL, and is an agency information governance issue.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="DerivedDataItems" minOccurs="0" maxOccurs="1">
+                     <xs:annotation>
+                        <xs:documentation>A collection of data items that aggregate multiple responses from within this module specific data elements.
+                        
+                        This section is still under active development, and the role and interactivity across modules of Data Elements is yet to be full explained.
+                        In time, the derivation of data items will provide for the ability to have cross-module branching and logic.
+                        </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="DerivedDataItem" type="DerivedDataItemType" minOccurs="1"
+                              maxOccurs="unbounded" />
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="Submodules" minOccurs="0" maxOccurs="1">
+                     <xs:complexType>
+                        <xs:choice minOccurs="1" maxOccurs="unbounded">
+                           <xs:element name="SubModuleReference" minOccurs="0" maxOccurs="unbounded"
+                              type="ReferenceType">
+                              <xs:annotation>
+                                 <xs:documentation>A URI reference to the submodules that a respondent must be presented with,
+                                    if they have been presented with the current module.
+                                    If a user is given an early exit from the module logic using a ModuleExitPoint they must
+                                    immediately continue to any submodules within the module.
+                                 </xs:documentation>
+                              </xs:annotation>
+                           </xs:element>
+                           <!-- We may allow inline sub modules, but I feel this violates the "There is only one way to do it" principle. 
+                              xs:element name="SubModule" minOccurs="0" maxOccurs="unbounded" type="InlineSubModule" / -->
+                        </xs:choice>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+               <xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
+                  <xs:annotation>
+                     <xs:documentation> The Default ObjectClass for all questions within this module.
+                        Because of the hierarchical nature of SQBL, it is possible to use a cascading
+                        method for producing DataElement in SQBL documents.
+                        By providing a default ObjectClass at the module level, this is consdiered the 'default' object class
+                        for every Question in the module, as such when making a single question, the questionnaire designer
+                        then only needs to include a Property to make the Data Element Concept (and then if this is added,
+                        optionally they may add the ValueDomain to produce a full Data Element
+                        
+                        This can be overridden by changing the Object Class on the element or an intermediate Branch, hence
+                        the cascading effect, where the the Object Class for a given question can be precisely determined
+                        by starting at the Question in the document, and traversing from the Question through its ancestors
+                        to find the nearest ansector with a defined Object Class.
+                        
+                     </xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+            </xs:extension>
+         </xs:complexContent>
+      </xs:complexType>
+      <xs:unique name="QuestionModuleTextLanguageMustBeUnique">
+         <xs:selector xpath="sqbl:TextComponent" />
+         <xs:field xpath="@xml:lang" />
+      </xs:unique>
+   </xs:element>
+   <xs:complexType name="DerivedDataItemType">
+      <xs:annotation>
+         <xs:documentation>
+            Still under development 
+            Some stuff goes here. A Full DataElement reference (ie. ObjectClass, Property and ValueRepresentaion) + a decisiontable Decision table links to
+            questions IN THIS MODULE and specifies how the responses to those decitate how a data item that corresponds
+            to a complete data element is populated.</xs:documentation>
+      </xs:annotation>
+   </xs:complexType>
+
+   <!-- Not sure I want this yet... 
+      xs:complexType name="InlineSubModule">
+      <xs:annotation>
+         <xs:documentation>InlineSubModules allow modules to be cascaded within each other without requiring complex
+            referencing between objects. This can be useful when certain modules will only be used within each other and
+            cannot be used separately. InlineSubModules cannot by design reference external populations, and function
+            similarly to ConditionalTrees, however offer a similar syntax to modules and allow agents to treat them as
+            such. Additionally, if inline modules grow to large they can be easily recreated as fully-fledged
+            QuestionModules easily. </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="BaseNamedType">
+            <xs:sequence>
+               <xs:element name="IncomingQuestionCondition" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Who can answer this question module? If no incoming population exists, this MUST
+                        be interpretted that this module is to be answered by all respondents. </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
+                           <xs:complexType>
+                              <xs:sequence>
+                                 <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType" />
+                              </xs:sequence>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="ModuleLogic" minOccurs="1" maxOccurs="1" type="LogicHead">
+                  <xs:annotation>
+                     <xs:documentation>What/how do they answer this question?</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="InlineSubModule" minOccurs="0" maxOccurs="unbounded" type="InlineSubModule" />
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType -->
+
+   <xs:complexType name="DynamicTextType" mixed="true">
+      <xs:annotation>
+         <xs:documentation>Structures the behavior of dynamic or static text within the instrument.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="WordSub" type="ConditionalTextType" />
+         </xs:choice>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="ConditionalTextType">
+      <xs:annotation>
+         <xs:documentation>Text which has a changeable value. This section will probably undergo a lot of change.
+         Word substitutions seem like they may need a lot of work, and may be one of the things that needs to be reusable.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Expression">
+            <xs:annotation>
+               <xs:documentation>The condition on which the associated text varies. </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Static" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
+                  web-forms or paper-based forms.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Default" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The initial value of the text field.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="QuestionType">
+      <xs:annotation>
+         <xs:documentation>The QuestionType serves as the base for "question-like objects" that serves to collection
+            data from a respondant. Questions that extend this MUST NOT include any internal logic asides from
+            randomisation of order.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="BaseNamedType">
+            <xs:all>
+               <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation> The Text component of a question is all of the human readable parts that help
+                        describe a question. These are grouped like this to make parsing easy from a systems point of
+                        view, as it make the repetition of repeatable language parts easier to manage. The xml:lang
+                        attribute for the TextComponent question MUST be unique for a given question, and is enforced
+                        in schema.
+                     </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="QuestionText" type="DynamicTextType" minOccurs="1" maxOccurs="1">
+                           <xs:annotation>
+                              <xs:documentation>The text of the question presented in the instrument that is presented to a respondent.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Instruction" type="DynamicTextType" minOccurs="0" maxOccurs="1">
+                           <xs:annotation>
+                              <xs:documentation>This provides the textual content of the instruction.
+                                 This is considered additional content that may be useful in aiding the respondent in answering this question.
+                                 Content may be includes and excludes fora  response or notes that guide response.
+                                 </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="QuestionIntent" type="xs:string" minOccurs="0" maxOccurs="1">
+                           <xs:annotation>
+                              <xs:documentation>Why this question is included in this module, and why it is being asked in this way. This is content that is not presented to a respondent.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                     </xs:all>
+                     <xs:attribute ref="xml:lang" use="required" />
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="DataElementConceptReference" minOccurs="0" maxOccurs="1">
+                  <xs:complexType>
+                     <xs:annotation>
+                        <xs:documentation>Data Element Concepts are a precise way of defining of who and
+                           what a question is attempting to ask. Since the ObjectClass for a given question will
+                           infrequently change through a survey, it is possible to leave this blank. If a Data Element Concept Reference is
+                           present, and the ObjectClass is left blank, this MUST be interpretted that the ObjectClass for the
+                           given question is the hierarchically closest ObjectClass in the XML tree as defined in the
+                           QuestionModule itself, or an Branch. In practise the Xpath for this is:
+                           ancestor::*[attribute::sqbl:ObjectClassReference][1]/@sqbl:ObjectClassReference
+                           
+                           For more information see: http://meteor.aihw.gov.au/content/index.phtml/itemId/237551
+                        </xs:documentation>
+                     </xs:annotation>
+                     <xs:sequence>
+                        <xs:element name="ObjectClass" minOccurs="0" maxOccurs="1" type="ReferenceType"> 
+                           <xs:annotation>
+                              <xs:documentation>
+                                 The 11179 Object Class that this question is attempting to gather information about. 
+                                 
+                                 See: http://meteor.aihw.gov.au/content/index.phtml/itemId/237503
+                              </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Property" minOccurs="1" maxOccurs="1" type="ReferenceType" >
+                           <xs:annotation>
+                              <xs:documentation>
+                                 The 11179 Object Property that defines the characteristic about the Object Class
+                                 that this question is attempting to gather information on.
+                                 
+                                 See: http://meteor.aihw.gov.au/content/index.phtml/itemId/237557
+                              </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="ResponseType">
+                  <xs:annotation>
+                     <xs:documentation>
+                        This is a list of currently defined Response Types for a given question.
+                        
+                        These are meant to give a questionnaire designer the ability to describe what the values of a 
+                        question should be, and to some extend how they are to be presented.
+                        
+                        For example, a question of Age, might have a 'Number' response type, with a minimum of 0,
+                        a maxmimum of 100, and a step value of 1. This is a definition of what the data should be. 
+                        
+                        At yet, the schema does not define if or how these restrictions are presented to a respondent, and
+                        are yet to be determined to be "in scope of SQBL". So while a designer can dictate the words that
+                        are presented if an age is given below 0, there is still no content that describes if or how this is enforced
+                        when a respondent given 'invlaid' data.
+                     </xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                     <xs:choice>
+                        <xs:element name="Text">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation> The text fields under here will be displayed if the string the
+                                          user requires information on what can be entered under for this value. </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                                 <xs:element name="MaximumLength" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the maximum allowed length for this response.
+                                          
+                                          The text fields under here will be displayed if the string the
+                                          user enters is too long. </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:positiveInteger" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="MinimumLength" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the minimum allowed length for this response. The text fields under here will be displayed if the string the
+                                          user enters is too short. </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:positiveInteger" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                              </xs:all>
+                              <xs:attribute name="displayType" >
+                                 <xs:annotation><xs:documentation>This indicates how the field should be display, either long or short.
+                                 The final fixed list for this is still under design.
+                                    How short, medium and long are interpreted is left to the creator of any given presentation
+                                    and expression transformation tool - however, a short field MUST be identifiable as smaller than
+                                    a medium field, which MUST be identifiable as shorter than a long field.
+                                    Eg. short would be visually smaller than a medium on a visual medium.
+                                 </xs:documentation></xs:annotation>
+                                 <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                       <xs:enumeration value="short" />
+                                       <xs:enumeration value="medium" />
+                                       <xs:enumeration value="long" />
+                                    </xs:restriction>
+                                 </xs:simpleType>
+                              </xs:attribute>
+                           </xs:complexType>
+                        </xs:element>
+                        <xs:element name="Number">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0" >
+                                    <xs:annotation>
+                                       <xs:documentation> The text fields under here will be displayed if the string the
+                                          user requires information on what can be entered under for this value. </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                                 <xs:element name="Maximum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the maximum allowed value for this response. The text fields under here will be displayed if the number the
+                                          user enters is too large. </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:decimal" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="Minimum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the minimum allowed value for this response. The text fields under here will be displayed if the string the
+                                          user enters is too small. </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:decimal" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="Step" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the multiple that a value must be of to be considered valid.
+                                          As SQBL does not differentiate between integers and floats, the way to determine this is to have a step value of 1.
+                                          If the Step element does not exist for a response, it MUST be interpreted as 1.                                          
+                                          
+                                          The text fields under here will be displayed if the string the
+                                          user enters is not a multiple of the step. </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:decimal" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="Prefix" minOccurs="0" type="MultilingualPlainTextType">
+                                    <xs:annotation>
+                                       <xs:documentation>
+                                          The text presented before a given number field on an instrument. For example, "$" or "USD"
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                                 <xs:element name="Suffix" minOccurs="0" type="MultilingualPlainTextType">
+                                    <xs:annotation>
+                                       <xs:documentation>
+                                          The text presented after a given number field on an instrument. For example, "kilograms", "kgs", "per hour"
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                              </xs:all>
+                           </xs:complexType>
+                        </xs:element>
+                        <xs:element name="CodeList" type="CodeListType" />
+                        <xs:element name="ValueDomainReference">
+                           <xs:annotation>
+                              <xs:documentation>A reference to a defined 111-79 Value domain for the question. When
+                                 attempting to perform cross module routing, such as in population routing or branching,
+                                 rather than reference the value of a question, "Data Elements" as identified by their
+                                 DataElementConceptReference (aka. the ObjectClass and Property) joined with their value
+                                 domain. As such, if you wish to have the value of a response for a question used to
+                                 apply routing across other surveys, linking to an existing value domain is required.
+                                 
+                                 A question MUST ONLY have a Value Domain Reference if it includes a valid "DataElementConceptReference". 
+                              </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                     </xs:choice>
+                     <xs:attribute name="canRefuse" default="false" type="xs:boolean">
+                        <xs:annotation>
+                           <xs:documentation>
+                              Indicates that a respondent can EXPLICITLY refuse to answer a question. This may be useful
+                              for questions where respondents have legitimate issues answering a question of a sensitive  
+                              or personal nature.
+                              What happens if a user refuses to answer a question where the "canRefuse" attribute is set to
+                              false is an agency issue of policy and proceedure and is considered strictly out-of-scope of SQBL. 
+                           </xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                     <xs:attribute name="canNotKnow" default="false" type="xs:boolean">
+                        <xs:annotation>
+                           <xs:documentation>
+                              Indicates that a respondent can EXPLICITLY indicate that they do not know the answer to answer a question.
+                              
+                              What happens if a user is unable to answer because they do not know how to answer a question where
+                              the "canNotKnow" attribute is set tofalse is an agency issue of policy and proceedure and is
+                              considered strictly out-of-scope of SQBL.
+                           </xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                  </xs:complexType>
+               </xs:element>
+            </xs:all>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="CodeListType">
+      <xs:annotation>
+         <xs:documentation>
+            A simple list of code and text pairs presented to a respondent.
+            Due to the very limited scope of SQBL, these are not meant to act classifications, and
+            only have context with their associated question.
+            
+            The text for a given code can be multilingual. While this is unenforcable in XML Schema 1.0,
+            when creating a Codelist, systems SHOULD include the same set of languages for ever CodePair,
+            and UI designers SHOULD include prompts that indicate to users if they have not filled in all
+            of the languages for every pair.
+            
+         </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="CodePair" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="MultilingualPlainTextType">
+                     <xs:attribute name="code" use="required">
+                        <xs:annotation>
+                           <xs:documentation>A short computer readable value to destiguish between response options.</xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="MultilingualPlainTextType">
+      <xs:annotation>
+         <xs:documentation>
+            A multilingual pair is an abstract type that provides a quick way to indicate that a given element has a repeated
+            multilingual string component. The Text element 
+            
+            As this can be used in a variety of place, not every instance of this will have an XS:Unique field indicating that
+            these Text nodes must have unique Xml:lang attributes - This is a BUG and an issue that cannot be resolved in simple XML:Schema
+            without a lot of duplication.
+            
+            When extending this the schema SHOULD include a uniqueness definition for the Text element, however even if this does not occur
+            a tool that uses and writes content of a MultilingualPlainTextType MUST ensure programmatically the uniqueness of the xml:lang
+            attribute.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="Text">
+            <xs:complexType>
+               <xs:simpleContent>
+                  <xs:extension base="xs:string">
+                     <xs:attribute ref="xml:lang" use="required" />
+                  </xs:extension>
+               </xs:simpleContent>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="LogicNode">
+      <xs:annotation>
+         <xs:documentation>Provides the basic, extensible structure for control elements used in describing flow logic
+            within the instrument.
+            Because of the lack of multiple inheritance in XML Schema, LogicNodes are objects which provide the broad description
+            of logical elements, such as Conditional Trees or Loops, and MAY contain an object inside that extends from
+            LogicHeadType, which allows for the hierachical inclusion of further elements defining logic.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="BaseNamedType">
+            <xs:sequence>
+               <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="Instruction" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>
+                                  This provides the textual content of the instruction.
+                                  This is considered optional and additional content that may be useful
+                                  in helping a respondent navigate through the logic.
+                              </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:annotation>
+                              <xs:documentation>
+                                  This is designer-facing information on why is this action being taken.
+                                
+                                  For example, why is the respondent looping a specific number of times, or why are respondents
+                                  being branched in a specific way.
+                              </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                     </xs:all>
+                     <xs:attribute ref="xml:lang" />
+                  </xs:complexType>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="LogicHead">
+      <xs:annotation>
+         <xs:documentation>A shortcut way of saying an object can include other LogicNodes or
+            Question.</xs:documentation>
+      </xs:annotation>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+
+         <xs:element name="ConditionalTree">
+            <xs:annotation>
+               <xs:documentation>Provides an if-then-else construct, so that if the stated condition is met, the Then
+                  clause is triggered, and otherwise the Else clause is triggered.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="LogicNode">
+                     <xs:sequence>
+                        <xs:element name="SequenceGuide" type="DecisionTable">
+                           <xs:annotation>
+                              <xs:documentation>The condition which must be met to trigger the Then clause, expressed as
+                                 a Coding. The condition is an expression in the programming language used in the
+                                 instrument. </xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Branch" minOccurs="1" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>The BlanchLogic Reference to the control construct which should be
+                                 triggered if the associated condition is met. May have an optional ObjectClassReference
+                                 that defines the default Object Class for all subsequent child question under this
+                                 branch. </xs:documentation>
+                           </xs:annotation>
+                           <xs:complexType>
+                              <xs:complexContent>
+                                 <xs:extension base="BaseNamedType">
+                                    <xs:sequence>
+                                       <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                                          <xs:complexType>
+                                             <xs:all>
+                                                <xs:element name="Instruction" minOccurs="0" maxOccurs="unbounded" />
+                                                <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
+                                                   <xs:annotation>
+                                                      <xs:documentation>Why is this action being
+                                                         taken?</xs:documentation>
+                                                   </xs:annotation>
+                                                </xs:element>
+                                                <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1"
+                                                   type="xs:string">
+                                                   <xs:annotation>
+                                                      <xs:documentation>Who this branch is targeting in a short and
+                                                         general sense. Different to the ObjectClass.</xs:documentation>
+                                                   </xs:annotation>
+                                                </xs:element>
+                                             </xs:all>
+                                             <xs:attribute ref="xml:lang" />
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="BranchLogic" type="LogicHead" />
+                                    </xs:sequence>
+                                    <xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
+                                       <xs:annotation>
+                                          <xs:documentation> The Default ObjectClass for all questions within this
+                                             module. </xs:documentation>
+                                       </xs:annotation>
+                                    </xs:attribute>
+                                 </xs:extension>
+                              </xs:complexContent>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+            <xs:unique name="ConditionalTreeTextLanguageMustBeUnique">
+               <xs:selector xpath="sqbl:TextComponent" />
+               <xs:field xpath="@xml:lang" />
+            </xs:unique>
+         </xs:element>
+         <xs:element name="ForLoop">
+            <xs:annotation>
+               <xs:documentation>ForLoops loop across a given list of responses or a set number of times, similar to a For Loop
+                  in programming.
+                  This is still under construction, and at least one other form of Loop - the "while" loop is under consideration
+                  for inclusion along side For Loops.
+                  .</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="LogicNode">
+                     <xs:sequence>
+                        <xs:element name="LoopedElements" type="LogicHead" />
+                     </xs:sequence>
+                     <xs:attribute name="InitialValue" type="xs:decimal" use="optional" default="0">
+                        <xs:annotation>
+                           <xs:documentation>The initial value to which the LoopVariable is set. If absent, defaults to
+                              0.</xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                     <xs:attribute name="FinalValue" type="xs:decimal">
+                        <xs:annotation>
+                           <xs:documentation>The condition which must be met for the Loop's functioning to cease; when
+                              this condition is met, control is handed back to the containing control
+                              construct.</xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                     <xs:attribute name="StepValue" type="xs:decimal" use="optional" default="1">
+                        <xs:annotation>
+                           <xs:documentation>A Coding which is used to manipulate the LoopVariable after each iteration
+                              of the Loop's associated ControlConstruct element. If absent, defaults to
+                              1.</xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+            <xs:unique name="ForLoopTextLanguageMustBeUnique">
+               <xs:selector xpath="sqbl:TextComponent" />
+               <xs:field xpath="@xml:lang" />
+            </xs:unique>
+         </xs:element>
+         <!-- Unconvinced sequences are necessary :/ 
+            xs:element name="Sequence">
+            <xs:complexType>
+               <xs:annotation>
+                  <xs:documentation>A sequence of stuff.</xs:documentation>
+               </xs:annotation>
+               <xs:complexContent>
+                  <xs:extension base="LogicNode">
+                     <xs:sequence>
+                        <xs:element name="SequenceElements" type="LogicHead" />
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="WhileLoop">
+            <xs:annotation>
+               <xs:documentation>Structures a control construct which repeats while a specified condition is met. Before each
+                  iteration the condition is tested. When the condition is not met, control passes back to the containing
+                  control construct.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="LogicNode">
+                     <xs:sequence>
+                        <xs:element name="WhileCondition" type="DecisionTable">
+                           <xs:annotation>
+                              <xs:documentation>The condition which must be met to trigger the operation of the associated
+                                 Coding.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element name="LoopedElements" type="LogicHead" />
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element -->
+         <xs:element name="Statement">
+            <xs:complexType>
+               <xs:annotation>
+                  <xs:documentation>A textual statement used in the Instrument and presented to a respondent.</xs:documentation>
+               </xs:annotation>
+               <xs:complexContent>
+                  <xs:extension base="BaseNamedType">
+                     <xs:sequence>
+                        <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation> The Text component of a question is all of the human readable parts
+                                 that help describe a question. These are grouped like this to make parsing easy from a
+                                 systems point of view, as it make the repetition of repeatable language parts easier to
+                                 manage. The xml:lang attribute for the TextComponent question MUST be unique for a
+                                 given question. </xs:documentation>
+                           </xs:annotation>
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="StatementText" maxOccurs="unbounded" type="DynamicTextType">
+                                    <xs:annotation>
+                                       <xs:documentation>The string to be displayed in the instrument.</xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                              </xs:all>
+                              <xs:attribute ref="xml:lang" />
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+            <xs:unique name="StatementTextLanguageMustBeUnique">
+               <xs:selector xpath="sqbl:TextComponent" />
+               <xs:field xpath="@xml:lang" />
+            </xs:unique>
+         </xs:element>
+
+         <xs:element name="Question" type="QuestionType">
+            <xs:unique name="QuestionTextLanguageMustBeUnique">
+               <xs:selector xpath="sqbl:TextComponent" />
+               <xs:field xpath="@xml:lang" />
+            </xs:unique>
+         </xs:element>
+         <xs:element name="ModuleExitPoint">
+            <xs:annotation>
+               <xs:documentation> These operate like return statements in programming. If any of the conditionals are
+                  true the respodent should leave this module. </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="LogicNode">
+                     <xs:sequence>
+                        <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>The condition elements he order of Condition elements in a sequence
+                                 guide is important and MUST NOT be changed without a survey editors understanding.
+                                 Since it is the first condition that is true that is evaluated, changing the order of
+                                 conditionals my change the order of a survey.</xs:documentation>
+                           </xs:annotation>
+                           <xs:complexType>
+                              <xs:sequence>
+                                 <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
+                                    <xs:annotation>
+                                       <xs:documentation>The order of the ValueOf elements does not matter, as they are
+                                          all boolean 'and'ed together to for the final condition</xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                              </xs:sequence>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+            <xs:unique name="ModuleExitPointTextLanguageMustBeUnique">
+               <xs:selector xpath="sqbl:TextComponent" />
+               <xs:field xpath="@xml:lang" />
+            </xs:unique>
+         </xs:element>
+
+         <!-- Less unconvinced about these, but not sure how to solve the self referencing issue... yet
+            xs:element name="QuestionBlock">
+            <xs:complexType>
+               <xs:annotation>
+                  <xs:documentation>Structures a set of highly related questions that must be asked
+                     together.</xs:documentation>
+               </xs:annotation>
+               <xs:complexContent>
+                  <xs:extension base="QuestionType">
+                     <xs:sequence>
+                        <xs:element name="SubQuestions">
+                           <xs:complexType>
+                              <xs:sequence>
+                                 <xs:element ref="Question" minOccurs="1" maxOccurs="unbounded" />
+                              </xs:sequence>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element -->
+      </xs:choice>
+   </xs:complexType>
+
+   <xs:complexType name="DecisionTable">
+      <xs:annotation>
+         <xs:documentation><![CDATA[
+            NB: CDATA sections are used below to preserve whitespace and paragraphs to make examples readable.
+            
+            A sequence guide is a specialised type of decision table used to describe the logical flow in a questionnaire.
+            Each condition (or row) of the table is made up of a result and a series of conditional checks. These checks
+            correspond to patial conditions that are used to test the value of specific questions used in this
+            conditional table, and as such the number of checks in a condition must correspond exactly with the number
+            of SourceQuestionReferences in the parent DecisionTableType object.
+            
+            When evaluating a sequence guide all conditions are considered to be false, and each
+            condition is lazily evaluated from top to bottom, so that as oon as a condition is met the value of that
+            condition is considered the value of the table itself. When evaluating a condition if every 'check'
+            evaluates to true, the condition is considered to be true and the 'result' of that condition MUST to used as
+            the evaluated value of the decision table. 
+            
+            When evaluating a
+            check, a check is considered to be a partial boolean expression where the value of a question, where the
+            position of the check corresponds to the position of the SourceQuestionReference in the parent object. When
+            evaluating the check, the value of the question should be considered to take the left hand value of the
+            expression. When a check is empty it MAY be skipped or evaluated to a boolean true - i.e. a condition with
+            all empty checks will always be true. If no condition is evaluated as true, then the value of the
+            'otherwise' object MUST be used as the evaluated value of the table. Where no condition is evaluated as true
+            and no otherwise element exists, the table SHOULD be evaluated to be boolean false, however this may be
+            dependant on implementations.
+            
+            It is considered best practise for Sequence Guide creator to included either
+            exhaustive, mutually exlusive conditions, or to have an otherwise element to ensure a decision table has a
+            definate evaluated value, as such UI designers SHOULD attempt to highlight when a decision table may be
+            un-evaluated. In this context, the purpose of a sequence guide or decision table is to evaluate to a single
+            value based on one or more questions. This value may then be used to control the flow in a wider context.
+            Decision Tables are used to control sequence guides in conditionals and loops.
+            
+            For example, consider the following questions: 
+                 Q1: Do you have a full-time job? Y/N
+                 Q2: Do you have a part-time job? Y/N
+            With the following decision table (best viewed in a mono-space font):
+            
+                              Result     |   Q1    |    Q2   |
+                 Condition: "Employed"   |    ='Y' |         |
+                 Condition: "Employed"   |         |    ='Y' |
+                 Otherwise: "Unemployed" |
+                 
+            In the above case, we will evaluate three different instances, when a person (p1) says yes to both Q1 and
+            Q2, when a person (p2) says no to Q1 and yes to Q2, and when a person (p3) says no both to Q1 and Q2.
+            Evaluating p1 after they have answered both questions gives:
+                             Result     |   Q1    |    Q2   |
+                Condition: "Employed"   | 'Y'='Y' |         |    #True
+                Condition: "Employed"   |         | 'Y'='Y' |    #True
+                Otherwise: "Unemployed" |
+                
+            In this case, since the first condition was evaluated the earliest evaluated as true, the table is evaluated
+            as ""Employed". The fact that the second condtion was also true has no bearing on the evaluation. Evaluating
+            p2 after they have answered both questions gives:
+                            Result     |   Q1    |    Q2   |
+               Condition: "Employed"   | 'N'='Y' |         |    #False
+               Condition: "Employed"   |         | 'Y'='Y' |    #True
+               Otherwise: "Unemployed" |
+               
+            As the second condition is the earliest to be evaluated as true, again the table is evaluated to be
+            "Employed" Evaluating p3 after they have answered both questions gives:
+                              Result     |   Q1    |    Q2   |
+                 Condition: "Employed"   | 'N'='Y' |         |    #False
+                 Condition: "Employed"   |         | 'N'='Y' |    #False
+                 Otherwise: "Unemployed" |
+        
+            As no condition has been evaluated to true, the result attached to the otherwise condition is used as the
+            evaluated value of the table. Lastly, the IfCondition, might include a Code that specified that the
+            IfCondition is true if the value of this DecisionTable is "Employed", causing the Employed branch to be
+            evaluated to display a series of labour force questions to a user.
+            ]]>
+         </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>The order of Condition elements in a sequence guide is important and MUST NOT be
+                  changed without a survey editors understanding. Since it is the first condition that is true that is
+                  evaluated, changing the order of conditionals my change the order of a survey.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
+                     <xs:annotation>
+                        <xs:documentation>The order of the ValueOf elements does not matter, as they are all boolean
+                           'and'ed together to for the final condition</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+               <xs:attribute name="resultBranch" use="required" type="xs:IDREF">
+                  <xs:annotation>
+                     <xs:documentation> The ResultBranch is the name of the local path of population that is considered
+                        to be 'active' if this condition is evaluated as 'True'. The name referenced here MUST be the
+                        name of an immediate child object of the object that contains this DecisionTable.
+                        
+                        This should be possible to enforce in schema, but a solution is still being sought. 
+                     </xs:documentation>
+                  </xs:annotation>
+               </xs:attribute>
+
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="Otherwise" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+               <xs:documentation> The branch is the name of the local path of population that is considered to be
+                  'active' if no other condition in the sequence guide is evaluated as 'True'. The name referenced here
+                  MUST be the name of an immediate child object of the object that contains this DecisionTable.
+                  This should be possible to enforce in schema, but a solution is still being sought.
+                  
+                  The specification of one branch as the "default" within the "otherwise" reference, DOES NOT
+                  restrict it as being used in as the result branch of a condition.
+               </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:attribute name="branch" use="required" type="xs:IDREF" />
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ValueOfType">
+      <xs:annotation>
+         <xs:documentation><![CDATA[
+            A value evaluates to 'true' if the result of the question given by the question attribute
+            matches the value in this element evaluated using the listed expression. For example: 
+            
+              <ValueOf question="sex" is="equal_to">Male</Value>
+              
+             Would be true if when this was evaluated, a respondent had answered "Male" to the question with the name
+            'sex'. It is RECOMMENED that when possible the ValueOf element has the @question attribute prior to the @is
+            attiribute to make the XML as human readable as possible.Contrast the readability of
+                  <ValueOf question="sex" is="equal_to">Male</Value>
+                Which reads as:  "Value of question sex, is equal_to, Male" compared to:
+                  <ValueOf  is="equal_to" question="sex">Male</Value>
+                Which reads as: "Value of is equal_to, question sex, Male".
+            ]]> </xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="question" use="required" type="xs:IDREF" />
+            <xs:attribute name="is" use="required" type="Expressions" />
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+
+
+   <xs:complexType name="Versionable">
+      <xs:complexContent>
+         <xs:extension base="BaseNamedType">
+            <xs:sequence>
+               <xs:element name="VersioningRationale" type="xs:string" minOccurs="0" maxOccurs="1">
+                  <xs:annotation>
+                     <xs:documentation>Textual description of the rationale/purpose for a version change. This should
+                        describe why a change has been made to the object.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+            <xs:attribute name="version">
+               <xs:simpleType>
+                  <xs:restriction base="xs:nonNegativeInteger" />
+               </xs:simpleType>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="BaseNamedType">
+      <xs:annotation>
+         <xs:documentation>The base type, this ensures that 'base objects' will have consistant content regardless of
+            type.</xs:documentation>
+      </xs:annotation>
+      <xs:attribute name="name" use="required">
+         <xs:annotation>
+            <xs:documentation>The short name of the identified object (maximum 32 characters). This should attempt to be
+               'human readable', and is required to be unique within the XML Document of a specific module. In practise
+               this may be used in user-interfaces to quickly identify the object from a longer list of objects, such as
+               a list of question modules or questions, so should be as descriptive as space allows. The maximum is set
+               to enable compatibility with legacy software, as well as to provide a quickly readable option for
+               interface designers. This name MAY be concatenated with the name of a parent object when this enhances
+               understanding. When concatenated this should be done using dot notation, but MAY be changed accordingly.
+               This field is based on the XML QName, and cannot have spaces, but inferface designers MAY choose to map
+               underscores to spaces for readability when displaying. When converting from underscores to spaces, the
+               SHOULD be made clear to users of any software that implements this format, and should be consistent
+               within the environment. Given the systems and UI specific nature of this object for identification this
+               is NOT multilingual and this WILL NOT change in future editions of the SQBL format. Multilingual
+               descriptors for objects MUST be placed in the TextComponent of an object where it is available.
+            </xs:documentation>
+         </xs:annotation>
+         <xs:simpleType>
+            <xs:restriction base="xs:ID">
+               <xs:maxLength value="32" />
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+   </xs:complexType>
+   <xs:simpleType name="ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Used for referencing an identified entity via by URI.
+         It is expected that a system or use entering this URI has verified it validness and
+         that it is the content at this URI is appropriately actionable by a system.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:anyURI" />
+   </xs:simpleType>
+   <xs:simpleType name="Expressions">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="equal_to" />
+         <xs:enumeration value="not_equal_to" />
+         <xs:enumeration value="less_than" />
+         <xs:enumeration value="less_than_eq" />
+         <xs:enumeration value="greater_than" />
+         <xs:enumeration value="greater_than_eq" />
+         <xs:enumeration value="inclusive_of">
+            <xs:annotation>
+               <xs:documentation>AKA. contains </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="match_for">
+            <xs:annotation>
+               <xs:documentation>AKA. regex </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>
