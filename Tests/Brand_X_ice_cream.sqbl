@@ -1,0 +1,167 @@
+<QuestionModule xmlns="sqbl:1" name="Brand_X" version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+    <TextComponent xml:lang="en">
+        <LongName>Brand X Ice Cream Module</LongName>
+        <TargetRespondent>All Persons</TargetRespondent>
+        <Purpose>This is a demonstration module, used to show how Canard and SQBL can be used to create structured questionnaire specifications that can be used to allow faster and easier questionaire design.
+            
+            See the video of how this survey was put together:  http://youtu.be/_FImaXn7EYk
+            
+            If you are viewing the XML for this document, its easier to imagine this XML content as an input to transform this specification into a useable form:
+            Be it a PDF document for making paper, a Blaise or CASES telephone interview, for creating the QueML needed for LimeSurvey, or even used to directly generate the information needed for propietary web survey systems.
+            
+            The rigourous and strictness of SQBL improve the predictibilty of the final XML, and can make transformation from specification to ready-to-run survey easier than ever before!</Purpose>
+    </TextComponent>
+    <ModuleLogic>
+        <Question name="PURCHASE">
+            <ResponseType>
+                <Text />
+            </ResponseType>
+            <TextComponent xml:lang="en">
+                <QuestionText>Have you purchased ice cream in the last 6 months?</QuestionText>
+            </TextComponent>
+        </Question>
+        <ConditionalTree name="ABOUT_PURCHASERS">
+            <SequenceGuide>
+                <Condition resultBranch="TARGETTING_PURCHASERS">
+                    <ValueOf question="PURCHASE" is="equal_to">Yes</ValueOf>
+                </Condition>
+            </SequenceGuide>
+            <Branch name="TARGETTING_PURCHASERS">
+                <BranchLogic>
+                    <Question name="FLAVOUR">
+                        <ResponseType>
+                            <Text />
+                        </ResponseType>
+                        <TextComponent xml:lang="en">
+                            <QuestionText>What is your favourite ice cream flavour?</QuestionText>
+                        </TextComponent>
+                    </Question>
+                </BranchLogic>
+                <TextComponent xml:lang="en">
+                    <TargetRespondent>People who have purchased ice cream &lt;6mths</TargetRespondent>
+                </TextComponent>
+            </Branch>
+        </ConditionalTree>
+        <Question name="KNOW_BRAND_X">
+            <ResponseType>
+                <Text />
+            </ResponseType>
+            <TextComponent xml:lang="en">
+                <QuestionText> Do you know about Brand X Ice Cream?</QuestionText>
+                <QuestionIntent />
+            </TextComponent>
+        </Question>
+        <ConditionalTree name="WHO_KNOWS_SPLIT">
+            <SequenceGuide>
+                <Condition resultBranch="DONT_KNOW">
+                    <ValueOf question="KNOW_BRAND_X" is="equal_to">No</ValueOf>
+                </Condition>
+                <Condition resultBranch="DO_KNOW">
+                    <ValueOf question="KNOW_BRAND_X" is="equal_to">Yes</ValueOf>
+                </Condition>
+                <Otherwise branch="DONT_KNOW" />
+            </SequenceGuide>
+            <Branch name="DONT_KNOW">
+                <BranchLogic>
+                    <Question name="PREFERED">
+                        <ResponseType>
+                            <Text />
+                        </ResponseType>
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Who is your prefered brand of ice cream (if any)?</QuestionText>
+                            <QuestionIntent />
+                        </TextComponent>
+                    </Question>
+                </BranchLogic>
+                <TextComponent xml:lang="en">
+                    <TargetRespondent>People who don't know about Brand X</TargetRespondent>
+                </TextComponent>
+            </Branch>
+            <Branch name="DO_KNOW">
+                <BranchLogic>
+                    <Question name="CAMPAIGN">
+                        <ResponseType>
+                            <Text />
+                        </ResponseType>
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Have you seen brand X new television ad campaign?</QuestionText>
+                            <QuestionIntent />
+                        </TextComponent>
+                    </Question>
+                    <ConditionalTree name="SPLIT_ABOUT_CAMPAIGN">
+                        <SequenceGuide>
+                            <Condition resultBranch="BUYER">
+                                <ValueOf question="CAMPAIGN" is="equal_to">Yes</ValueOf>
+                                <ValueOf question="PURCHASE" is="equal_to">Yes</ValueOf>
+                            </Condition>
+                            <Condition resultBranch="NON-BUYER">
+                                <ValueOf question="CAMPAIGN" is="equal_to">Yes</ValueOf>
+                                <ValueOf question="PURCHASE" is="equal_to">No</ValueOf>
+                            </Condition>
+                            <Otherwise branch="NON-TARGET" />
+                        </SequenceGuide>
+                        <Branch name="BUYER">
+                            <BranchLogic>
+                                <Question name="IMPACT">
+                                    <ResponseType>
+                                        <Text />
+                                    </ResponseType>
+                                    <TextComponent xml:lang="en">
+                                        <QuestionText>Did the recent camapign impact your decision?</QuestionText>
+                                    </TextComponent>
+                                </Question>
+                            </BranchLogic>
+                            <TextComponent xml:lang="en">
+                                <TargetRespondent>Recent purchasers who have seen campaign</TargetRespondent>
+                            </TextComponent>
+                        </Branch>
+                        <Branch name="NON-BUYER">
+                            <BranchLogic>
+                                <Question name="IMPROVE">
+                                    <ResponseType>
+                                        <Text />
+                                    </ResponseType>
+                                    <TextComponent xml:lang="en">
+                                        <QuestionText>How could the campaign be improved to change your
+                                            habits?</QuestionText>
+                                        <QuestionIntent />
+                                    </TextComponent>
+                                </Question>
+                            </BranchLogic>
+                            <TextComponent xml:lang="en">
+                                <TargetRespondent>Non purchasers who have seen campaign</TargetRespondent>
+                            </TextComponent>
+                        </Branch>
+                        <Branch name="NON-TARGET">
+                            <BranchLogic>
+                                <Question name="NONVIEWERS">
+                                    <ResponseType>
+                                        <Text />
+                                    </ResponseType>
+                                    <TextComponent xml:lang="en">
+                                        <QuestionText>Can you explain how you know about Brand X?</QuestionText>
+                                    </TextComponent>
+                                </Question>
+                            </BranchLogic>
+                            <TextComponent xml:lang="en">
+                                <TargetRespondent>People who have not seen the campaign</TargetRespondent>
+                            </TextComponent>
+                        </Branch>
+                    </ConditionalTree>
+                </BranchLogic>
+                <TextComponent xml:lang="en">
+                    <TargetRespondent>People who do know about Brand </TargetRespondent>
+                </TextComponent>
+            </Branch>
+        </ConditionalTree>
+        <Question name="SLOGAN">
+            <ResponseType>
+                <Text />
+            </ResponseType>
+            <TextComponent xml:lang="en">
+                <QuestionText>Does the Brand X slogan "Ice cream is good" make you want to buy ice cream?</QuestionText>
+            </TextComponent>
+        </Question>
+    </ModuleLogic>
+</QuestionModule>

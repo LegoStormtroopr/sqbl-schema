@@ -1,5 +1,4 @@
-<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO"
-    xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
     <TextComponent xml:lang="en">
         <TargetRespondent>All Persons</TargetRespondent>
         <LongName>Dog Demographics Demonstration Module</LongName>
@@ -13,8 +12,7 @@
         </Statement>
         <Question name="DO_SURVEY">
             <TextComponent xml:lang="en">
-                <QuestionText>Would you like to complete this module?</QuestionText>
-            </TextComponent>
+                <QuestionText>Would you like to complete this module?</QuestionText></TextComponent>
             <ResponseType canRefuse="false" canNotKnow="false">
                 <CodeList>
                     <CodePair code="Y">
@@ -54,9 +52,7 @@
             <TextComponent xml:lang="en">
                 <Purpose>To split respondents into Dog Owners and non-dog owners, to target specific questions
                     effectively.</Purpose>
-                <Instruction>
-                    <p>hg<em>jh</em>gj <u>Hells yeah</u></p>
-                </Instruction>
+                <Instruction><p><br/></p></Instruction>
             </TextComponent>
             <SequenceGuide>
                 <Condition resultBranch="NO_DOG">
@@ -65,7 +61,7 @@
                 <Condition resultBranch="HAS_DOGS">
                     <ValueOf question="HAS_DOG" is="equal_to">Yes</ValueOf>
                 </Condition>
-                <Otherwise branch="NO_DOG" />
+                <Otherwise branch="NO_DOG"/>
             </SequenceGuide>
             <Branch name="HAS_DOGS">
                 <TextComponent xml:lang="en">
@@ -77,7 +73,7 @@
                             <QuestionText>What is your dog's name?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                     </Question>
                     <Question name="DOG_AGE">
@@ -103,7 +99,7 @@
                     <Question name="DOG_SEX">
                         <TextComponent xml:lang="en">
                             <QuestionText>What is the sex of <WordSub>
-                                    <Expression />
+                                    <Expression/>
                                     <Default>your dog</Default>
                                 </WordSub> ?</QuestionText>
                         </TextComponent>
@@ -118,7 +114,7 @@
                             </CodeList>
                         </ResponseType>
                     </Question>
-                    <ConditionalTree name="SEX_HEALTH">
+                    <ConditionalTree name="HEALTH_by_SEX">
                         <SequenceGuide>
                             <Condition resultBranch="PUPPY_HEALTH">
                                 <ValueOf question="DOG_AGE" is="less_than">1</ValueOf>
@@ -131,7 +127,7 @@
                                 <ValueOf question="DOG_SEX" is="equal_to">Male</ValueOf>
                                 <ValueOf question="DOG_AGE" is="greater_than">1</ValueOf>
                             </Condition>
-                            <Otherwise branch="PUPPY_HEALTH" />
+                            <Otherwise branch="PUPPY_HEALTH"/>
                         </SequenceGuide>
                         <Branch name="FEMALE_HEALTH">
                             <TextComponent xml:lang="en">
@@ -212,20 +208,20 @@
                             <QuestionText>Why do you not own a dog?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                                <CodeList>
-                                    <CodePair code="1">
-                                        <Text xml:lang="en">Allergic of dogs</Text>
-                                    </CodePair>
-                                    <CodePair code="2">
-                                        <Text xml:lang="en">Afraid of dogs</Text>
-                                    </CodePair>
-                                    <CodePair code="3">
-                                        <Text xml:lang="en">I am a postman/woman</Text>
-                                    </CodePair>
-                                    <CodePair code="9">
-                                        <Text xml:lang="en">Other</Text>
-                                    </CodePair>
-                                </CodeList>
+                            <CodeList>
+                                <CodePair code="1">
+                                    <Text xml:lang="en">Allergic of dogs</Text>
+                                </CodePair>
+                                <CodePair code="2">
+                                    <Text xml:lang="en">Afraid of dogs</Text>
+                                </CodePair>
+                                <CodePair code="3">
+                                    <Text xml:lang="en">I am a postman/woman</Text>
+                                </CodePair>
+                                <CodePair code="9">
+                                    <Text xml:lang="en">Other</Text>
+                                </CodePair>
+                            </CodeList>
                         </ResponseType>
                     </Question>
                 </BranchLogic>

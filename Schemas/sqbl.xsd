@@ -711,7 +711,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            <xs:complexType>
                               <xs:complexContent>
                                  <xs:extension base="BaseNamedType">
-                                    <xs:sequence>
+                                    <xs:all>
                                        <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                                           <xs:complexType>
                                              <xs:all>
@@ -734,7 +734,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                           </xs:complexType>
                                        </xs:element>
                                        <xs:element name="BranchLogic" type="LogicHead" />
-                                    </xs:sequence>
+                                    </xs:all>
                                     <xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
                                        <xs:annotation>
                                           <xs:documentation> The Default ObjectClass for all questions within this
