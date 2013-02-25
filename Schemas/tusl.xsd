@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+TUSL - Treble-1-79 Universal Sharing Language 
+  www.sqbl.org
+
+The TUSL Schema is free software distributed within the public domain.
+You are free to download, remix, change and modify these schemas to your hearts content. 
+
+TUSL and associated Schema are distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.
+
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in
+      RFC 2119.
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="tusl:1" xmlns:r="qwac:reusable:1" targetNamespace="tusl:1"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+
+    <xs:complexType name="BaseObject">
+        <xs:annotation>
+            <xs:documentation />
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation> </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:all>
+                        <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>The text of the question presented in the instrument that is presented
+                                    to a respondent.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>This provides the textual content of the instruction. This is
+                                    considered additional content that may be useful in aiding the respondent in
+                                    answering this question. Content may be includes and excludes fora response or notes
+                                    that guide response. </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:all>
+                    <xs:attribute ref="xml:lang" use="required" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="uri" type="xs:anyURI" use="required" />
+        <xs:attribute name="additionalInformation" type="xs:anyURI" use="required" />
+        <xs:attribute name="versionDate" type="xs:dateTime" use="required"/>
+        <xs:attribute name="status" use="optional" default="active">
+            <xs:annotation>
+                <xs:documentation>
+                    draft - proposed - declined or
+                    draft - proposed - active (- deprecated)  
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="deprecated"/>
+                    <xs:enumeration value="active"/>
+                    <xs:enumeration value="declined"/>
+                    <xs:enumeration value="proposed"/>
+                    <xs:enumeration value="draft"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:element name="ObjectClass">
+        <xs:annotation>
+            <xs:documentation>3.3.88 Object Class - A set of ideas, abstractions, or things in the real world that are
+                identified with explicit boundaries and meaning and whose properties and behaviour follow the same rules
+                - Taken from ISO/IEC 11179-3 (2003)</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseObject"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="Property">
+        <xs:annotation>
+            <xs:documentation>3.3.107 Property - a characteristic common to all members of an Object Class
+                - Taken from ISO/IEC 11179-3 (2003)</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseObject"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="ValueDomain">
+        <xs:annotation>
+            <xs:documentation>3.3.140 Value Domain - a set of Permissible Values
+                - Taken from ISO/IEC 11179-3 (2003)</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseObject"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="TUSLCollection">
+        <xs:annotation>
+            <xs:documentation>An unordered collection of objects for transmission</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="ObjectClass"/>
+                <xs:element ref="Property"/>
+                <xs:element ref="ValueDomain"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>
