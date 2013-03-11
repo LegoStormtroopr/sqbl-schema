@@ -1,5 +1,4 @@
-<QuestionModule xmlns="sqbl:1" name="Brand_X" version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Brand_X" version="1" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
     <TextComponent xml:lang="en">
         <LongName>Brand X Ice Cream Module</LongName>
         <TargetRespondent>All Persons</TargetRespondent>
@@ -15,7 +14,7 @@
     <ModuleLogic>
         <Question name="PURCHASE">
             <ResponseType>
-                <Text />
+                <Text/>
             </ResponseType>
             <TextComponent xml:lang="en">
                 <QuestionText>Have you purchased ice cream in the last 6 months?</QuestionText>
@@ -31,7 +30,7 @@
                 <BranchLogic>
                     <Question name="FLAVOUR">
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                         <TextComponent xml:lang="en">
                             <QuestionText>What is your favourite ice cream flavour?</QuestionText>
@@ -45,11 +44,11 @@
         </ConditionalTree>
         <Question name="KNOW_BRAND_X">
             <ResponseType>
-                <Text />
+                <Text/>
             </ResponseType>
             <TextComponent xml:lang="en">
                 <QuestionText> Do you know about Brand X Ice Cream?</QuestionText>
-                <QuestionIntent />
+                <QuestionIntent/>
             </TextComponent>
         </Question>
         <ConditionalTree name="WHO_KNOWS_SPLIT">
@@ -60,17 +59,17 @@
                 <Condition resultBranch="DO_KNOW">
                     <ValueOf question="KNOW_BRAND_X" is="equal_to">Yes</ValueOf>
                 </Condition>
-                <Otherwise branch="DONT_KNOW" />
+                <Otherwise branch="DONT_KNOW"/>
             </SequenceGuide>
             <Branch name="DONT_KNOW">
                 <BranchLogic>
                     <Question name="PREFERED">
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                         <TextComponent xml:lang="en">
                             <QuestionText>Who is your prefered brand of ice cream (if any)?</QuestionText>
-                            <QuestionIntent />
+                            <QuestionIntent/>
                         </TextComponent>
                     </Question>
                 </BranchLogic>
@@ -82,11 +81,11 @@
                 <BranchLogic>
                     <Question name="CAMPAIGN">
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                         <TextComponent xml:lang="en">
                             <QuestionText>Have you seen brand X new television ad campaign?</QuestionText>
-                            <QuestionIntent />
+                            <QuestionIntent/>
                         </TextComponent>
                     </Question>
                     <ConditionalTree name="SPLIT_ABOUT_CAMPAIGN">
@@ -99,13 +98,13 @@
                                 <ValueOf question="CAMPAIGN" is="equal_to">Yes</ValueOf>
                                 <ValueOf question="PURCHASE" is="equal_to">No</ValueOf>
                             </Condition>
-                            <Otherwise branch="NON-TARGET" />
+                            <Otherwise branch="NON-TARGET"/>
                         </SequenceGuide>
                         <Branch name="BUYER">
                             <BranchLogic>
                                 <Question name="IMPACT">
                                     <ResponseType>
-                                        <Text />
+                                        <Text/>
                                     </ResponseType>
                                     <TextComponent xml:lang="en">
                                         <QuestionText>Did the recent camapign impact your decision?</QuestionText>
@@ -120,12 +119,12 @@
                             <BranchLogic>
                                 <Question name="IMPROVE">
                                     <ResponseType>
-                                        <Text />
+                                        <Text/>
                                     </ResponseType>
                                     <TextComponent xml:lang="en">
                                         <QuestionText>How could the campaign be improved to change your
                                             habits?</QuestionText>
-                                        <QuestionIntent />
+                                        <QuestionIntent/>
                                     </TextComponent>
                                 </Question>
                             </BranchLogic>
@@ -137,7 +136,7 @@
                             <BranchLogic>
                                 <Question name="NONVIEWERS">
                                     <ResponseType>
-                                        <Text />
+                                        <Text/>
                                     </ResponseType>
                                     <TextComponent xml:lang="en">
                                         <QuestionText>Can you explain how you know about Brand X?</QuestionText>
@@ -157,7 +156,7 @@
         </ConditionalTree>
         <Question name="SLOGAN">
             <ResponseType>
-                <Text />
+                <Text/>
             </ResponseType>
             <TextComponent xml:lang="en">
                 <QuestionText>Does the Brand X slogan "Ice cream is good" make you want to buy ice cream?</QuestionText>

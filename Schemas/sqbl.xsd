@@ -402,7 +402,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         At yet, the schema does not define if or how these restrictions are presented to a respondent, and
                         are yet to be determined to be "in scope of SQBL". So while a designer can dictate the words that
                         are presented if an age is given below 0, there is still no content that describes if or how this is enforced
-                        when a respondent given 'invlaid' data.
+                        when a respondent given 'invalid' data.
                      </xs:documentation>
                   </xs:annotation>
                   <xs:complexType>
@@ -605,6 +605,10 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
       </xs:sequence>
+      <xs:attribute name="minimumSelections" default="1" use="optional" type="xs:positiveInteger">
+      </xs:attribute>
+      <xs:attribute name="maximumSelections" default="1" use="optional" type="xs:positiveInteger">
+      </xs:attribute>
    </xs:complexType>
 
    <xs:complexType name="MultilingualPlainTextType">

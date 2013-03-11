@@ -1,20 +1,18 @@
-<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO"
-    xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
     <TextComponent xml:lang="en">
         <TargetRespondent>All Persons</TargetRespondent>
         <LongName>Dog Demographics Demonstration Module</LongName>
-    </TextComponent>
+    <Title>Dog Demographics Module</Title></TextComponent>
     <ModuleLogic>
-        <Statement name="ABOUT_DOGS">
+        <Statement name="About_dogs">
             <TextComponent xml:lang="en">
-                <StatementText>This module asks about your ownership of Dogs. For this module please only answer about
-                    domestic pets you own that are canines.</StatementText>
+                <StatementText>This module asks about your ownership of Dogs. For this module please only answer about domestic pets you own that are canines.</StatementText>
             </TextComponent>
         </Statement>
-        <Question name="DO_SURVEY">
+        <Question name="Do_survey">
             <TextComponent xml:lang="en">
-                <QuestionText>Would you like to complete this module?</QuestionText>
-            </TextComponent>
+                <QuestionText>Would you like to complete this module?	</QuestionText>
+                <QuestionIntent></QuestionIntent></TextComponent>
             <ResponseType canRefuse="false" canNotKnow="false">
                 <CodeList>
                     <CodePair code="Y">
@@ -26,15 +24,15 @@
                 </CodeList>
             </ResponseType>
         </Question>
-        <ModuleExitPoint name="REFUSE_SURVEY">
+        <ModuleExitPoint name="Refuse_survey">
             <TextComponent xml:lang="en">
                 <Purpose>If the respondent refuses to answer, then stop the module.</Purpose>
             </TextComponent>
             <Condition>
-                <ValueOf question="DO_SURVEY" is="equal_to">N</ValueOf>
+                <ValueOf question="Do_survey" is="equal_to">N</ValueOf>
             </Condition>
         </ModuleExitPoint>
-        <Question name="HAS_DOG">
+        <Question name="Has_dog">
             <TextComponent xml:lang="en">
                 <QuestionText>Do you have a dog?</QuestionText>
                 <QuestionIntent>To find out about dogs.</QuestionIntent>
@@ -50,35 +48,49 @@
                 </CodeList>
             </ResponseType>
         </Question>
-        <ConditionalTree name="SPLIT_DOGS">
+        <ConditionalTree name="Split_dogs">
             <TextComponent xml:lang="en">
                 <Purpose>To split respondents into Dog Owners and non-dog owners, to target specific questions
                     effectively.</Purpose>
-                <Instruction><p><br /></p></Instruction>
+                <Instruction><p><br/></p></Instruction>
             </TextComponent>
             <SequenceGuide>
-                <Condition resultBranch="NO_DOG">
-                    <ValueOf question="HAS_DOG" is="equal_to">No</ValueOf>
+                <Condition resultBranch="No_dog">
+                    <ValueOf question="Has_dog" is="equal_to">N</ValueOf>
                 </Condition>
-                <Condition resultBranch="HAS_DOGS">
-                    <ValueOf question="HAS_DOG" is="equal_to">Yes</ValueOf>
+                <Condition resultBranch="Does_have_dog">
+                    <ValueOf question="Has_dog" is="equal_to">Y</ValueOf>
                 </Condition>
-                <Otherwise branch="NO_DOG" />
             </SequenceGuide>
-            <Branch name="HAS_DOGS">
+            <Branch name="Does_have_dog">
                 <TextComponent xml:lang="en">
                     <TargetRespondent>Persons who have dogs</TargetRespondent>
                 </TextComponent>
                 <BranchLogic>
-                    <Question name="DOG_NAME">
+                    <Question name="Dog_name">
                         <TextComponent xml:lang="en">
                             <QuestionText>What is your dog's name?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                     </Question>
-                    <Question name="DOG_AGE">
+                    <Question name="Dog_spending">
+                        <ResponseType canRefuse="true" canNotKnow="true">
+                            <Number>
+                                <Prefix>
+                                    <Text xml:lang="en">$</Text>
+                                <Text xml:lang=""></Text></Prefix>
+                                <Suffix>
+                                    <Text xml:lang="en">per week</Text>
+                                <Text xml:lang=""></Text></Suffix>
+                            </Number>
+                        </ResponseType>
+                        <TextComponent xml:lang="en">
+                            <QuestionText>In whole dollars, how much do you spend on dog food per week?</QuestionText>
+                        <QuestionIntent></QuestionIntent></TextComponent>
+                    </Question>
+                    <Question name="Dog_age">
                         <TextComponent xml:lang="en">
                             <QuestionText>What is the dogs age?</QuestionText>
                             <Instruction>Please enter the dogs age at its last birthday. If the dog is less than 1 year
@@ -95,13 +107,13 @@
                                 <Suffix>
                                     <Text xml:lang="en">years</Text>
                                 </Suffix>
-                            </Number>
+                            <Hint><Text xml:lang="en">Please enter a whole number, greater than 0.</Text></Hint></Number>
                         </ResponseType>
                     </Question>
-                    <Question name="DOG_SEX">
+                    <Question name="Dog_sex">
                         <TextComponent xml:lang="en">
                             <QuestionText>What is the sex of <WordSub>
-                                    <Expression />
+                                    <Expression/>
                                     <Default>your dog</Default>
                                 </WordSub> ?</QuestionText>
                         </TextComponent>
@@ -116,27 +128,27 @@
                             </CodeList>
                         </ResponseType>
                     </Question>
-                    <ConditionalTree name="HEALTH_by_SEX">
+                    <ConditionalTree name="Health_by_sex">
                         <SequenceGuide>
-                            <Condition resultBranch="PUPPY_HEALTH">
-                                <ValueOf question="DOG_AGE" is="less_than_eq">1</ValueOf>
+                            <Condition resultBranch="Puppy_health">
+                                <ValueOf question="Dog_age" is="less_than_eq">1</ValueOf>
                             </Condition>
-                            <Condition resultBranch="FEMALE_HEALTH">
-                                <ValueOf question="DOG_SEX" is="equal_to">F</ValueOf>
-                                <ValueOf question="DOG_AGE" is="greater_than">1</ValueOf>
+                            <Condition resultBranch="Female_health">
+                                <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
+                                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
                             </Condition>
-                            <Condition resultBranch="MALE_HEALTH">
-                                <ValueOf question="DOG_SEX" is="equal_to">M</ValueOf>
-                                <ValueOf question="DOG_AGE" is="greater_than">1</ValueOf>
+                            <Condition resultBranch="Male_health">
+                                <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
+                                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
                             </Condition>
-                            <Otherwise branch="PUPPY_HEALTH" />
+                            <Otherwise branch="Puppy_health"/>
                         </SequenceGuide>
-                        <Branch name="FEMALE_HEALTH">
+                        <Branch name="Female_health">
                             <TextComponent xml:lang="en">
                                 <TargetRespondent>Persons who have dogs that are female</TargetRespondent>
                             </TextComponent>
                             <BranchLogic>
-                                <Question name="LITTER">
+                                <Question name="Had_litter">
                                     <TextComponent xml:lang="en">
                                         <QuestionText>Has your dog had a litter of puppies?</QuestionText>
                                     </TextComponent>
@@ -153,12 +165,12 @@
                                 </Question>
                             </BranchLogic>
                         </Branch>
-                        <Branch name="MALE_HEALTH">
+                        <Branch name="Male_health">
                             <TextComponent xml:lang="en">
                                 <TargetRespondent>Persons who have dogs that are male</TargetRespondent>
                             </TextComponent>
                             <BranchLogic>
-                                <Question name="HAS_SIRED">
+                                <Question name="Has_sired">
                                     <TextComponent xml:lang="en">
                                         <QuestionText>Has your dog sired a litter of puppies?</QuestionText>
                                     </TextComponent>
@@ -175,12 +187,12 @@
                                 </Question>
                             </BranchLogic>
                         </Branch>
-                        <Branch name="PUPPY_HEALTH">
+                        <Branch name="Puppy_health">
                             <TextComponent xml:lang="en">
                                 <TargetRespondent>Persons who have dogs that are still puppies</TargetRespondent>
                             </TextComponent>
                             <BranchLogic>
-                                <Question name="VACCINATED">
+                                <Question name="Vaccinated">
                                     <TextComponent xml:lang="en">
                                         <QuestionText>Has your puppy been toilet trained?</QuestionText>
                                     </TextComponent>
@@ -200,17 +212,17 @@
                     </ConditionalTree>
                 </BranchLogic>
             </Branch>
-            <Branch name="NO_DOG">
+            <Branch name="No_dog">
                 <TextComponent xml:lang="en">
                     <TargetRespondent>Persons who don't have dogs</TargetRespondent>
                 </TextComponent>
                 <BranchLogic>
-                    <Question name="WHY_NO_DOG">
+                    <Question name="Why_no_dog">
                         <TextComponent xml:lang="en">
                             <QuestionText>Why do you not own a dog?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <CodeList>
+                            <CodeList maximumSelections="3">
                                 <CodePair code="1">
                                     <Text xml:lang="en">Allergic of dogs</Text>
                                 </CodePair>
@@ -229,7 +241,7 @@
                 </BranchLogic>
             </Branch>
         </ConditionalTree>
-        <Question name="COMMENTS">
+        <Question name="Comments">
             <TextComponent xml:lang="en">
                 <QuestionText>Do you have any comments on this survey?</QuestionText>
             </TextComponent>
