@@ -406,7 +406,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:documentation>
                   </xs:annotation>
                   <xs:complexType>
-                     <xs:choice>
+                     <xs:choice minOccurs="1" maxOccurs="unbounded">
                         <xs:element name="Text">
                            <xs:complexType>
                               <xs:all>
@@ -533,7 +533,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:complexType>
                         </xs:element>
                         <xs:element name="CodeList" type="CodeListType" />
-                        <xs:element name="ValueDomainReference">
+                        <!-- xs:element name="ValueDomainReference">
                            <xs:annotation>
                               <xs:documentation>A reference to a defined 111-79 Value domain for the question. When
                                  attempting to perform cross module routing, such as in population routing or branching,
@@ -545,7 +545,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                  A question MUST ONLY have a Value Domain Reference if it includes a valid "DataElementConceptReference". 
                               </xs:documentation>
                            </xs:annotation>
-                        </xs:element>
+                        </xs:element -->
                      </xs:choice>
                      <xs:attribute name="canRefuse" default="false" type="xs:boolean">
                         <xs:annotation>
@@ -584,31 +584,76 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             only have context with their associated question.
             
             The text for a given code can be multilingual. While this is unenforcable in XML Schema 1.0,
-            when creating a Codelist, systems SHOULD include the same set of languages for ever CodePair,
+            when creating a Codelist, systems SHOULD include the same set of languages for every CodePair,
             and UI designers SHOULD include prompts that indicate to users if they have not filled in all
             of the languages for every pair.
             
+            A CodeList also has a minimum and maximum selection range for capturing how many options a respondant
+            is allowed to select. If neither the minimum or maximum are set, they are both equal to '1' so a
+            selection MUST be required. For application developers, the minimum and maximum MUST be stored and
+            displayed correctly, so if a minimum is larger than the maximim, this must be corrected however how this
+            is managed is managed at an application level, eg. software can switch the values behind the scenes or
+            may prompt the user for a correction.
+            
+            Systems that consume SQBL doucments for creating forms SHOULD be permissive and considerate to the intent
+            of the document. If the maximum is smaller than the minimum and vice-versa, then the application MAY choose
+            to switch these values to interpret them correctly - however this is not a requirement, as such if a SQBL 
+            document is recieved and has switched min-max values a systems developer may consider this an edge case with
+            indetermine side-effects.
+            
+            The presentation of a codelist is left to the Forms UI designer, however it is RECOMMENDED that when the maximum
+            is set to one, the codelist be rendered as a set of radio options, and rendered as a set of checkboxes otherwise.  
+            
          </xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="CodePair" minOccurs="1" maxOccurs="unbounded">
+      <xs:all>
+         <xs:element name="Codes">
             <xs:complexType>
-               <xs:complexContent>
-                  <xs:extension base="MultilingualPlainTextType">
-                     <xs:attribute name="code" use="required">
-                        <xs:annotation>
-                           <xs:documentation>A short computer readable value to destiguish between response options.</xs:documentation>
-                        </xs:annotation>
-                     </xs:attribute>
-                  </xs:extension>
-               </xs:complexContent>
+               <xs:sequence>
+                  <xs:element name="CodePair" minOccurs="1" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:complexContent>
+                           <xs:extension base="MultilingualPlainTextType">
+                              <xs:attribute name="code" use="required">
+                                 <xs:annotation>
+                                    <xs:documentation>A short computer readable value to destiguish between response options.</xs:documentation>
+                                 </xs:annotation>
+                              </xs:attribute>
+                           </xs:extension>
+                        </xs:complexContent>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
             </xs:complexType>
          </xs:element>
-      </xs:sequence>
-      <xs:attribute name="minimumSelections" default="1" use="optional" type="xs:positiveInteger">
-      </xs:attribute>
-      <xs:attribute name="maximumSelections" default="1" use="optional" type="xs:positiveInteger">
-      </xs:attribute>
+         <xs:element name="MinimumSelections" minOccurs="0">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>The text fields under here will be displayed if the string the
+                           user selects too few options from this codelist.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:all>
+               <xs:attribute name="value" default="1" use="optional" type="xs:positiveInteger"/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="MaximumSelections" minOccurs="0">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>The text fields under here will be displayed if the string the
+                           user selects too many options from this codelist.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:all>
+               <xs:attribute name="value" default="1" use="optional" type="xs:positiveInteger"/>
+            </xs:complexType>
+         </xs:element>
+      </xs:all>
+     
    </xs:complexType>
 
    <xs:complexType name="MultilingualPlainTextType">
@@ -627,7 +672,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          </xs:documentation>
       </xs:annotation>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
-         <xs:element name="Text">
+         <xs:element name="TextComponent">
             <xs:complexType>
                <xs:simpleContent>
                   <xs:extension base="xs:string">
