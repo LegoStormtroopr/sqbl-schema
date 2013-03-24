@@ -2,26 +2,29 @@
     <TextComponent xml:lang="en">
         <TargetRespondent>All Persons</TargetRespondent>
         <LongName>Dog Demographics Demonstration Module</LongName>
-    <Title>Dog Demographics Module</Title></TextComponent>
+        <Title>Dog Demographics Module</Title>
+    </TextComponent>
     <ModuleLogic>
         <Statement name="About_dogs">
             <TextComponent xml:lang="en">
-                <StatementText>This module asks about your ownership of Dogs. For this module please only answer about domestic pets you own that are canines.</StatementText>
+                <StatementText>This module asks about your ownership of Dogs. For this module please only answer about
+                    domestic pets you own that are canines.</StatementText>
             </TextComponent>
         </Statement>
         <Question name="Do_survey">
             <TextComponent xml:lang="en">
-                <QuestionText>Would you like to complete this module?	</QuestionText>
-                <QuestionIntent/></TextComponent>
+                <QuestionText>Would you like to complete this module? </QuestionText>
+                <QuestionIntent/>
+            </TextComponent>
             <ResponseType canRefuse="false" canNotKnow="false">
                 <CodeList>
                     <Codes>
-                    <CodePair code="Y">
-                        <TextComponent xml:lang="en">Yes</TextComponent>
-                    </CodePair>
-                    <CodePair code="N">
-                        <TextComponent xml:lang="en">No</TextComponent>
-                    </CodePair>
+                        <CodePair code="Y">
+                            <TextComponent xml:lang="en">Yes</TextComponent>
+                        </CodePair>
+                        <CodePair code="N">
+                            <TextComponent xml:lang="en">No</TextComponent>
+                        </CodePair>
                     </Codes>
                 </CodeList>
             </ResponseType>
@@ -44,15 +47,17 @@
                 <QuestionIntent>To find out about dogs.</QuestionIntent>
             </TextComponent>
             <ResponseType canRefuse="true">
-                <CodeList><Codes>
-                    <CodePair code="Y">
-                        <TextComponent xml:lang="en">Yes</TextComponent>
-                        <TextComponent xml:lang="de">Ja</TextComponent>
-                    </CodePair>
-                    <CodePair code="N">
-                        <TextComponent xml:lang="en">No</TextComponent>
-                        <TextComponent xml:lang="de">Nein</TextComponent>
-                    </CodePair></Codes>
+                <CodeList>
+                    <Codes>
+                        <CodePair code="Y">
+                            <TextComponent xml:lang="en">Yes</TextComponent>
+                            <TextComponent xml:lang="de">Ja</TextComponent>
+                        </CodePair>
+                        <CodePair code="N">
+                            <TextComponent xml:lang="en">No</TextComponent>
+                            <TextComponent xml:lang="de">Nein</TextComponent>
+                        </CodePair>
+                    </Codes>
                 </CodeList>
             </ResponseType>
         </Question>
@@ -104,7 +109,8 @@
                         </ResponseType>
                         <TextComponent xml:lang="en">
                             <QuestionText>In whole dollars, how much do you spend on dog food per week?</QuestionText>
-                        <QuestionIntent/></TextComponent>
+                            <QuestionIntent/>
+                        </TextComponent>
                     </Question>
                     <Question name="Dog_age">
                         <TextComponent xml:lang="en">
@@ -123,7 +129,11 @@
                                 <Suffix>
                                     <TextComponent xml:lang="en">years</TextComponent>
                                 </Suffix>
-                                <Hint><TextComponent xml:lang="en">Please enter a whole number, greater than 0.</TextComponent></Hint></Number>
+                                <Hint>
+                                    <TextComponent xml:lang="en">Please enter a whole number, greater than
+                                        0.</TextComponent>
+                                </Hint>
+                            </Number>
                             <Number>
                                 <Minimum value="0.0">
                                     <TextComponent xml:lang="en">Age must be greater than 0</TextComponent>
@@ -135,7 +145,8 @@
                                     <TextComponent xml:lang="en">months</TextComponent>
                                 </Suffix>
                                 <Hint>
-                                    <TextComponent xml:lang="en">Please enter a whole number, greater than 0.</TextComponent>
+                                    <TextComponent xml:lang="en">Please enter a whole number, greater than
+                                        0.</TextComponent>
                                 </Hint>
                             </Number>
                         </ResponseType>
@@ -148,13 +159,15 @@
                                 </WordSub> ?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <CodeList><Codes>
-                                <CodePair code="M">
-                                    <TextComponent xml:lang="en">Male</TextComponent>
-                                </CodePair>
-                                <CodePair code="F">
-                                    <TextComponent xml:lang="en">Female</TextComponent>
-                                </CodePair></Codes>
+                            <CodeList>
+                                <Codes>
+                                    <CodePair code="M">
+                                        <TextComponent xml:lang="en">Male</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="F">
+                                        <TextComponent xml:lang="en">Female</TextComponent>
+                                    </CodePair>
+                                </Codes>
                             </CodeList>
                         </ResponseType>
                     </Question>
@@ -183,13 +196,15 @@
                                         <QuestionText>Has your dog had a litter of puppies?</QuestionText>
                                     </TextComponent>
                                     <ResponseType>
-                                        <CodeList><Codes>
-                                            <CodePair code="Y">
-                                                <TextComponent xml:lang="en">Yes</TextComponent>
-                                            </CodePair>
-                                            <CodePair code="N">
-                                                <TextComponent xml:lang="en">No</TextComponent>
-                                            </CodePair></Codes>
+                                        <CodeList>
+                                            <Codes>
+                                                <CodePair code="Y">
+                                                    <TextComponent xml:lang="en">Yes</TextComponent>
+                                                </CodePair>
+                                                <CodePair code="N">
+                                                    <TextComponent xml:lang="en">No</TextComponent>
+                                                </CodePair>
+                                            </Codes>
                                         </CodeList>
                                     </ResponseType>
                                 </Question>
@@ -205,13 +220,15 @@
                                         <QuestionText>Has your dog sired a litter of puppies?</QuestionText>
                                     </TextComponent>
                                     <ResponseType canNotKnow="true">
-                                        <CodeList><Codes>
-                                            <CodePair code="Y">
-                                                <TextComponent xml:lang="en">Yes</TextComponent>
-                                            </CodePair>
-                                            <CodePair code="N">
-                                                <TextComponent xml:lang="en">No</TextComponent>
-                                            </CodePair></Codes>
+                                        <CodeList>
+                                            <Codes>
+                                                <CodePair code="Y">
+                                                    <TextComponent xml:lang="en">Yes</TextComponent>
+                                                </CodePair>
+                                                <CodePair code="N">
+                                                    <TextComponent xml:lang="en">No</TextComponent>
+                                                </CodePair>
+                                            </Codes>
                                         </CodeList>
                                     </ResponseType>
                                 </Question>
@@ -227,13 +244,15 @@
                                         <QuestionText>Has your puppy been toilet trained?</QuestionText>
                                     </TextComponent>
                                     <ResponseType canNotKnow="true" canRefuse="true">
-                                        <CodeList><Codes>
-                                            <CodePair code="Y">
-                                                <TextComponent xml:lang="en">Yes</TextComponent>
-                                            </CodePair>
-                                            <CodePair code="N">
-                                                <TextComponent xml:lang="en">No</TextComponent>
-                                            </CodePair></Codes>
+                                        <CodeList>
+                                            <Codes>
+                                                <CodePair code="Y">
+                                                    <TextComponent xml:lang="en">Yes</TextComponent>
+                                                </CodePair>
+                                                <CodePair code="N">
+                                                    <TextComponent xml:lang="en">No</TextComponent>
+                                                </CodePair>
+                                            </Codes>
                                         </CodeList>
                                     </ResponseType>
                                 </Question>
@@ -261,10 +280,14 @@
                                         <TextComponent xml:lang="en">Afraid of dogs</TextComponent>
                                     </CodePair>
                                     <CodePair code="3">
-                                        <TextComponent xml:lang="en">I am a postman/woman</TextComponent>
+                                        <TextComponent xml:lang="en">Am a postman/woman</TextComponent>
                                     </CodePair>
-                                    <CodePair code="9">
-                                        <TextComponent xml:lang="en">Other</TextComponent>
+                                    <CodePair code="4">
+                                        <TextComponent xml:lang="en">Cannot afford the doggy in the
+                                            window.</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="9" freeText="true">
+                                        <TextComponent xml:lang="en">Other, please specify</TextComponent>
                                     </CodePair>
                                 </Codes>
                                 <MaximumSelections value="3"/>

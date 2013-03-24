@@ -616,7 +616,17 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            <xs:extension base="MultilingualPlainTextType">
                               <xs:attribute name="code" use="required">
                                  <xs:annotation>
-                                    <xs:documentation>A short computer readable value to destiguish between response options.</xs:documentation>
+                                    <xs:documentation>A short computer readable value to destiguish between response options that is used in computing decision tables.</xs:documentation>
+                                 </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="freeText" use="optional" type="xs:boolean" default="false">
+                                 <xs:annotation>
+                                    <xs:documentation>
+                                       If True, this adds a free text field along with this option for gathering additional information.
+                                       A common use case is for allowing a respondent to select an "Other, please specify option" for a value.
+                                       Where an how this additional text box is displayed is up to the form interface designer, however this field
+                                       MUST be untyped data - i.e. plain text. 
+                                    </xs:documentation>
                                  </xs:annotation>
                               </xs:attribute>
                            </xs:extension>
@@ -627,29 +637,29 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
          <xs:element name="MinimumSelections" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The text fields under here will be displayed if the string the
+                  user selects too few options from this codelist.</xs:documentation>
+            </xs:annotation>
             <xs:complexType>
-               <xs:all>
-                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
-                     <xs:annotation>
-                        <xs:documentation>The text fields under here will be displayed if the string the
-                           user selects too few options from this codelist.</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
-               </xs:all>
-               <xs:attribute name="value" default="1" use="optional" type="xs:positiveInteger"/>
+               <xs:complexContent>
+                  <xs:extension base="MultilingualPlainTextType">
+                     <xs:attribute name="value" use="required" type="xs:positiveInteger"/>
+                  </xs:extension>
+               </xs:complexContent>
             </xs:complexType>
          </xs:element>
          <xs:element name="MaximumSelections" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The text fields under here will be displayed if the string the
+                  user selects too many options from this codelist.</xs:documentation>
+            </xs:annotation>
             <xs:complexType>
-               <xs:all>
-                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
-                     <xs:annotation>
-                        <xs:documentation>The text fields under here will be displayed if the string the
-                           user selects too many options from this codelist.</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
-               </xs:all>
-               <xs:attribute name="value" default="1" use="optional" type="xs:positiveInteger"/>
+               <xs:complexContent>
+                  <xs:extension base="MultilingualPlainTextType">
+                     <xs:attribute name="value" use="required" type="xs:positiveInteger"/>
+                  </xs:extension>
+               </xs:complexContent>
             </xs:complexType>
          </xs:element>
       </xs:all>
@@ -1115,6 +1125,12 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             
               <ValueOf question="sex" is="equal_to">Male</Value>
               
+            IMPORTANT NOTE: A ValueOf references a question, and are assumed to operate on questions with a single response.
+            As such, questions with multiple responses that are included in decision tables may have undefined behaviour
+            across form creation systems. This does not include CodeList with extra text fields, as these are managed in
+            a different fashion to multiple responses, however the freeText response MUST not be made accessible for use in a
+            decision table.  
+            
              Would be true if when this was evaluated, a respondent had answered "Male" to the question with the name
             'sex'. It is RECOMMENED that when possible the ValueOf element has the @question attribute prior to the @is
             attiribute to make the XML as human readable as possible.Contrast the readability of
