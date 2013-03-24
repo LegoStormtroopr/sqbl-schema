@@ -27,7 +27,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          designers and researchers to produce questionnaires that are able to effectively target respondents, quicker
          and easier than has previously been able, while focusing on maximum machine support for processing at all
          stages of data collection. This is achieved, by encouraging the creation of structured and hierarchical
-         questionnaire specifications. </xs:documentation>
+         questionnaire specifications.
+      
+         This documentation includes tips for content creators, systems designers and user interface designers for both
+         applications creating SQBL documents (for example systems like the Canard Question Module Editor) and creators
+         of systems that convert SQBL into Questionnaires/Form/Web Surveys/etc (eg. the Roxy SQBL-Xforms transformation tools).
+         This schema should be accompanied with a conformant dogDemographics.sqbl SQBL document. When there is a need for examples,
+         they are drawn from this document. When designing systems, the dogDemographics.sqbl should be considered the definative test
+         case, and any systems that work with this document MUST meet the requirements of this document, and MAY meet the optional requirements.
+      </xs:documentation>
    </xs:annotation>
    <xs:element name="QuestionnaireSpecification">
       <xs:annotation>
@@ -580,13 +588,26 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       <xs:annotation>
          <xs:documentation>
             A simple list of code and text pairs presented to a respondent.
-            Due to the very limited scope of SQBL, these are not meant to act classifications, and
-            only have context with their associated question.
+            Due to the very limited scope of SQBL, these are not meant to act as classifications, and
+            only have context within their associated question.
             
             The text for a given code can be multilingual. While this is unenforcable in XML Schema 1.0,
             when creating a Codelist, systems SHOULD include the same set of languages for every CodePair,
             and UI designers SHOULD include prompts that indicate to users if they have not filled in all
             of the languages for every pair.
+            
+            All CodePairs have a code value that is used in decision tables and in systems, this is not language specific.
+            E.g. a code may be "Y" with English text "Yes" and German text "Ja", despite the letter Y having no context
+            for this in German. If this is a problem, number can be used instead. At this point codes have no maximum
+            length, but future version may shorten this as needed for systems use, as such content creators are encouraged
+            to make codes as short as practical.
+            
+            A CodeList also includes the option for a CodePair to have an associated text field, for example 
+            "Other, please specify". These fields have no text, and their instruction text MUST be on the question
+            or on the code itself. (e.g The text for a CodePair should be "Other, please specify" not "Other").
+            The value of the code for this kind of option MUST be the considered value when used in forms logic.
+            E.g if a respondant ticks Other (with a code 9) and writes "I think dogs are smelly" the value for this
+            question in logic MUST be "9" NOT "I think dogs are smelly".
             
             A CodeList also has a minimum and maximum selection range for capturing how many options a respondant
             is allowed to select. If neither the minimum or maximum are set, they are both equal to '1' so a
@@ -595,15 +616,14 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             is managed is managed at an application level, eg. software can switch the values behind the scenes or
             may prompt the user for a correction.
             
-            Systems that consume SQBL doucments for creating forms SHOULD be permissive and considerate to the intent
+            Systems that consume SQBL documents for creating forms SHOULD be permissive and considerate to the intent
             of the document. If the maximum is smaller than the minimum and vice-versa, then the application MAY choose
             to switch these values to interpret them correctly - however this is not a requirement, as such if a SQBL 
             document is recieved and has switched min-max values a systems developer may consider this an edge case with
             indetermine side-effects.
             
             The presentation of a codelist is left to the Forms UI designer, however it is RECOMMENDED that when the maximum
-            is set to one, the codelist be rendered as a set of radio options, and rendered as a set of checkboxes otherwise.  
-            
+            is set to one, the codelist be rendered as a set of radio options, and rendered as a set of checkboxes otherwise.
          </xs:documentation>
       </xs:annotation>
       <xs:all>
