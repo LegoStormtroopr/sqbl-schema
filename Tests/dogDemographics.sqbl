@@ -134,21 +134,6 @@
                                         0.</TextComponent>
                                 </Hint>
                             </Number>
-                            <Number>
-                                <Minimum value="0.0">
-                                    <TextComponent xml:lang="en">Age must be greater than 0</TextComponent>
-                                </Minimum>
-                                <Step value="1">
-                                    <TextComponent xml:lang="en">Age must be in whole numbers</TextComponent>
-                                </Step>
-                                <Suffix>
-                                    <TextComponent xml:lang="en">months</TextComponent>
-                                </Suffix>
-                                <Hint>
-                                    <TextComponent xml:lang="en">Please enter a whole number, greater than
-                                        0.</TextComponent>
-                                </Hint>
-                            </Number>
                         </ResponseType>
                     </Question>
                     <Question name="Dog_sex">
@@ -273,7 +258,7 @@
                         <ResponseType>
                             <CodeList>
                                 <Codes>
-                                    <CodePair code="1">
+                                    <CodePair code="1" freeText="false">
                                         <TextComponent xml:lang="en">Allergic of dogs</TextComponent>
                                     </CodePair>
                                     <CodePair code="2">
