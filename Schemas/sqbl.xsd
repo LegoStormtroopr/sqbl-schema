@@ -625,28 +625,34 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
    <xs:complexType name="CodeListType">
       <xs:annotation>
-         <xs:documentation> A simple list of code and text pairs presented to a respondent. Due to the very limited
+         <xs:documentation>A simple, ordered list of code and text pairs presented to a respondent. Due to the very limited
             scope of SQBL, these are not meant to act as classifications, and only have context within their associated
             question. The text for a given code can be multilingual. While this is unenforcable in XML Schema 1.0, when
             creating a Codelist, systems SHOULD include the same set of languages for every CodePair, and UI designers
             SHOULD include prompts that indicate to users if they have not filled in all of the languages for every
-            pair. All CodePairs have a code value that is used in decision tables and in systems, this is not language
+            pair.
+            
+            All CodePairs have a code value that is used in decision tables and in systems, this is not language
             specific. E.g. a code may be "Y" with English text "Yes" and German text "Ja", despite the letter Y having
             no context for this in German. If this is a problem, number can be used instead. At this point codes have no
             maximum length, but future version may shorten this as needed for systems use, as such content creators are
-            encouraged to make codes as short as practical. A CodeList also includes the option for a CodePair to have
-            an associated text field, for example "Other, please specify". These fields have no text, and their
-            instruction text MUST be on the question or on the code itself. (e.g The text for a CodePair should be
-            "Other, please specify" not "Other"). The value of the code for this kind of option MUST be the considered
-            value when used in forms logic. E.g if a respondant ticks Other (with a code 9) and writes "I think dogs are
-            smelly" the value for this question in logic MUST be "9" NOT "I think dogs are smelly". A CodeList also has
-            a minimum and maximum selection range for capturing how many options a respondant is allowed to select. If
-            neither the minimum or maximum are set, they are both equal to '1' so a selection MUST be required. For
-            application developers, the minimum and maximum MUST be stored and displayed correctly, so if a minimum is
-            larger than the maximim, this must be corrected however how this is managed is managed at an application
-            level, eg. software can switch the values behind the scenes or may prompt the user for a correction. Systems
-            that consume SQBL documents for creating forms SHOULD be permissive and considerate to the intent of the
-            document. If the maximum is smaller than the minimum and vice-versa, then the application MAY choose to
+            encouraged to make codes as short as practical.
+            
+            A CodeList also includes the option for a CodePair to have an associated text field, for example "Other, please specify".
+            These fields have no text, and their instruction text MUST be on the question or on the code itself.
+              E.g The text for a CodePair should be "Other, please specify" not just "Other").
+            The value of the code for this kind of option MUST be the considered value when used in forms logic.
+              E.g if a respondant ticks Other (with a code 9) and writes the additional text "I think dogs are smelly" the
+              value for this question in logic MUST be "9", NOT "I think dogs are smelly".
+              
+            A CodeList has a minimum and maximum selection range for capturing how many options a respondant is allowed to
+            select. If neither the minimum or maximum are set, they are both equal to '1' so a selection MUST be required.
+            For application developers, the minimum and maximum MUST be stored and displayed correctly, so if a minimum is
+            larger than the maximim, this MUST be corrected however, how this is managed is managed at an application
+            level; eg. software can switch the values behind the scenes or may prompt the user for a correction.
+            
+            Systems that consume SQBL documents for creating forms SHOULD be permissive and considerate to the intent of
+            the document. If the maximum is smaller than the minimum and vice-versa, then the application MAY choose to
             switch these values to interpret them correctly - however this is not a requirement, as such if a SQBL
             document is recieved and has switched min-max values a systems developer may consider this an edge case with
             indetermine side-effects. The presentation of a codelist is left to the Forms UI designer, however it is
@@ -661,7 +667,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      <xs:complexType>
                         <xs:complexContent>
                            <xs:extension base="MultilingualPlainTextType">
-                              <xs:attribute name="code" use="required">
+                              <xs:attribute name="code" use="required" type="xs:token">
                                  <xs:annotation>
                                     <xs:documentation>A short computer readable value to destiguish between response
                                        options that is used in computing decision tables.</xs:documentation>
@@ -728,7 +734,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          <xs:element name="TextComponent">
             <xs:complexType>
                <xs:simpleContent>
-                  <xs:extension base="xs:string">
+                  <xs:extension base="xs:normalizedString">
                      <xs:attribute ref="xml:lang" use="required" />
                   </xs:extension>
                </xs:simpleContent>
@@ -777,7 +783,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    <xs:complexType name="LogicHead">
       <xs:annotation>
          <xs:documentation>A shortcut way of saying an object can include other LogicNodes or
-            Question.</xs:documentation>
+            Questions.</xs:documentation>
       </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
 
@@ -854,7 +860,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             <xs:annotation>
                <xs:documentation>ForLoops loop across a given list of responses or a set number of times, similar to a
                   For Loop in programming. This is still under construction, and at least one other form of Loop - the
-                  "while" loop is under consideration for inclusion along side For Loops. .</xs:documentation>
+                  "while" loop is under consideration for inclusion along side For Loops.</xs:documentation>
             </xs:annotation>
             <xs:complexType>
                <xs:complexContent>
@@ -938,18 +944,14 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      <xs:sequence>
                         <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
-                              <xs:documentation> The Text component of a question is all of the human readable parts
-                                 that help describe a question. These are grouped like this to make parsing easy from a
-                                 systems point of view, as it make the repetition of repeatable language parts easier to
-                                 manage. The xml:lang attribute for the TextComponent question MUST be unique for a
-                                 given question. </xs:documentation>
+                              <xs:documentation> The Text component of a statement is all of the human readable parts
+                                 that help describe a question.</xs:documentation>
                            </xs:annotation>
                            <xs:complexType>
                               <xs:all>
                                  <xs:element name="StatementText" maxOccurs="unbounded" type="DynamicTextType">
                                     <xs:annotation>
-                                       <xs:documentation>The string to be displayed in the
-                                          instrument.</xs:documentation>
+                                       <xs:documentation>A string to be displayed in the instrument.</xs:documentation>
                                     </xs:annotation>
                                  </xs:element>
                               </xs:all>
@@ -1231,6 +1233,26 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:restriction>
          </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="presentationTypes" use="optional" type="xs:normalizedString">
+         <xs:annotation>
+            <xs:documentation>
+               This is a space delimited list of strings indicating specialised types that this particular object takes on.
+               These codes do not come from a controlled list, and this is unlikely to change in the future.
+               
+               An example of how these might be used is when directly copied into an XHTML represntation of a form derived
+               from a SQBL document, where this list of presentationTypes becomes the class attribute for an XHTML element.
+               
+               These codes are for presentation ONLY, and developers MUST NOT uses presentationTypes for attempting to embed
+               additional information within a SQBL document. For example the below is considered bad practise
+                 e.g presentationTypes="myAppName:systemID:XXXXX"    -{-- DO NOT DO THIS!!!!
+               Embeding such key:value pairs in the presentationTypes MUST NOT be done, and if detected by a a SQBL developer,
+               said developer MUST hunt down the creator of the offending attribute and slap them with a fish!
+
+               Said fish SHOULD be local, eco-friendly and renewable.
+            </xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      
    </xs:complexType>
    <xs:simpleType name="ReferenceType">
       <xs:annotation>
