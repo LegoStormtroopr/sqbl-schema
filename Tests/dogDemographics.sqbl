@@ -97,6 +97,10 @@
                         </ResponseType>
                     </Question>
                     <Question name="Dog_spending">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>In whole dollars, how much do you spend on dog food per week?</QuestionText>
+                            <QuestionIntent/>
+                        </TextComponent>
                         <ResponseType canRefuse="true" canNotKnow="true">
                             <Number>
                                 <Prefix>
@@ -107,10 +111,6 @@
                                 </Suffix>
                             </Number>
                         </ResponseType>
-                        <TextComponent xml:lang="en">
-                            <QuestionText>In whole dollars, how much do you spend on dog food per week?</QuestionText>
-                            <QuestionIntent/>
-                        </TextComponent>
                     </Question>
                     <Question name="Dog_age">
                         <TextComponent xml:lang="en">

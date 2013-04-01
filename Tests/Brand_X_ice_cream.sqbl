@@ -14,7 +14,7 @@
     <ModuleLogic>
         <Question name="PURCHASE">
             <ResponseType>
-                <Text/>
+                <Text><Hint><TextComponent xml:lang="en">Enter Yes or No</TextComponent></Hint></Text>
             </ResponseType>
             <TextComponent xml:lang="en">
                 <QuestionText>Have you purchased ice cream in the last 6 months?</QuestionText>

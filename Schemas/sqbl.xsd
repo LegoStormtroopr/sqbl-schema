@@ -353,7 +353,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="BaseNamedType">
-            <xs:all>
+            <xs:sequence>
                <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation> The Text component of a question is all of the human readable parts that help
@@ -603,7 +603,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:attribute>
                   </xs:complexType>
                </xs:element>
-            </xs:all>
+            </xs:sequence>
             <xs:attribute name="DataElementReference" type="xs:anyURI" use="optional">
                <xs:annotation>
                   <xs:documentation>
@@ -757,7 +757,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                   <xs:complexType>
                      <xs:all>
-                        <xs:element name="Instruction" minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="Instruction" minOccurs="0" maxOccurs="1">
                            <xs:annotation>
                               <xs:documentation> This provides the textual content of the instruction. This is
                                  considered optional and additional content that may be useful in helping a respondent
@@ -813,11 +813,11 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            <xs:complexType>
                               <xs:complexContent>
                                  <xs:extension base="BaseNamedType">
-                                    <xs:all>
+                                    <xs:sequence>
                                        <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                                           <xs:complexType>
                                              <xs:all>
-                                                <xs:element name="Instruction" minOccurs="0" maxOccurs="unbounded" />
+                                                <xs:element name="Instruction" minOccurs="0" maxOccurs="1" />
                                                 <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
                                                    <xs:annotation>
                                                       <xs:documentation>Why is this action being
@@ -836,7 +836,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                           </xs:complexType>
                                        </xs:element>
                                        <xs:element name="BranchLogic" type="LogicHead" />
-                                    </xs:all>
+                                    </xs:sequence>
                                     <!-- xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
                                        <xs:annotation>
                                           <xs:documentation> The Default ObjectClass for all questions within this
@@ -949,7 +949,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:annotation>
                            <xs:complexType>
                               <xs:all>
-                                 <xs:element name="StatementText" maxOccurs="unbounded" type="DynamicTextType">
+                                 <xs:element name="StatementText" maxOccurs="1" type="DynamicTextType">
                                     <xs:annotation>
                                        <xs:documentation>A string to be displayed in the instrument.</xs:documentation>
                                     </xs:annotation>
