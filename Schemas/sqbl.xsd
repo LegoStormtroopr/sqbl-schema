@@ -308,15 +308,31 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:complexContent>
    </xs:complexType -->
 
+   <xs:complexType name="RichTextContent" mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:group ref="RichTextContent.group"/>
+      </xs:choice>
+   </xs:complexType>
+   
+   <xs:group name="RichTextContent.group">
+      <xs:choice>
+         <xs:annotation>
+            <xs:documentation>Here we do a hackjob reimplementation of a subset of HTML elements to support a restricted set of rich-text elements.</xs:documentation>
+         </xs:annotation>
+         <xs:element name="strong" type="RichTextContent" />
+         <xs:element name="em" type="RichTextContent" />
+         <xs:element name="p" type="RichTextContent" />
+         <xs:element name="WordSub" type="ConditionalTextType" />
+      </xs:choice>
+   </xs:group>
+      
    <xs:complexType name="DynamicTextType" mixed="true">
       <xs:annotation>
          <xs:documentation>Structures the behavior of dynamic or static text within the instrument.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="WordSub" type="ConditionalTextType" />
-         </xs:choice>
-      </xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:group ref="RichTextContent.group"/>
+      </xs:choice>
    </xs:complexType>
 
    <xs:complexType name="ConditionalTextType">
@@ -603,8 +619,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:attribute>
                   </xs:complexType>
                </xs:element>
+               <xs:element name="SubQuestions" minOccurs="0">
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element name="SubQuestion" minOccurs="1" maxOccurs="unbounded" type="MultilingualPlainTextType"/>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
             </xs:sequence>
-            <xs:attribute name="DataElementReference" type="xs:anyURI" use="optional">
+            <xs:attribute name="dataElementReference" type="xs:anyURI" use="optional">
                <xs:annotation>
                   <xs:documentation>
                      A URI reference to a 11179 Data Element that this question is attempting to collect information
@@ -747,7 +770,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       <xs:annotation>
          <xs:documentation>Provides the basic, extensible structure for control elements used in describing flow logic
             within the instrument. Because of the lack of multiple inheritance in XML Schema, LogicNodes are objects
-            which provide the broad description of logical elements, such as Conditional Trees or Loops, and MAY contain
+            which provide the broad description of logical elements, such as Branches or Loops, and MAY contain
             an object inside that extends from LogicHeadType, which allows for the hierachical inclusion of further
             elements defining logic. </xs:documentation>
       </xs:annotation>
@@ -771,8 +794,14 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                  respondents being branched in a specific way. </xs:documentation>
                            </xs:annotation>
                         </xs:element>
+                       <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:annotation>
+                              <xs:documentation>Who this branch is targeting in a short and
+                                 general sense. Different to the ObjectClass.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
                      </xs:all>
-                     <xs:attribute ref="xml:lang" />
+                     <xs:attribute ref="xml:lang" use="required" />
                   </xs:complexType>
                </xs:element>
             </xs:sequence>
@@ -794,8 +823,22 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:annotation>
             <xs:complexType>
                <xs:complexContent>
-                  <xs:extension base="LogicNode">
+                  <xs:extension base="BaseNamedType">
                      <xs:sequence>
+                        <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Instruction" minOccurs="0" maxOccurs="1" />
+                                 <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
+                                    <xs:annotation>
+                                       <xs:documentation>Why is this action being
+                                          taken?</xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                              </xs:all>
+                              <xs:attribute ref="xml:lang" use="required"/>
+                           </xs:complexType>
+                        </xs:element>
                         <xs:element name="SequenceGuide" type="DecisionTable">
                            <xs:annotation>
                               <xs:documentation>The condition which must be met to trigger the Then clause, expressed as
@@ -812,29 +855,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:annotation>
                            <xs:complexType>
                               <xs:complexContent>
-                                 <xs:extension base="BaseNamedType">
+                                 <xs:extension base="LogicNode">
                                     <xs:sequence>
-                                       <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
-                                          <xs:complexType>
-                                             <xs:all>
-                                                <xs:element name="Instruction" minOccurs="0" maxOccurs="1" />
-                                                <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
-                                                   <xs:annotation>
-                                                      <xs:documentation>Why is this action being
-                                                         taken?</xs:documentation>
-                                                   </xs:annotation>
-                                                </xs:element>
-                                                <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1"
-                                                   type="xs:string">
-                                                   <xs:annotation>
-                                                      <xs:documentation>Who this branch is targeting in a short and
-                                                         general sense. Different to the ObjectClass.</xs:documentation>
-                                                   </xs:annotation>
-                                                </xs:element>
-                                             </xs:all>
-                                             <xs:attribute ref="xml:lang" />
-                                          </xs:complexType>
-                                       </xs:element>
                                        <xs:element name="BranchLogic" type="LogicHead" />
                                     </xs:sequence>
                                     <!-- xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
@@ -866,9 +888,19 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:complexContent>
                   <xs:extension base="LogicNode">
                      <xs:sequence>
-                        <xs:element name="LoopedElements" type="LogicHead" />
+                        <xs:element name="LoopedLogic" type="LogicHead" />
                      </xs:sequence>
-                     <xs:attribute name="InitialValue" type="xs:decimal" use="optional" default="0">
+                     <xs:attribute name="question" use="required" type="xs:IDREF">
+                        <xs:annotation>
+                           <xs:documentation>
+                              A reference to the question that will be looped over.
+                              This MUST be a reference to a quesiton with a single reponse value of either an integer number
+                              or a multiple-selection codelist.
+                              References to other types of responses may cause side-effects.
+                           </xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                     <!-- xs:attribute name="InitialValue" type="xs:decimal" use="optional" default="0">
                         <xs:annotation>
                            <xs:documentation>The initial value to which the LoopVariable is set. If absent, defaults to
                               0.</xs:documentation>
@@ -887,7 +919,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                               of the Loop's associated ControlConstruct element. If absent, defaults to
                               1.</xs:documentation>
                         </xs:annotation>
-                     </xs:attribute>
+                     </xs:attribute -->
                   </xs:extension>
                </xs:complexContent>
             </xs:complexType>

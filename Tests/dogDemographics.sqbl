@@ -74,7 +74,7 @@
                 <Condition resultBranch="Does_have_dog">
                     <ValueOf question="Has_dog" is="equal_to">Y</ValueOf>
                 </Condition>
-            </SequenceGuide>
+            <Otherwise branch="No_dog"/></SequenceGuide>
             <Branch name="Does_have_dog">
                 <TextComponent xml:lang="en">
                     <TargetRespondent>Persons who have dogs</TargetRespondent>
@@ -88,13 +88,18 @@
                             <QuestionText>Namen?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <Text>
-                                <Hint>
-                                    <TextComponent xml:lang="en">Hint?</TextComponent>
-                                    <TextComponent xml:lang="de">Das Hint?</TextComponent>
-                                </Hint>
-                            </Text>
+                            <Text/>
                         </ResponseType>
+                        <SubQuestions>
+                            <SubQuestion>
+                                <TextComponent xml:lang="en">First name:dfsdf</TextComponent>
+                                <TextComponent xml:lang="de">Vorname:</TextComponent>
+                            <TextComponent xml:lang="None"></TextComponent></SubQuestion>
+                            <SubQuestion>
+                                <TextComponent xml:lang="en">Family name:</TextComponent>
+                                <TextComponent xml:lang="de">Nachname:</TextComponent>
+                            <TextComponent xml:lang="None"></TextComponent></SubQuestion>
+                        </SubQuestions>
                     </Question>
                     <Question name="Dog_spending">
                         <TextComponent xml:lang="en">
@@ -136,12 +141,12 @@
                             </Number>
                         </ResponseType>
                     </Question>
-                    <Question name="Dog_sex">
+                    <Question name="Dog_sex" dataElementReference="http://meteor.aihw.gov.au/content/index.phtml/itemId/269716">
                         <TextComponent xml:lang="en">
-                            <QuestionText>What is the sex of <WordSub>
+                            <QuestionText>What is the sex of <em><WordSub>
                                     <Expression/>
                                     <Default>your dog</Default>
-                                </WordSub> ?</QuestionText>
+                            </WordSub></em> ?</QuestionText>
                         </TextComponent>
                         <ResponseType>
                             <CodeList>
@@ -244,6 +249,61 @@
                             </BranchLogic>
                         </Branch>
                     </ConditionalTree>
+                    <Question name="Days_Walked">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>For the last calendar week, on which of the following days did you walk your dog?</QuestionText>
+                            <Instruction>If you did not walk this dog last week, leave the checkboxes empty.</Instruction>
+                        </TextComponent>
+                        <ResponseType>
+                            <CodeList>
+                                <MaximumSelections value="7"/>
+                                <Codes>
+                                    <CodePair code="Sun">
+                                        <TextComponent xml:lang="en">Sunday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Mon">
+                                        <TextComponent xml:lang="en">Monday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Tue">
+                                        <TextComponent xml:lang="en">Tuesday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Wed">
+                                        <TextComponent xml:lang="en">Wednesday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Thu">
+                                        <TextComponent xml:lang="en">Thursday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Fri">
+                                        <TextComponent xml:lang="en">Friday</TextComponent>
+                                    </CodePair>
+                                    <CodePair code="Sat">
+                                        <TextComponent xml:lang="en">Saturday</TextComponent>
+                                    </CodePair>
+                                </Codes>
+                            </CodeList>
+                        </ResponseType>
+                    </Question>
+                    <ForLoop name="Days_Walked_Loop" question="Days_Walked"> 
+                        <TextComponent xml:lang="en">
+                            <Instruction/>
+                            <Purpose>This assists in determining the total amount of exercise the dog gets.</Purpose>
+                        <TargetRespondent>Persons who have walked their dog during the past week</TargetRespondent></TextComponent>
+                        <LoopedLogic>
+                            <Question name="Minutes_Walked">
+                                <TextComponent xml:lang="en">
+                                    <QuestionText>On the day in question, how many minutes did you walk the dog for?</QuestionText>
+                                    <QuestionIntent/>
+                                </TextComponent>
+                                <ResponseType canRefuse="true" canNotKnow="true">
+                                    <Number>
+                                        <Suffix>
+                                            <TextComponent xml:lang="en">minutes</TextComponent>
+                                        </Suffix>
+                                    </Number>
+                                </ResponseType>
+                            </Question>
+                        </LoopedLogic>
+                    </ForLoop>
                 </BranchLogic>
             </Branch>
             <Branch name="No_dog">
