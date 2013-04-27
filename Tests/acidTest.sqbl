@@ -1,0 +1,90 @@
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+    <TextComponent xml:lang="en">
+        <TargetRespondent>No-one ever</TargetRespondent>
+        <LongName>SQBL/Canard Acid Test</LongName>
+        <Title>SQBL/Canard Acid Test</Title>
+    </TextComponent>
+    <ModuleLogic>
+        <Statement name="Statement">
+            <TextComponent xml:lang="en">
+                <StatementText>Testings</StatementText>
+            </TextComponent>
+        </Statement>
+        <Question name="MultiResponseSingleQuestion">
+            <TextComponent xml:lang="en">
+                <QuestionText>How many hours and mins in a day?</QuestionText>
+                <QuestionIntent>Testing MultiResponseSingleQuestion.</QuestionIntent>
+                <Instruction>Testing a simple multi response question</Instruction>
+            </TextComponent>
+            <ResponseType canRefuse="true">
+                <Number>
+                    <Suffix><TextComponent xml:lang="en">hrs</TextComponent></Suffix>
+                </Number>
+                <Number>
+                    <Suffix><TextComponent xml:lang="en">mins</TextComponent></Suffix>
+                </Number>
+            </ResponseType>
+        </Question>
+        <Question name="SingleResponseMultiQuestion">
+            <TextComponent xml:lang="en">
+                <QuestionText>What is your first and last name?</QuestionText>
+                <QuestionIntent>Testing SingleResponseMultiQuestion.</QuestionIntent>
+                <Instruction>Test a question with 2 responses</Instruction>
+            </TextComponent>
+            <ResponseType canRefuse="true">
+                <Text/>
+            </ResponseType>
+            <SubQuestions>
+                <SubQuestion><TextComponent xml:lang="en">First:</TextComponent></SubQuestion>
+                <SubQuestion><TextComponent xml:lang="en">Last:</TextComponent></SubQuestion>
+            </SubQuestions>
+        </Question>
+        <Question name="MultiResponseMultiQuestion">
+            <TextComponent xml:lang="en">
+                <QuestionText>Time taken...</QuestionText>
+                <QuestionIntent>Testing MultiResponseMultiQuestion.</QuestionIntent>
+                <Instruction>Test a question with 2 responses and 2 subquestions.</Instruction>
+            </TextComponent>
+            <ResponseType canRefuse="true">
+                <Number>
+                    <Suffix><TextComponent xml:lang="en">hrs</TextComponent></Suffix>
+                </Number>
+                <Number>
+                    <Suffix><TextComponent xml:lang="en">mins</TextComponent></Suffix>
+                </Number>
+            </ResponseType>
+            <SubQuestions>
+                <SubQuestion><TextComponent xml:lang="en">to write SQBL?</TextComponent></SubQuestion>
+                <SubQuestion><TextComponent xml:lang="en">to write Canard?</TextComponent></SubQuestion>
+            </SubQuestions>
+        </Question>
+    <Question name="SingleResponseSingleQuestion">
+            <TextComponent xml:lang="en">
+                <QuestionText>Testing some choices:</QuestionText>
+                <QuestionIntent>Testing SingleResponseSingleQuestion and "Other/please specify"</QuestionIntent>
+            </TextComponent>
+            <ResponseType canRefuse="true">
+                <CodeList>
+                    <Codes>
+                        <CodePair code="1" freeText="false">
+                            <TextComponent xml:lang="en">A choice</TextComponent>
+                        </CodePair>
+                        <CodePair code="2">
+                            <TextComponent xml:lang="en">Another choice</TextComponent>
+                        </CodePair>
+                        <CodePair code="3" freeText="true">
+                            <TextComponent xml:lang="en">A choice with text. What text:</TextComponent>
+                        </CodePair>
+                        <CodePair code="4">
+                            <TextComponent xml:lang="en">A different choice.</TextComponent>
+                        </CodePair>
+                        <CodePair code="9" freeText="true">
+                            <TextComponent xml:lang="en">Other choice with text: Please specify:</TextComponent>
+                        </CodePair>
+                    </Codes>
+                    <MaximumSelections value="3"/>
+                </CodeList>
+            </ResponseType>
+        </Question>
+        </ModuleLogic>
+</QuestionModule>

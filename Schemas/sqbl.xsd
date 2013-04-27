@@ -136,11 +136,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:element>
                            <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
                               <xs:annotation>
-                                 <xs:documentation>Who this module is targetting in a short and general sense. This is
-                                    different to the Deafult ObjectClass as the target respondent is who will answer the
-                                    question about the Object Class. For example, a TargetRespondent may be "People who
-                                    own pets" however, the Object Class may be Animal, as in the 11179 Data Element
-                                    "Animal, Desexed Status". </xs:documentation>
+                                 <xs:documentation>Who this module is attempting gather data from in a short and general sense.</xs:documentation>
                               </xs:annotation>
                            </xs:element>
                         </xs:all>
@@ -180,13 +176,13 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      <xs:annotation>
                         <xs:documentation>A collection of data items that aggregate multiple responses from within this
                            module specific data elements. This section is still under active development, and the role
-                           and interactivity across modules of Data Elements is yet to be full explained. In time, the
+                           and interactivity across modules of Data Elements is yet to be full researched. In time, the
                            derivation of data items will provide for the ability to have cross-module branching and
                            logic. </xs:documentation>
                      </xs:annotation>
                      <xs:complexType>
                         <xs:sequence>
-                           <xs:element name="DerivedDataItem" type="DerivedDataItemType" minOccurs="1"
+                           <xs:element name="DerivedDataItem" type="DerivedDataItemType" minOccurs="0"
                               maxOccurs="unbounded" />
                         </xs:sequence>
                      </xs:complexType>
@@ -204,52 +200,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                               </xs:annotation>
                            </xs:element>
                         </xs:sequence>
-                        <!-- We may allow inline sub modules, but I feel this violates the "There is only one way to do it" principle.
-                           <xs:choice minOccurs="1" maxOccurs="unbounded">
-                               <xs:element name="SubModuleReference" minOccurs="0" maxOccurs="unbounded"
-                                  type="ReferenceType">
-                                  <xs:annotation>
-                                     <xs:documentation>A URI reference to the submodules that a respondent must be presented with,
-                                        if they have been presented with the current module.
-                                        If a user is given an early exit from the module logic using a ModuleExitPoint they must
-                                        immediately continue to any submodules within the module.
-                                     </xs:documentation>
-                                  </xs:annotation>
-                               </xs:element>
-                               <xs:element name="SubModuleReference" minOccurs="0" maxOccurs="unbounded"
-                                  type="ReferenceType">
-                                  <xs:annotation>
-                                     <xs:documentation>A URI reference to the submodules that a respondent must be presented with,
-                                        if they have been presented with the current module.
-                                        If a user is given an early exit from the module logic using a ModuleExitPoint they must
-                                        immediately continue to any submodules within the module.
-                                     </xs:documentation>
-                                  </xs:annotation>
-                               </xs:element>
-                               <xs:element name="SubModule" minOccurs="0" maxOccurs="unbounded" type="InlineSubModule" />
-                            </xs:choice>
-                        -->
                      </xs:complexType>
                   </xs:element>
                </xs:sequence>
-               <!-- xs:attribute name="ObjectClassReference" type="ReferenceType" use="optional">
-                  <xs:annotation>
-                     <xs:documentation> The Default ObjectClass for all questions within this module.
-                        Because of the hierarchical nature of SQBL, it is possible to use a cascading
-                        method for producing DataElement in SQBL documents.
-                        By providing a default ObjectClass at the module level, this is consdiered the 'default' object class
-                        for every Question in the module, as such when making a single question, the questionnaire designer
-                        then only needs to include a Property to make the Data Element Concept (and then if this is added,
-                        optionally they may add the ValueDomain to produce a full Data Element
-                        
-                        This can be overridden by changing the Object Class on the element or an intermediate Branch, hence
-                        the cascading effect, where the the Object Class for a given question can be precisely determined
-                        by starting at the Question in the document, and traversing from the Question through its ancestors
-                        to find the nearest ansector with a defined Object Class.
-                        
-                     </xs:documentation>
-                  </xs:annotation>
-               </xs:attribute -->
             </xs:extension>
          </xs:complexContent>
       </xs:complexType>
@@ -260,53 +213,11 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    </xs:element>
    <xs:complexType name="DerivedDataItemType">
       <xs:annotation>
-         <xs:documentation> Still under development Some stuff goes here. A Full DataElement reference (ie. ObjectClass,
-            Property and ValueRepresentaion) + a decisiontable Decision table links to questions IN THIS MODULE and
-            specifies how the responses to those decitate how a data item that corresponds to a complete data element is
-            populated.</xs:documentation>
+         <xs:documentation> Still under development. Will contain a reference to a Data Element and a decision table that
+            links to questions IN THIS MODULE and specifies how the responses to those decitate how a complete data element
+            is populated with data.</xs:documentation>
       </xs:annotation>
    </xs:complexType>
-
-   <!-- Not sure I want this yet... 
-      xs:complexType name="InlineSubModule">
-      <xs:annotation>
-         <xs:documentation>InlineSubModules allow modules to be cascaded within each other without requiring complex
-            referencing between objects. This can be useful when certain modules will only be used within each other and
-            cannot be used separately. InlineSubModules cannot by design reference external populations, and function
-            similarly to ConditionalTrees, however offer a similar syntax to modules and allow agents to treat them as
-            such. Additionally, if inline modules grow to large they can be easily recreated as fully-fledged
-            QuestionModules easily. </xs:documentation>
-      </xs:annotation>
-      <xs:complexContent>
-         <xs:extension base="BaseNamedType">
-            <xs:sequence>
-               <xs:element name="IncomingQuestionCondition" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Who can answer this question module? If no incoming population exists, this MUST
-                        be interpretted that this module is to be answered by all respondents. </xs:documentation>
-                  </xs:annotation>
-                  <xs:complexType>
-                     <xs:sequence>
-                        <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
-                           <xs:complexType>
-                              <xs:sequence>
-                                 <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType" />
-                              </xs:sequence>
-                           </xs:complexType>
-                        </xs:element>
-                     </xs:sequence>
-                  </xs:complexType>
-               </xs:element>
-               <xs:element name="ModuleLogic" minOccurs="1" maxOccurs="1" type="LogicHead">
-                  <xs:annotation>
-                     <xs:documentation>What/how do they answer this question?</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element name="InlineSubModule" minOccurs="0" maxOccurs="unbounded" type="InlineSubModule" />
-            </xs:sequence>
-         </xs:extension>
-      </xs:complexContent>
-   </xs:complexType -->
 
    <xs:complexType name="RichTextContent" mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -317,7 +228,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    <xs:group name="RichTextContent.group">
       <xs:choice>
          <xs:annotation>
-            <xs:documentation>Here we do a hackjob reimplementation of a subset of HTML elements to support a restricted set of rich-text elements.</xs:documentation>
+            <xs:documentation>Here we do a hackjob reimplementation of a subset of HTML elements to support a very restricted set of rich-text elements.</xs:documentation>
          </xs:annotation>
          <xs:element name="strong" type="RichTextContent" />
          <xs:element name="em" type="RichTextContent" />
@@ -337,9 +248,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
    <xs:complexType name="ConditionalTextType">
       <xs:annotation>
-         <xs:documentation>Text which has a changeable value. This section will probably undergo a lot of change. Word
+         <xs:documentation>Text which has a dynamic value based on prior questions. This section will probably undergo a lot of change. Word
             substitutions seem like they may need a lot of work, and may be one of the things that needs to be
-            reusable.</xs:documentation>
+            reusable within a module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element name="Expression">

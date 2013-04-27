@@ -11,7 +11,7 @@
                     domestic pets you own that are canines.</StatementText>
             </TextComponent>
         </Statement>
-        <Question name="Do_survey">
+        <!-- Question name="Do_survey">
             <TextComponent xml:lang="en">
                 <QuestionText>Would you like to complete this module? </QuestionText>
                 <QuestionIntent/>
@@ -36,7 +36,7 @@
             <Condition>
                 <ValueOf question="Do_survey" is="equal_to">N</ValueOf>
             </Condition>
-        </ModuleExitPoint>
+        </ModuleExitPoint -->
         <Question name="Has_dog">
             <TextComponent xml:lang="en">
                 <QuestionText>Do you have a dog?</QuestionText>
