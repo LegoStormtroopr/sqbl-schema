@@ -1,0 +1,42 @@
+<QuestionModule xmlns="sqbl:1" name="SQBL_Tutorial_Part_1" version="1">
+    <ModuleLogic>
+        <Question name="Comments">
+            <TextComponent xml:lang="en">
+                <QuestionText>Do you have any comments for this survey?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Text/>
+            </ResponseType>
+        </Question>
+        <Question name="EnjoyFillingOut">
+            <TextComponent xml:lang="en">
+                <QuestionText>Did you enjoy filling out this survey?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <CodeList>
+                    <Codes>
+                        <CodePair code="N">
+                            <TextComponent xml:lang="en">No</TextComponent>
+                        </CodePair>
+                        <CodePair code="Y">
+                            <TextComponent xml:lang="en">Yes</TextComponent>
+                        </CodePair>
+                    </Codes>
+                </CodeList>
+            </ResponseType>
+        </Question>
+        <Question name="TimeToFillOut">
+            <TextComponent xml:lang="en">
+                <QuestionText>How long did it take you to fill out this survey?</QuestionText>
+                <QuestionIntent/>
+            </TextComponent>
+            <ResponseType>
+                <Number>
+                    <Suffix>
+                        <TextComponent xml:lang="en">minutes</TextComponent>
+                    </Suffix>
+                </Number>
+            </ResponseType>
+        </Question>
+    </ModuleLogic>
+</QuestionModule>

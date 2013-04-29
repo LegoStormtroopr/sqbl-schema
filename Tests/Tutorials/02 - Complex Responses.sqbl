@@ -1,0 +1,54 @@
+<QuestionModule xmlns="sqbl:1" name="NEW_MODULE" version="1">
+    <ModuleLogic>
+        <Question name="Comments">
+            <TextComponent xml:lang="en">
+                <QuestionText>Do you have any comments for this survey?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Text />
+            </ResponseType>
+        </Question>
+        <Question name="EnjoyFillingOut">
+            <TextComponent xml:lang="en">
+                <QuestionText>Did you enjoy filling out this survey?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <CodeList>
+                    <Codes>
+                        <CodePair code="N">
+                            <TextComponent xml:lang="en">No</TextComponent>
+                        </CodePair>
+                        <CodePair code="Y">
+                            <TextComponent xml:lang="en">Yes</TextComponent>
+                        </CodePair>
+                    </Codes>
+                </CodeList>
+            </ResponseType>
+        </Question>
+        <Question name="TimeToFillOut">
+            <TextComponent xml:lang="en">
+                <QuestionText>How long did it take you to fill out... </QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Number>
+                    <Suffix>
+                        <TextComponent xml:lang="en">hours</TextComponent>
+                    </Suffix>
+                </Number>
+                <Number>
+                    <Suffix>
+                        <TextComponent xml:lang="en">minutes</TextComponent>
+                    </Suffix>
+                </Number>
+            </ResponseType>
+            <SubQuestions>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">Question 1?</TextComponent>
+                </SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">Question 2?</TextComponent>
+                </SubQuestion>
+            </SubQuestions>
+        </Question>
+    </ModuleLogic>
+</QuestionModule>
