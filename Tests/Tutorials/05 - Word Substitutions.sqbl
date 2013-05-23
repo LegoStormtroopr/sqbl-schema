@@ -1,0 +1,45 @@
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1" xsi:schemaLocation="sqbl:1 ../../Schemas/sqbl.xsd">
+    <WordSubstitutions>
+        <WordSub name="sex-pronoun" default="your dogs" static="your dogs">
+            <Condition>
+                <ResultString>
+                    <TextComponent xml:lang="en">he</TextComponent>
+                </ResultString>
+                <ValueOf question="Sex" is="equal_to">M</ValueOf>
+            </Condition>
+            <Condition>
+                <ResultString>
+                    <TextComponent xml:lang="en">she</TextComponent>
+                </ResultString>
+                <ValueOf question="Sex" is="equal_to">F</ValueOf>
+            </Condition>
+        </WordSub>
+    </WordSubstitutions>
+    <ModuleLogic>
+        <Question name="Sex">
+            <TextComponent xml:lang="en">
+                <QuestionText>What is the sex of your dog?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <CodeList>
+                    <Codes>
+                        <CodePair code="M">
+                            <TextComponent xml:lang="en">Male</TextComponent>
+                        </CodePair>
+                        <CodePair code="F">
+                            <TextComponent xml:lang="en">Female</TextComponent>
+                        </CodePair>
+                    </Codes>
+                </CodeList>
+            </ResponseType>
+        </Question>
+        <Question name="Name">
+            <TextComponent xml:lang="en">
+                <QuestionText>What is <sub ref="sex-pronoun"/> name?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Text/>
+            </ResponseType>
+        </Question>
+    </ModuleLogic>
+</QuestionModule>

@@ -158,6 +158,18 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         </xs:documentation>
                      </xs:annotation>
                   </xs:element>
+                  <xs:element name="WordSubstitutions" minOccurs="0" maxOccurs="unbounded">
+                     <xs:annotation>
+                        <xs:documentation>
+                           Contains a list of locally defines variables for producing dynamic text in questions based on responses to other questions.
+                        </xs:documentation>
+                     </xs:annotation>
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="WordSub" type="WordSubType"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
                   <xs:element name="ModuleLogic" minOccurs="1" maxOccurs="1" type="LogicHead">
                      <xs:annotation>
                         <xs:documentation>What questions are asked, and how are respondents routed between them? The
@@ -233,10 +245,21 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          <xs:element name="strong" type="RichTextContent" />
          <xs:element name="em" type="RichTextContent" />
          <xs:element name="p" type="RichTextContent" />
-         <xs:element name="WordSub" type="ConditionalTextType" />
+         <xs:element name="sub" type="WordSubRef">
+            <xs:annotation>
+               <xs:documentation>
+                  This is a reference to the word substitution that this dynamic text references.
+                  Although this is an IDREF a tool creating a SQBL document MUST ensure that this
+                  IDREF matches the ID of a WordSub ONLY, and NOT an other element.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:element>
       </xs:choice>
    </xs:group>
       
+   <xs:complexType name="WordSubRef">
+      <xs:attribute name="ref" type="xs:IDREF"/>
+   </xs:complexType>
    <xs:complexType name="DynamicTextType" mixed="true">
       <xs:annotation>
          <xs:documentation>Structures the behavior of dynamic or static text within the instrument.</xs:documentation>
@@ -246,30 +269,44 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:choice>
    </xs:complexType>
 
-   <xs:complexType name="ConditionalTextType">
+   <xs:complexType name="WordSubType">
       <xs:annotation>
          <xs:documentation>Text which has a dynamic value based on prior questions. This section will probably undergo a lot of change. Word
             substitutions seem like they may need a lot of work, and may be one of the things that needs to be
             reusable within a module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="Expression">
+         <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>The condition on which the associated text varies. </xs:documentation>
+               <xs:documentation>The order of Condition elements in a sequence guide is important and MUST NOT be
+                  changed without a survey editors understanding. Since it is the first condition that is true that is
+                  evaluated, changing the order of conditionals my change the order of a survey.</xs:documentation>
             </xs:annotation>
-         </xs:element>
-         <xs:element name="Static" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
-                  web-forms or paper-based forms.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="Default" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>The initial value of the text field.</xs:documentation>
-            </xs:annotation>
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="ResultString" type="MultilingualPlainTextType"></xs:element>
+                  <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
+                     <xs:annotation>
+                        <xs:documentation>The order of the ValueOf elements does not matter, as they are all boolean
+                           'and'ed together to for the final condition</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
          </xs:element>
       </xs:sequence>
+      <xs:attribute name="static" type="xs:string" use="optional">
+         <xs:annotation>
+            <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
+               web-forms or paper-based forms.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="default" type="xs:string" use="optional">
+         <xs:annotation>
+            <xs:documentation>The initial value of the text field.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="name" type="xs:ID"></xs:attribute>
    </xs:complexType>
 
    <xs:complexType name="QuestionType">
