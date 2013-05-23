@@ -1,0 +1,85 @@
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1" xsi:schemaLocation="sqbl:1 ./Github/sqbl-schema/schemas/sqbl.xsd">
+    <ModuleLogic>
+        <Question name="DoesDriveCar">
+            <TextComponent xml:lang="en">
+                <QuestionText>Did you drive a car?</QuestionText>
+            </TextComponent>
+            <ResponseType><Text/></ResponseType>
+        </Question>
+        <ConditionalTree name="DriveSplit">
+            <TextComponent xml:lang="en"/>
+            <SequenceGuide>
+                <Condition resultBranch="DoesDrive">
+                    <ValueOf question="DoesDriveCar" is="equal_to">Y</ValueOf>
+                </Condition>
+                <Otherwise branch="DoesNotDrive"/>
+            </SequenceGuide>
+            <Branch name="DoesDrive">
+                <TextComponent xml:lang="en"/>
+                <BranchLogic>
+                    <Question name="PetrolCost">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Do you think petrol costs too much?</QuestionText>
+                        </TextComponent>
+                        <ResponseType><Text/></ResponseType>
+                    </Question>
+                    <ConditionalTree name="CostNotTooHigh">
+                        <TextComponent xml:lang="en"/>
+                        <SequenceGuide>
+                            <Condition resultBranch="NotTooHigh">
+                                <ValueOf question="PetrolCost" is="equal_to">N</ValueOf>
+                            </Condition>
+                        </SequenceGuide>
+                        <Branch name="NotTooHigh">
+                            <TextComponent xml:lang="en"/>
+                            <BranchLogic>
+                                <Question name="DoTheyWantDiscount">
+                                    <TextComponent xml:lang="en">
+                                        <QuestionText>Would you still want a discounted cost of petrol?</QuestionText>
+                                    </TextComponent>
+                                    <ResponseType>
+                                        <Text/>
+                                    </ResponseType>
+                                </Question>
+                            </BranchLogic>
+                        </Branch>
+                    </ConditionalTree>
+                    <ConditionalTree name="DoTheyWantDiscountSplit">
+                        <TextComponent xml:lang="en"/>
+                        <SequenceGuide>
+                            <Condition resultBranch="WantsDiscount">
+                                <ValueOf question="DoTheyWantDiscount" is="equal_to">Y</ValueOf>
+                            </Condition>
+                            <Condition resultBranch="WantsDiscount">
+                                <ValueOf question="PetrolCost" is="equal_to">Y</ValueOf>
+                            </Condition>
+                        </SequenceGuide>
+                        <Branch name="WantsDiscount">
+                            <TextComponent xml:lang="en"/>
+                            <BranchLogic>
+                                <Question name="ChangeHabit">
+                                    <TextComponent xml:lang="en">
+                                        <QuestionText>Would you shop at a store that gave a discount?</QuestionText>
+                                    </TextComponent>
+                                    <ResponseType><Text/></ResponseType>
+                                </Question>
+                            </BranchLogic>
+                        </Branch>
+                    </ConditionalTree>
+                </BranchLogic>
+            </Branch>
+            <Branch name="DoesNotDrive">
+                <BranchLogic>
+                    <Question name="WhyNotDrive">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Why do you not drive?</QuestionText>
+                        </TextComponent>
+                        <ResponseType>
+                            <Text/>
+                        </ResponseType>
+                    </Question>
+                </BranchLogic>
+            </Branch>
+        </ConditionalTree>
+    </ModuleLogic>
+</QuestionModule>

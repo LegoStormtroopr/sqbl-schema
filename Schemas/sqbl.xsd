@@ -148,7 +148,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         </xs:attribute>
                      </xs:complexType>
                   </xs:element>
-                  <xs:element name="IncomingPopulation" minOccurs="0" maxOccurs="unbounded" type="ReferenceType">
+                  <xs:element name="InputDataElements" minOccurs="0" maxOccurs="1"/>
+                  <xs:element name="IncomingPopulation" minOccurs="0" maxOccurs="1" type="ReferenceType">
                      <xs:annotation>
                         <xs:documentation>Who can perform this question module? A URI Reference to a Population
                            ADministration Language (PAdL) population. When a questionnaire is created from a SQBL
@@ -158,6 +159,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         </xs:documentation>
                      </xs:annotation>
                   </xs:element>
+                  <xs:element name="WordSubstitutions" minOccurs="0" maxOccurs="1"/>
                   <xs:element name="ModuleLogic" minOccurs="1" maxOccurs="1" type="LogicHead">
                      <xs:annotation>
                         <xs:documentation>What questions are asked, and how are respondents routed between them? The
