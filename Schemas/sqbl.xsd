@@ -21,7 +21,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="sqbl:1" xmlns:qwac="qwac:reusable:1" xmlns:sqbl="sqbl:1"
    targetNamespace="sqbl:1" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="./xml.xsd" />
    <xs:annotation>
       <xs:documentation> The Simple ( or Structured ) Questionnaire Building Language or SQBL is a formalised
          serialisation of the "Structured Questionnaire Theroum". The purpose of this format is to enable survey
@@ -249,8 +249,18 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             <xs:annotation>
                <xs:documentation>
                   This is a reference to the word substitution that this dynamic text references.
-                  Although this is an IDREF a tool creating a SQBL document MUST ensure that this
-                  IDREF matches the ID of a WordSub ONLY, and NOT an other element.
+                  There are ONLY 3 possible types of element this can reference, enumerated below
+                  with he REQUIRED behaviour: 
+                     1. A Question  - The respondent value of the refered question is inserted OR
+                                       if the question is unanswered, text that specifies the question
+                                       MAY be inserted
+                     2. A WordSub   - The computed value of the refered wordsub is inserted as per the
+                                       rules of the decision table it contains.
+                     3. A Loop      - Depending on the type of Loop, either the loop counter or if the
+                                       loop is based on responses to a Multi-choice question then the value
+                                       of the text of the current iteration. 
+                  Software that creates SQBL documents MUST ensure that this IDREF matches to the ID of an
+                  element of one of the the above types ONLY.
                </xs:documentation>
             </xs:annotation>
          </xs:element>

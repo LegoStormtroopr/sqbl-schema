@@ -3,13 +3,13 @@
         <WordSub name="sex-pronoun" default="your dogs" static="your dogs">
             <Condition>
                 <ResultString>
-                    <TextComponent xml:lang="en">he</TextComponent>
+                    <TextComponent xml:lang="en">his</TextComponent>
                 </ResultString>
                 <ValueOf question="Sex" is="equal_to">M</ValueOf>
             </Condition>
             <Condition>
                 <ResultString>
-                    <TextComponent xml:lang="en">she</TextComponent>
+                    <TextComponent xml:lang="en">her</TextComponent>
                 </ResultString>
                 <ValueOf question="Sex" is="equal_to">F</ValueOf>
             </Condition>

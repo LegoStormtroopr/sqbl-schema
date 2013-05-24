@@ -4,6 +4,22 @@
         <LongName>Dog Demographics Demonstration Module</LongName>
         <Title>Dog Demographics Module</Title>
     </TextComponent>
+    <WordSubstitutions>
+        <WordSub name="sex-pronoun" default="your dog" static="your dog">
+            <Condition>
+                <ResultString>
+                    <TextComponent xml:lang="en">he</TextComponent>
+                </ResultString>
+                <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
+            </Condition>
+            <Condition>
+                <ResultString>
+                    <TextComponent xml:lang="en">she</TextComponent>
+                </ResultString>
+                <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
+            </Condition>
+        </WordSub>
+    </WordSubstitutions>
     <ModuleLogic>
         <Statement name="About_dogs">
             <TextComponent xml:lang="en">
@@ -143,10 +159,7 @@
                     </Question>
                     <Question name="Dog_sex" dataElementReference="http://meteor.aihw.gov.au/content/index.phtml/itemId/269716">
                         <TextComponent xml:lang="en">
-                            <QuestionText>What is the sex of <em><WordSub>
-                                    <Expression/>
-                                    <Default>your dog</Default>
-                            </WordSub></em> ?</QuestionText>
+                            <QuestionText>What is the sex of <sub ref="sex-pronoun"/>?</QuestionText>
                         </TextComponent>
                         <ResponseType>
                             <CodeList>
