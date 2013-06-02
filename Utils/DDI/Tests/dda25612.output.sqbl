@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqbl:QuestionModule xmlns:sqbl="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd" name="id-25612">
+   <sqbl:TextComponent>
+      <sqbl:Title>Nyt
+        arbejdsliv og arbejdsmiljø i nyhedsarbejde, 2007</sqbl:Title>
+      <sqbl:TargetRespondent/>
+   </sqbl:TextComponent>
+   <sqbl:ModuleLogic>
+      <sqbl:Question name="quei-5f61145d-9aeb-4ece-8ad4-0d">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q16: Did you vote at the Region election 17. nov</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Yes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">No</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-2f67dcb5-6e08-47a5-8df4-f5">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q15: Do you have too much to do at work?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="en">Very
+          rarely or never</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="en">Rarely</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="en">Sometimes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="en">Often</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="en">Very
+          often or always</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-85189066-4d91-4180-8183-c6">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q14: Is your workload unevenly distributed, so it piles up?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="en">Very
+          rarely or never</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="en">Rarely</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="en">Sometimes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="en">Often</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="en">Very
+          often or always</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-00ae610b-3bee-46ec-9ebb-d6">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q13: Are you required to work late?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="en">Very
+          rarely or never</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="en">Rarely</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="en">Sometimes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="en">Often</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="en">Very
+          often or always</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-ff9b67ef-d205-421b-92ea-8b">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q12: In your job, are you required to work in a very high pace?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="en">Very
+          rarely or never</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="en">Rarely</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="en">Sometimes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="en">Often</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="en">Very
+          often or always</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-b8a93bab-c109-45df-b7f2-72">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q11A: Yes, number of employees in the department (approximately)</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Number/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-c2fe4e75-298e-4fd2-ac93-56">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q11: Is your workplace organized in departments?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">If
+            yes, please note the number of employees in your department (approximately).</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">No,
+            my workplace is not organized in departments.</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">No,
+            not relevant (freelancer)</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-3e208718-6865-462c-b603-78">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q10: How often are your planned working hours changed in short notice?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Daily</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">Weekly</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">Monthly</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">Hardly ever</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">I
+            don't work regular hours</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-da69f6ff-c9ca-4d68-b3ad-38">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q9: I work overtime because...?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">I
+            have to in order to get the job done</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">I
+            want to</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">I am
+            ordered to</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">In
+            order to make sure my work is of proper quality</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">Because of the work culture</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="6">
+                     <sqbl:TextComponent xml:lang="da">There
+            are too few employees</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-4bdd1d25-22b9-46cc-8961-13">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q8A: Other, please write</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Text/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-872ba17f-2770-4dbf-856b-a2">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q8: How are you compensated for working overtime?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">I
+            take compensatory time off corresponding to the overtime</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">I
+            take compensatory time off almost corresponding to the overtime.</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">I can
+            take compensatory time off, but I don’t make use of it to the full extent</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">I
+            take some compensatory time off and I am paid for the remaining overtime</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">I am
+            being paid for working overtime</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="6">
+                     <sqbl:TextComponent xml:lang="da">Other, elaborate</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-ad2a70e7-a571-45f3-8d92-0e">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q7: Does your collective agreement or contract give you the right to be
+                compensated for overtime (e.g. compensatory time-off or paid overtime)?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Yes</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">No
+            (If no, skip to question 10)</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">Don't know</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-6a29b624-a4cc-483e-84e7-54">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q6: How would you rate your overall health?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Excellent</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">Very
+            good</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">Good</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">Not
+            so good</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">Poor</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-d23b540e-268d-4314-ba19-14">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q4: Do you have to meet a fixed deadline?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">No
+            (Skip to questions 6 (V23))</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">Yes,
+            but not every week</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">Yes,
+            once a week</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">Yes,
+            several per week</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">Yes
+            once a day</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="6">
+                     <sqbl:TextComponent xml:lang="da">Yes,
+            several times a day/almost all the time</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-c7651b87-4262-412e-9618-79">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3G: What are your primary duties? Other: (Please specify)</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Text/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-bb268a92-659b-4cfd-86f3-3e">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3F: Other</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-0d2e743e-3276-4bdb-a4b3-cf">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3E: National news</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-4b9daf1a-0b39-4d75-9985-69">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3D: Locale news</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-23b5b5b1-3e9a-4760-b7d0-c2">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3C: Editorial secretariat</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-4ec5c602-61b8-4f9b-a8c6-40">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3B: Administrative management</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-be116912-1dc2-41d5-ad2b-65">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q3A: Editorial management</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Not
+            mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">Mentioned</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-a99a6d5e-193b-48ed-90c7-c6">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q2A: Other, please write</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Text/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-d1a034fb-510e-4d9d-ad7e-2f">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q2: What type of company do you work for?</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">National newspaper</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">Regional newspaper</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">Local
+            newspaper</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">National TV channel</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">Local
+            TV channel</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="6">
+                     <sqbl:TextComponent xml:lang="da">Radio
+            station</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="7">
+                     <sqbl:TextComponent xml:lang="da">Internet based company</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="8">
+                     <sqbl:TextComponent xml:lang="da">Magazine/weekly magazine of general publication</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="9">
+                     <sqbl:TextComponent xml:lang="da">Trade
+            journal/member's magazine</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="10">
+                     <sqbl:TextComponent xml:lang="da">A
+            non-journalistic company/organization</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="11">
+                     <sqbl:TextComponent xml:lang="da">Self-employed/freelance - working alone</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="12">
+                     <sqbl:TextComponent xml:lang="da">Self-employed/freelance – part of a network or working community</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="13">
+                     <sqbl:TextComponent xml:lang="da">Other</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-31aee883-e26e-46e2-aae9-e2">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q1C: Working hours per week in current job</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Number/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-03db04a7-3c78-44d9-bb57-cd">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q1B: How long have you held your current position with this company, Number of
+                months:</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:CodeList>
+               <sqbl:Codes>
+                  <sqbl:CodePair code="0">
+                     <sqbl:TextComponent xml:lang="da">Less
+            than 1 month</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="1">
+                     <sqbl:TextComponent xml:lang="da">1
+            month</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="2">
+                     <sqbl:TextComponent xml:lang="da">2
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="3">
+                     <sqbl:TextComponent xml:lang="da">3
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="4">
+                     <sqbl:TextComponent xml:lang="da">4
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="5">
+                     <sqbl:TextComponent xml:lang="da">5
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="6">
+                     <sqbl:TextComponent xml:lang="da">6
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="7">
+                     <sqbl:TextComponent xml:lang="da">7
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="8">
+                     <sqbl:TextComponent xml:lang="da">8
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="9">
+                     <sqbl:TextComponent xml:lang="da">9
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="10">
+                     <sqbl:TextComponent xml:lang="da">10
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="11">
+                     <sqbl:TextComponent xml:lang="da">11
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+                  <sqbl:CodePair code="12">
+                     <sqbl:TextComponent xml:lang="da">12
+            months</sqbl:TextComponent>
+                  </sqbl:CodePair>
+               </sqbl:Codes>
+            </sqbl:CodeList>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+      <sqbl:Question name="quei-86e7ac3c-afdc-4884-bf5c-fd">
+         <sqbl:TextComponent xml:lang="da">
+            <sqbl:QuestionText>Q1: How long have you held your current position with this company? Number of
+                years: (roughly)</sqbl:QuestionText>
+         </sqbl:TextComponent>
+         <sqbl:ResponseType>
+            <sqbl:Number/>
+         </sqbl:ResponseType>
+      </sqbl:Question>
+   </sqbl:ModuleLogic>
+</sqbl:QuestionModule>

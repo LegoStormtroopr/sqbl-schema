@@ -12,7 +12,7 @@
 
 <xsl:stylesheet 
     xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd"
-    xmlns:sqbl="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd"
+    xmlns:sqbl="sqbl:1"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:g="ddi:group:3_1"
     xmlns:d="ddi:datacollection:3_1"
@@ -45,7 +45,8 @@
     </xsl:template>    
         
     <xsl:template match="s:StudyUnit">
-        <sqbl:QuestionModule xmlns="sqbl:1">
+        <sqbl:QuestionModule xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd">
+            <xsl:attribute name="name">id-<xsl:value-of select="substring(@id,0,32)"/></xsl:attribute>
             <sqbl:TextComponent>
                 <sqbl:Title>
                     <xsl:choose>
@@ -88,18 +89,30 @@
     <xsl:template match="d:QuestionItem">
         <sqbl:Question>
             <xsl:attribute name="name">
-                <xsl:value-of select="@id"/>
+                <xsl:value-of select="substring(@id,0,32)"/>
             </xsl:attribute>
             <sqbl:TextComponent>
+                <xsl:attribute name="xml:lang"><xsl:value-of select="d:QuestionText/d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/></xsl:attribute>
                 <sqbl:QuestionText><xsl:value-of select="d:QuestionText/d:LiteralText/d:Text"/></sqbl:QuestionText>
             </sqbl:TextComponent>
             <xsl:choose>
-                <xsl:when test="d:TextDomain"><sqbl:Text></sqbl:Text></xsl:when>
+                <xsl:when test="d:TextDomain">
+                    <sqbl:ResponseType>
+                        <sqbl:Text/>
+                    </sqbl:ResponseType>
+                </xsl:when>
                 <xsl:when test="d:CodeDomain">
-                    <sqbl:CodeList>
-                        <xsl:variable name="qsId" select="d:CodeDomain/r:CodeSchemeReference/r:ID"/>
-                        <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
-                    </sqbl:CodeList>
+                    <sqbl:ResponseType>
+                        <sqbl:CodeList>
+                            <xsl:variable name="qsId" select="d:CodeDomain/r:CodeSchemeReference/r:ID"/>
+                            <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
+                        </sqbl:CodeList>
+                    </sqbl:ResponseType>
+                </xsl:when>
+                <xsl:when test="d:NumericDomain">
+                    <sqbl:ResponseType>
+                        <sqbl:Number/>
+                    </sqbl:ResponseType>
                 </xsl:when>
             </xsl:choose>
         </sqbl:Question>
@@ -121,6 +134,7 @@
     
     <xsl:template match="l:Category">
         <sqbl:TextComponent>
+            <xsl:attribute name="xml:lang"><xsl:value-of select="r:Label/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/></xsl:attribute>
             <xsl:value-of select="r:Label"/>
         </sqbl:TextComponent>
     </xsl:template>
