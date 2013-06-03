@@ -38,15 +38,18 @@
     
     <xsl:output method="xml" indent="yes"/>
     
-    <xsl:param name="prefered-lang"></xsl:param>
+    <xsl:param name="prefered-lang">en</xsl:param>
+    
+    <!-- If you dont specify any lang in your DDI, Klingon will be default. Qaplá!-->
+    <xsl:param name="default-lang">tlh</xsl:param>
         
    <xsl:template match="*">
-        <xsl:apply-templates select="s:StudyUnit"/>
+        <xsl:apply-templates select="//s:StudyUnit"/>
     </xsl:template>    
         
     <xsl:template match="s:StudyUnit">
         <sqbl:QuestionModule xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd">
-            <xsl:attribute name="name">id-<xsl:value-of select="substring(@id,0,32)"/></xsl:attribute>
+            <xsl:attribute name="name">id-<xsl:value-of select="substring(@id,0,29)"/></xsl:attribute>
             <sqbl:TextComponent>
                 <sqbl:Title>
                     <xsl:choose>
@@ -65,9 +68,12 @@
                     <xsl:when test="d:DataCollection/d:ControlConstructScheme">
                         <xsl:apply-templates select="d:DataCollection/d:ControlConstructScheme" />
                     </xsl:when>
-                    <xsl:otherwise>
+                    <xsl:when test="//d:ControlConstructScheme">
+                        <xsl:apply-templates select="//d:ControlConstructScheme" />
+                    </xsl:when>
+                    <xsl:when test="d:DataCollection/d:QuestionScheme">
                         <xsl:apply-templates select="d:DataCollection/d:QuestionScheme" />
-                    </xsl:otherwise>
+                    </xsl:when>
                 </xsl:choose>
             </sqbl:ModuleLogic>
         </sqbl:QuestionModule>
@@ -78,46 +84,61 @@
     </xsl:template>
     
     <xsl:template match="d:QuestionConstruct">
-        <xsl:variable name="qrId" select="d:QuestionReference/r:ID"/>
-        <xsl:apply-templates select="//d:QuestionItem[@id = $qrId]" />
+        <sqbl:Question>
+            <xsl:attribute name="name"><xsl:value-of select="substring(@id,0,32)"/></xsl:attribute>        
+            <xsl:variable name="qrId" select="d:QuestionReference/r:ID"/>
+            <xsl:apply-templates select="//d:QuestionItem[@id = $qrId] | //d:MultipleQuestionItem[@id = $qrId]" />
+        </sqbl:Question>    
     </xsl:template>
     
-    <xsl:template match="d:QuestionScheme">
-        <xsl:apply-templates select="./d:QuestionItem" />
+    <xsl:template match="d:QuestionScheme">       
+        <xsl:for-each select="d:QuestionItem | d:MultipleQuestionItem">
+            <sqbl:Question>
+                <xsl:attribute name="name">q<xsl:value-of select="substring(@id,0,30)"/></xsl:attribute>
+                <xsl:apply-templates select="." />   
+            </sqbl:Question>   
+        </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="d:QuestionItem">
-        <sqbl:Question>
-            <xsl:attribute name="name">
-                <xsl:value-of select="substring(@id,0,32)"/>
-            </xsl:attribute>
+    <xsl:template match="d:QuestionItem | d:MultipleQuestionItem">
+        <xsl:for-each select="d:QuestionText">
             <sqbl:TextComponent>
-                <xsl:attribute name="xml:lang"><xsl:value-of select="d:QuestionText/d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/></xsl:attribute>
-                <sqbl:QuestionText><xsl:value-of select="d:QuestionText/d:LiteralText/d:Text"/></sqbl:QuestionText>
+                <xsl:attribute name="xml:lang">
+                    <xsl:choose>
+                        <xsl:when test="d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang">
+                            <xsl:value-of select="d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$default-lang"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+
+                </xsl:attribute>
+                <sqbl:QuestionText><xsl:value-of select="d:LiteralText/d:Text"/></sqbl:QuestionText>
             </sqbl:TextComponent>
-            <xsl:choose>
-                <xsl:when test="d:TextDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:Text/>
-                    </sqbl:ResponseType>
-                </xsl:when>
-                <xsl:when test="d:CodeDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:CodeList>
-                            <xsl:variable name="qsId" select="d:CodeDomain/r:CodeSchemeReference/r:ID"/>
-                            <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
-                        </sqbl:CodeList>
-                    </sqbl:ResponseType>
-                </xsl:when>
-                <xsl:when test="d:NumericDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:Number/>
-                    </sqbl:ResponseType>
-                </xsl:when>
-            </xsl:choose>
-        </sqbl:Question>
+        </xsl:for-each>
+        <xsl:choose>
+            <xsl:when test="d:TextDomain">
+                <sqbl:ResponseType>
+                    <sqbl:Text/>
+                </sqbl:ResponseType>
+            </xsl:when>
+            <xsl:when test="d:CodeDomain">
+                <sqbl:ResponseType>
+                    <sqbl:CodeList>
+                        <xsl:variable name="qsId" select="d:CodeDomain/r:CodeSchemeReference/r:ID"/>
+                        <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
+                    </sqbl:CodeList>
+                </sqbl:ResponseType>
+            </xsl:when>
+            <xsl:when test="d:NumericDomain">
+                <sqbl:ResponseType>
+                    <sqbl:Number/>
+                </sqbl:ResponseType>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
-    
+
     <xsl:template match="l:CodeScheme">
         <sqbl:Codes>
             <xsl:apply-templates select="l:Code"/>
@@ -133,9 +154,11 @@
     </xsl:template>
     
     <xsl:template match="l:Category">
-        <sqbl:TextComponent>
-            <xsl:attribute name="xml:lang"><xsl:value-of select="r:Label/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/></xsl:attribute>
-            <xsl:value-of select="r:Label"/>
-        </sqbl:TextComponent>
+        <xsl:for-each select="r:Label">
+            <sqbl:TextComponent>
+                <xsl:attribute name="xml:lang"><xsl:value-of select="ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/></xsl:attribute>
+                <xsl:value-of select="."/>
+            </sqbl:TextComponent>
+        </xsl:for-each>
     </xsl:template>
 </xsl:stylesheet>
