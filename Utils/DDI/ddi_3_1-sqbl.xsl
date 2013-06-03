@@ -83,9 +83,7 @@
     </xsl:template>
     
     <xsl:template match="d:ControlConstructScheme">
-        <xsl:for-each select="d:QuestionConstruct | d:StatementItem">
-            <xsl:apply-templates select="."/>    
-        </xsl:for-each>
+        <xsl:apply-templates select="d:QuestionConstruct | d:StatementItem"/>
     </xsl:template>
     
     <xsl:template match="d:QuestionConstruct">
