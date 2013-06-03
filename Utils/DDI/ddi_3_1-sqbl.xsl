@@ -8,6 +8,10 @@
     Description:
         Transform DDI 3.1 Questionaires to SBQL
     
+    TODO:
+        handle MultipleQuestionItem as Statements
+        fix the order of the questions
+    
 -->
 
 <xsl:stylesheet 
@@ -80,7 +84,9 @@
     </xsl:template>
     
     <xsl:template match="d:ControlConstructScheme">
-        <xsl:apply-templates select="d:QuestionConstruct"/>
+        <xsl:for-each select="d:QuestionConstruct | d:StatementItem">
+            <xsl:apply-templates select="."/>    
+        </xsl:for-each>
     </xsl:template>
     
     <xsl:template match="d:QuestionConstruct">
@@ -100,7 +106,7 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="d:QuestionItem | d:MultipleQuestionItem">
+    <xsl:template match="d:QuestionItem">
         <xsl:for-each select="d:QuestionText">
             <sqbl:TextComponent>
                 <xsl:attribute name="xml:lang">
@@ -112,7 +118,6 @@
                             <xsl:value-of select="$default-lang"/>
                         </xsl:otherwise>
                     </xsl:choose>
-
                 </xsl:attribute>
                 <sqbl:QuestionText><xsl:value-of select="d:LiteralText/d:Text"/></sqbl:QuestionText>
             </sqbl:TextComponent>
@@ -137,6 +142,33 @@
                 </sqbl:ResponseType>
             </xsl:when>
         </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="d:MultipleQuestionItem">
+        <sqbl:Statement>
+
+        </sqbl:Statement>
+    </xsl:template>
+    
+    <xsl:template match="d:StatementItem">
+        <sqbl:Statement>
+            <xsl:attribute name="name"><xsl:value-of select="substring(@id,0,32)"/></xsl:attribute>
+            <xsl:for-each select="d:DisplayText">
+                <sqbl:TextComponent>
+                    <xsl:attribute name="xml:lang">
+                        <xsl:choose>
+                            <xsl:when test="./ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang">
+                                <xsl:value-of select="d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$default-lang"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>                    
+                    <sqbl:StatementText><xsl:value-of select="d:LiteralText/d:Text"/></sqbl:StatementText>
+                </sqbl:TextComponent>
+            </xsl:for-each>
+        </sqbl:Statement>
     </xsl:template>
 
     <xsl:template match="l:CodeScheme">
