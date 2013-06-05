@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Document   : ddi-sbql.xsl
+    Document   : ddi_3_1-sbql.xsl
     Created on : den 2 juni 2013, 14:32
     Author     : Olof Olsson <borsna@gmail.com>
     License    : Public domain    
@@ -8,9 +8,7 @@
         Transform DDI 3.1 Questionaires to SBQL
     
     TODO:
-        *done* handle MultipleQuestionItem as Statements
-        fix the order of the questions
-    
+        cover sequences
 -->
 
 <xsl:stylesheet 
@@ -111,29 +109,57 @@
                         </xsl:choose>
                     </xsl:attribute>
                     <sqbl:QuestionText><xsl:value-of select="d:LiteralText/d:Text"/></sqbl:QuestionText>
+                    <xsl:choose>
+                        <xsl:when test="parent::d:QuestionIntent[@xml:lang = ./d:LiteralText/ancestor-or-self::*[attribute::xml:lang][1]/@xml:lang]">
+                        </xsl:when>
+                        <xsl:when test="parent::d:QuestionIntent">
+                            <sqbl:QuestionIntent><xsl:value-of select="../d:QuestionIntent"/></sqbl:QuestionIntent>
+                        </xsl:when>
+                    </xsl:choose>
                 </sqbl:TextComponent>
             </xsl:for-each>
-            <xsl:choose>
-                <xsl:when test="d:TextDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:Text/>
-                    </sqbl:ResponseType>
-                </xsl:when>
-                <xsl:when test="d:CodeDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:CodeList>
-                            <xsl:variable name="qsId" select="d:CodeDomain/r:CodeSchemeReference/r:ID"/>
-                            <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
-                        </sqbl:CodeList>
-                    </sqbl:ResponseType>
-                </xsl:when>
-                <xsl:when test="d:NumericDomain">
-                    <sqbl:ResponseType>
-                        <sqbl:Number/>
-                    </sqbl:ResponseType>
-                </xsl:when>
-            </xsl:choose>
+            <sqbl:ResponseType>
+                <xsl:apply-templates select="d:TextDomain | d:NumericDomain | d:CodeDomain | d:StructuredMixedResponseDomain/*"/>
+            </sqbl:ResponseType>
         </sqbl:Question>
+    </xsl:template>
+    
+    <xsl:template match="d:TextDomain">
+        <sqbl:Text>
+            <xsl:if test="@maxLength">
+                <sqbl:MaximumLength><xsl:value-of select="@maxLength"/></sqbl:MaximumLength>
+            </xsl:if>
+        </sqbl:Text>
+    </xsl:template>
+    
+    <xsl:template match="d:NumericDomain">
+        <sqbl:Number>
+            <xsl:if test="@type='Integer'">
+                <xsl:attribute name="interval">1</xsl:attribute>
+            </xsl:if>
+            <xsl:if test="r:NumberRange/r:Low">
+                <sqbl:Minimum><xsl:value-of select="r:NumberRange/r:Low"/></sqbl:Minimum>
+            </xsl:if>
+            <xsl:if test="r:NumberRange/r:High">
+                <sqbl:Maximum><xsl:value-of select="r:NumberRange/r:High"/></sqbl:Maximum>
+            </xsl:if>            
+            <xsl:for-each select="d:Label">
+                <sqbl:Prefix>
+                    <xsl:choose>
+                        <xsl:when test="@xml:lang"><xsl:attribute name="xml:lang"><xsl:value-of select="@xml:lang"/></xsl:attribute></xsl:when>
+                        <xsl:otherwise><xsl:attribute name="xml:lang"><xsl:value-of select="$default-lang"/></xsl:attribute></xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:value-of select="."/>
+                </sqbl:Prefix>
+            </xsl:for-each>
+        </sqbl:Number>
+    </xsl:template>
+    
+    <xsl:template match="d:CodeDomain">
+        <sqbl:CodeList>
+            <xsl:variable name="qsId" select="r:CodeSchemeReference/r:ID"/>
+            <xsl:apply-templates select="//l:CodeScheme[@id = $qsId]" />
+        </sqbl:CodeList>        
     </xsl:template>
     
     <xsl:template match="d:MultipleQuestionItem">
