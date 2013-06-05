@@ -166,7 +166,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:annotation>
                      <xs:complexType>
                         <xs:sequence>
-                           <xs:element name="WordSub" type="WordSubType"/>
+                           <xs:element name="WordSub" type="WordSubType" />
                         </xs:sequence>
                      </xs:complexType>
                   </xs:element>
@@ -233,10 +233,10 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
    <xs:complexType name="RichTextContent" mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-         <xs:group ref="RichTextContent.group"/>
+         <xs:group ref="RichTextContent.group" />
       </xs:choice>
    </xs:complexType>
-   
+
    <xs:group name="RichTextContent.group">
       <xs:choice>
          <xs:annotation>
@@ -266,16 +266,16 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          </xs:element>
       </xs:choice>
    </xs:group>
-      
+
    <xs:complexType name="WordSubRef">
-      <xs:attribute name="ref" type="xs:IDREF"/>
+      <xs:attribute name="ref" type="xs:IDREF" />
    </xs:complexType>
    <xs:complexType name="DynamicTextType" mixed="true">
       <xs:annotation>
          <xs:documentation>Structures the behavior of dynamic or static text within the instrument.</xs:documentation>
       </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-         <xs:group ref="RichTextContent.group"/>
+         <xs:group ref="RichTextContent.group" />
       </xs:choice>
    </xs:complexType>
 
@@ -294,7 +294,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:annotation>
             <xs:complexType>
                <xs:sequence>
-                  <xs:element name="ResultString" type="MultilingualPlainTextType"></xs:element>
+                  <xs:element name="ResultString" type="MultilingualPlainTextType" />
                   <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
                      <xs:annotation>
                         <xs:documentation>The order of the ValueOf elements does not matter, as they are all boolean
@@ -316,9 +316,56 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             <xs:documentation>The initial value of the text field.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="name" type="xs:ID"></xs:attribute>
+      <xs:attribute name="name" type="xs:ID" />
    </xs:complexType>
 
+   <xs:complexType name="BaseQuestionType">
+   <xs:annotation>
+      <xs:documentation>The BaseQuestionType serves as the abstraction of Questions and QuestionGroups and future obbjects
+         that can act as questions within question flow.</xs:documentation>
+   </xs:annotation>
+   <xs:complexContent>
+      <xs:extension base="BaseNamedType">
+         <xs:sequence>
+            <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+               <xs:annotation>
+                  <xs:documentation> The Text component of a question is all of the human readable parts that help
+                     describe a question. These are grouped like this to make parsing easy from a systems point of
+                     view, as it make the repetition of repeatable language parts easier to manage. The xml:lang
+                     attribute for the TextComponent question MUST be unique for a given question, and is enforced in
+                     schema. </xs:documentation>
+               </xs:annotation>
+               <xs:complexType>
+                  <xs:all>
+                     <xs:element name="QuestionText" type="DynamicTextType" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                           <xs:documentation>The text of the question presented in the instrument that is presented
+                              to a respondent.</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                     <xs:element name="Instruction" type="DynamicTextType" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                           <xs:documentation>This provides the textual content of the instruction. This is considered
+                              additional content that may be useful in aiding the respondent in answering this
+                              question. Content may be includes and excludes fora response or notes that guide
+                              response. </xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                     <xs:element name="QuestionIntent" type="xs:string" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                           <xs:documentation>Why this question is included in this module, and why it is being asked
+                              in this way. This is content that is not presented to a respondent.</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                  </xs:all>
+                  <xs:attribute ref="xml:lang" use="required" />
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:extension>
+   </xs:complexContent>
+   </xs:complexType>
+   
    <xs:complexType name="QuestionType">
       <xs:annotation>
          <xs:documentation>The QuestionType serves as the base for "question-like objects" that serves to collection
@@ -326,79 +373,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             randomisation of order.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="BaseNamedType">
+         <xs:extension base="BaseQuestionType">
             <xs:sequence>
-               <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation> The Text component of a question is all of the human readable parts that help
-                        describe a question. These are grouped like this to make parsing easy from a systems point of
-                        view, as it make the repetition of repeatable language parts easier to manage. The xml:lang
-                        attribute for the TextComponent question MUST be unique for a given question, and is enforced in
-                        schema. </xs:documentation>
-                  </xs:annotation>
-                  <xs:complexType>
-                     <xs:all>
-                        <xs:element name="QuestionText" type="DynamicTextType" minOccurs="1" maxOccurs="1">
-                           <xs:annotation>
-                              <xs:documentation>The text of the question presented in the instrument that is presented
-                                 to a respondent.</xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
-                        <xs:element name="Instruction" type="DynamicTextType" minOccurs="0" maxOccurs="1">
-                           <xs:annotation>
-                              <xs:documentation>This provides the textual content of the instruction. This is considered
-                                 additional content that may be useful in aiding the respondent in answering this
-                                 question. Content may be includes and excludes fora response or notes that guide
-                                 response. </xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
-                        <xs:element name="QuestionIntent" type="xs:string" minOccurs="0" maxOccurs="1">
-                           <xs:annotation>
-                              <xs:documentation>Why this question is included in this module, and why it is being asked
-                                 in this way. This is content that is not presented to a respondent.</xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
-                     </xs:all>
-                     <xs:attribute ref="xml:lang" use="required" />
-                  </xs:complexType>
-               </xs:element>
-               <!-- xs:element name="DataElementConceptReference" minOccurs="0" maxOccurs="1">
-                  <xs:complexType>
-                     <xs:annotation>
-                        <xs:documentation>Data Element Concepts are a precise way of defining of who and
-                           what a question is attempting to ask. Since the ObjectClass for a given question will
-                           infrequently change through a survey, it is possible to leave this blank. If a Data Element Concept Reference is
-                           present, and the ObjectClass is left blank, this MUST be interpretted that the ObjectClass for the
-                           given question is the hierarchically closest ObjectClass in the XML tree as defined in the
-                           QuestionModule itself, or an Branch. In practise the Xpath for this is:
-                           ancestor::*[attribute::sqbl:ObjectClassReference][1]/@sqbl:ObjectClassReference
-                           
-                           For more information see: http://meteor.aihw.gov.au/content/index.phtml/itemId/237551
-                        </xs:documentation>
-                     </xs:annotation>
-                     <xs:sequence>
-                        <xs:element name="ObjectClass" minOccurs="0" maxOccurs="1" type="ReferenceType"> 
-                           <xs:annotation>
-                              <xs:documentation>
-                                 The 11179 Object Class that this question is attempting to gather information about. 
-                                 
-                                 See: http://meteor.aihw.gov.au/content/index.phtml/itemId/237503
-                              </xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
-                        <xs:element name="Property" minOccurs="1" maxOccurs="1" type="ReferenceType" >
-                           <xs:annotation>
-                              <xs:documentation>
-                                 The 11179 Object Property that defines the characteristic about the Object Class
-                                 that this question is attempting to gather information on.
-                                 
-                                 See: http://meteor.aihw.gov.au/content/index.phtml/itemId/237557
-                              </xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
-                     </xs:sequence>
-                  </xs:complexType>
-               </xs:element -->
                <xs:element name="ResponseType">
                   <xs:annotation>
                      <xs:documentation> This is a list of currently defined Response Types for a given question. These
@@ -432,7 +408,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                     <xs:complexType>
                                        <xs:complexContent>
                                           <xs:extension base="MultilingualPlainTextType">
-                                             <xs:attribute name="value" use="required" type="xs:positiveInteger" />
+                                             <xs:attribute name="value" use="required" type="xs:nonNegativeInteger" />
                                           </xs:extension>
                                        </xs:complexContent>
                                     </xs:complexType>
@@ -446,7 +422,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                     <xs:complexType>
                                        <xs:complexContent>
                                           <xs:extension base="MultilingualPlainTextType">
-                                             <xs:attribute name="value" use="required" type="xs:positiveInteger" />
+                                             <xs:attribute name="value" use="required" type="xs:nonNegativeInteger" />
                                           </xs:extension>
                                        </xs:complexContent>
                                     </xs:complexType>
@@ -580,7 +556,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:element name="SubQuestions" minOccurs="0">
                   <xs:complexType>
                      <xs:sequence>
-                        <xs:element name="SubQuestion" minOccurs="1" maxOccurs="unbounded" type="MultilingualPlainTextType"/>
+                        <xs:element name="SubQuestion" minOccurs="1" maxOccurs="unbounded"
+                           type="MultilingualPlainTextType" />
                      </xs:sequence>
                   </xs:complexType>
                </xs:element>
@@ -752,7 +729,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                  respondents being branched in a specific way. </xs:documentation>
                            </xs:annotation>
                         </xs:element>
-                       <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
+                        <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
                            <xs:annotation>
                               <xs:documentation>Who this branch is targeting in a short and
                                  general sense. Different to the ObjectClass.</xs:documentation>
@@ -794,7 +771,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                     </xs:annotation>
                                  </xs:element>
                               </xs:all>
-                              <xs:attribute ref="xml:lang" use="required"/>
+                              <xs:attribute ref="xml:lang" use="required" />
                            </xs:complexType>
                         </xs:element>
                         <xs:element name="SequenceGuide" type="DecisionTable">
@@ -923,6 +900,48 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                </xs:complexContent>
             </xs:complexType>
          </xs:element -->
+         <xs:element name="QuestionGroup">
+            <xs:complexType>
+               <xs:annotation>
+                  <xs:documentation>A semantic grouping of questions used to combine multiple questions into a coherent block.
+                     When presented on a form or survey, a QuestionGroup should be presented and numbered like a normal question.
+                     Additionally, generated skip patterns may target QuestionGroups like normal questions.
+                  
+                     Questions contained within a QuestionGroup MUST be considered subordinate questions to the main group and
+                     presented visually similar to SubQuestions within a normal question.
+                     SubQuestions of Questions within a QuestionGroup SHOULD be made distinct again, an example css override would
+                     be: .QuestionGroup .Question .SubQuestion { /* Some rules here */ }.
+                     
+                     A QuestionGroup can be considered distinct to other sequence types in that it brings together questions that have
+                     a strong semantic relationship, with different data type. Eg;
+                       2. Please answer the following questions about your main field of study:
+                          a. What was the name of your field of study? ____________ (a string response)
+                          b. Select a 3-digit code from page 7 that most closely describes the above? _ _ _ (a numeric or coded response)
+                     A QuestionGroup can be considered distinct again from Questions with SubQuestions, as in the latter the type of
+                     response is the same for all SubQuestions.
+                  </xs:documentation>
+               </xs:annotation>
+               <xs:complexContent>
+                  <xs:extension base="BaseQuestionType">
+                     <xs:sequence>
+                        <xs:element name="GroupedQuestions" minOccurs="1" maxOccurs="1">
+                           <xs:complexType>
+                              <xs:sequence maxOccurs="unbounded">
+                                 <xs:element name="Question" type="QuestionType">
+                                    <xs:unique name="QuestionGroupQuestionTextLanguageMustBeUnique">
+                                       <xs:selector xpath="sqbl:TextComponent" />
+                                       <xs:field xpath="@xml:lang" />
+                                    </xs:unique>
+                                 </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="randomised" type="xs:boolean" default="false" />
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
          <xs:element name="Statement">
             <xs:complexType>
                <xs:annotation>
@@ -1001,28 +1020,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:unique>
          </xs:element>
 
-         <!-- Less unconvinced about these, but not sure how to solve the self referencing issue... yet
-            xs:element name="QuestionBlock">
-            <xs:complexType>
-               <xs:annotation>
-                  <xs:documentation>Structures a set of highly related questions that must be asked
-                     together.</xs:documentation>
-               </xs:annotation>
-               <xs:complexContent>
-                  <xs:extension base="QuestionType">
-                     <xs:sequence>
-                        <xs:element name="SubQuestions">
-                           <xs:complexType>
-                              <xs:sequence>
-                                 <xs:element ref="Question" minOccurs="1" maxOccurs="unbounded" />
-                              </xs:sequence>
-                           </xs:complexType>
-                        </xs:element>
-                     </xs:sequence>
-                  </xs:extension>
-               </xs:complexContent>
-            </xs:complexType>
-         </xs:element -->
       </xs:choice>
    </xs:complexType>
 
@@ -1207,10 +1204,10 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                this may be used in user-interfaces to quickly identify the object from a longer list of objects, such as
                a list of question modules or questions, so should be as descriptive as space allows. The maximum is set
                to enable compatibility with legacy software, as well as to provide a quickly readable option for
-               interface designers. This name MAY be concatenated with the name of a parent object when this enhances
+               interface designers. This name MAY be concatenated with the name of a parent module when this enhances
                understanding. When concatenated this should be done using dot notation, but MAY be changed accordingly.
                This field is based on the XML QName, and cannot have spaces, but inferface designers MAY choose to map
-               underscores to spaces for readability when displaying. When converting from underscores to spaces, the
+               underscores to spaces for readability when displaying. When converting from underscores to spaces, this
                SHOULD be made clear to users of any software that implements this format, and should be consistent
                within the environment. Given the systems and UI specific nature of this object for identification this
                is NOT multilingual and this WILL NOT change in future editions of the SQBL format. Multilingual
@@ -1234,15 +1231,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                
                These codes are for presentation ONLY, and developers MUST NOT uses presentationTypes for attempting to embed
                additional information within a SQBL document. For example the below is considered bad practise
-                 e.g presentationTypes="myAppName:systemID:XXXXX"    -{-- DO NOT DO THIS!!!!
+                 e.g presentationTypes="myAppName:systemID:XXXXX"    --- DO NOT DO THIS!!!!
                Embeding such key:value pairs in the presentationTypes MUST NOT be done, and if detected by a a SQBL developer,
                said developer MUST hunt down the creator of the offending attribute and slap them with a fish!
 
-               Said fish SHOULD be local, eco-friendly and renewable.
+               Said fish SHOULD come from a local, eco-friendly and renewable fishery.
             </xs:documentation>
          </xs:annotation>
       </xs:attribute>
-      
+
    </xs:complexType>
    <xs:simpleType name="ReferenceType">
       <xs:annotation>
