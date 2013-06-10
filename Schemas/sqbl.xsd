@@ -250,7 +250,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:documentation>
                   This is a reference to the word substitution that this dynamic text references.
                   There are ONLY 3 possible types of element this can reference, enumerated below
-                  with he REQUIRED behaviour: 
+                  with the REQUIRED behaviour: 
                      1. A Question  - The respondent value of the refered question is inserted OR
                                        if the question is unanswered, text that specifies the question
                                        MAY be inserted
@@ -321,7 +321,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 
    <xs:complexType name="BaseQuestionType">
    <xs:annotation>
-      <xs:documentation>The BaseQuestionType serves as the abstraction of Questions and QuestionGroups and future obbjects
+      <xs:documentation>The BaseQuestionType serves as the abstraction of Questions and QuestionGroups and future objects
          that can act as questions within question flow.</xs:documentation>
    </xs:annotation>
    <xs:complexContent>
