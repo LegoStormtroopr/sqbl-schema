@@ -11,12 +11,11 @@ SQBL - The Simple (or Structured) Questionnaire Building Language (pronounced Sq
 
 
 Directory structure:
-<code>
-\ schemas  -- The SQBL schema files and associated XML files
-\ tests    -- Example SQBL documents valid against the current schema
-\ util     -- Various utility files
-   \ DDI   -- XSLTs for the DDI XML format
-      \ Tests  -- Test files for checking the DDI XSLTs
-         \ xxx.input.ddi.xml -- All test input files end with .input.ddi.xml
-         \ xxx.output.sqbl   -- All test output files end with .output.sqbl
-</code>
+
+    \ schemas  -- The SQBL schema files and associated XML files
+    \ tests    -- Example SQBL documents valid against the current schema
+    \ util     -- Various utility files
+       \ DDI   -- XSLTs for the DDI XML format
+          \ Tests  -- Test files for checking the DDI XSLTs
+             \ xxx.input.ddi.xml -- All test input files end with .input.ddi.xml
+             \ xxx.output.sqbl   -- All test output files end with .output.sqbl
