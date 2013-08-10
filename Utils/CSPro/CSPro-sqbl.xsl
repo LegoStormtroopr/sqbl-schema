@@ -7,7 +7,7 @@
     <xsl:param name="base_url">www.kidstrythisathome.com</xsl:param>
     <xsl:variable name="moduleName" select="/sqbl:QuestionModule/@name" />
 
-    <xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" />
+    <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
     <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
     <xsl:variable name="nl">
         <xsl:text>&#10;</xsl:text>
@@ -21,7 +21,7 @@
         </xsl:call-template>
         <xsl:call-template name="keyValPair">
             <xsl:with-param name="key">Name</xsl:with-param>
-            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $smallcase, $uppercase)"/></xsl:with-param>
+            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $lowercase, $uppercase)"/></xsl:with-param>
         </xsl:call-template>
         <xsl:text>RecordTypeStart=1&#10;</xsl:text>
         <xsl:text>RecordTypeLen=1&#10;</xsl:text>
@@ -36,7 +36,7 @@
         </xsl:call-template>
         <xsl:call-template name="keyValPair">
             <xsl:with-param name="key">Name</xsl:with-param>
-            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $smallcase, $uppercase)"/>_MOD</xsl:with-param>
+            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $lowercase, $uppercase)"/>_MOD</xsl:with-param>
         </xsl:call-template>
         <xsl:text>&#10;</xsl:text>
         <xsl:text>[IdItems]&#10;</xsl:text>
@@ -54,7 +54,7 @@
         </xsl:call-template>
         <xsl:call-template name="keyValPair">
             <xsl:with-param name="key">Name</xsl:with-param>
-            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $smallcase, $uppercase)"/>_MOD</xsl:with-param>
+            <xsl:with-param name="val"><xsl:value-of select="translate($moduleName, $lowercase, $uppercase)"/>_MOD</xsl:with-param>
         </xsl:call-template>
         <xsl:text>RecordTypeValue=2&#10;</xsl:text>
         <xsl:text>RecordLen=5&#10;</xsl:text>
@@ -69,7 +69,7 @@
         </xsl:call-template>
         <xsl:call-template name="keyValPair">
             <xsl:with-param name="key">Name</xsl:with-param>
-            <xsl:with-param name="val"><xsl:value-of select="translate(@name, $smallcase, $uppercase)"/></xsl:with-param>
+            <xsl:with-param name="val"><xsl:value-of select="translate(@name, $lowercase, $uppercase)"/></xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="keyValPair">
             <xsl:with-param name="key">Start</xsl:with-param>

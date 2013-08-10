@@ -45,10 +45,17 @@
     <xsl:param name="default-lang">tlh</xsl:param>
         
    <xsl:template match="*">
-        <xsl:apply-templates select="//s:StudyUnit"/>
+        <xsl:choose>
+            <xsl:when test="count(//s:StudyUnit) > 0">
+                <xsl:apply-templates select="//s:StudyUnit" mode="generateSQBLDoc"/>
+            </xsl:when>
+            <xsl:when test="count(//d:Instrument)">
+                <xsl:apply-templates select="//d:Instrument" mode="generateSQBLDoc"/>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>    
         
-    <xsl:template match="s:StudyUnit">
+    <xsl:template match="s:StudyUnit" mode="generateSQBLDoc">
         <sqbl:QuestionModule xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd">
             <xsl:attribute name="name">id-<xsl:value-of select="substring(@id,0,29)"/></xsl:attribute>
             <sqbl:TextComponent>
@@ -66,6 +73,9 @@
             </sqbl:TextComponent>
             <sqbl:ModuleLogic>
                 <xsl:choose>
+                    <xsl:when test="d:DataCollection/d:Instrument">
+                        <xsl:apply-templates select="d:DataCollection/d:Instrument" />
+                    </xsl:when>
                     <xsl:when test="d:DataCollection/d:ControlConstructScheme">
                         <xsl:apply-templates select="d:DataCollection/d:ControlConstructScheme" />
                     </xsl:when>
@@ -79,6 +89,28 @@
             </sqbl:ModuleLogic>
         </sqbl:QuestionModule>
     </xsl:template>
+
+    <xsl:template match="d:Instrument" mode="generateSQBLDoc">
+        <sqbl:QuestionModule xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd">
+            <xsl:attribute name="name">id-<xsl:value-of select="substring(@id,0,29)"/></xsl:attribute>
+            <sqbl:TextComponent>
+                <sqbl:Title>
+                    <xsl:apply-templates select="d:InstrumentName/*" mode="convertRichText"/>
+                </sqbl:Title>
+                <sqbl:Purpose>
+                    <xsl:apply-templates select="r:Description/*" mode="convertRichText"/>
+                </sqbl:Purpose>
+                <sqbl:TargetRespondent></sqbl:TargetRespondent>
+            </sqbl:TextComponent>
+            <sqbl:ModuleLogic>
+                <xsl:apply-templates select="." />
+            </sqbl:ModuleLogic>
+        </sqbl:QuestionModule>
+    </xsl:template>
+    
+    <xsl:template match="d:Instrument">
+        <xsl:apply-templates select="d:ControlConstructReference"/>
+    </xsl:template>
     
     <xsl:template match="d:ControlConstructScheme">
         <xsl:apply-templates select="d:QuestionConstruct | d:StatementItem"/>
@@ -87,6 +119,36 @@
     <xsl:template match="d:QuestionConstruct">
         <xsl:variable name="qrId" select="d:QuestionReference/r:ID"/>
         <xsl:apply-templates select="//d:QuestionItem[@id = $qrId] | //d:MultipleQuestionItem[@id = $qrId]" />
+    </xsl:template>
+    
+    <xsl:template match="d:Sequence">
+        <xsl:apply-templates select="d:ControlConstructReference"/>
+    </xsl:template>
+
+    <!-- All these references act the same -->
+    <xsl:template match="d:ControlConstructReference | d:ThenConstructReference | d:ElseConstructReference">
+        <xsl:variable name="ccId" select="r:ID"/>
+        <xsl:apply-templates select="//d:Sequence[@id = $ccId] | //d:QuestionConstruct[@id = $ccId] | //d:IfThenElse[@id = $ccId]" />
+    </xsl:template>
+    
+    <xsl:template match="d:IfThenElse">
+        <sqbl:ConditionalTree name="{@id}">
+            <sqbl:SequenceGuide>
+                <sqbl:Condition resultBranch="{d:ThenConstructReference/r:ID}">
+                    <!-- For the time being generate a bogus, but 'valid' ValueOf -->
+                    <sqbl:ValueOf question="{@id}" is="equal_to">N</sqbl:ValueOf>
+                </sqbl:Condition>
+            </sqbl:SequenceGuide>
+            <xsl:apply-templates select="d:ThenConstructReference | d:ElseConstructReference" mode="makeBranch"/>
+        </sqbl:ConditionalTree>
+    </xsl:template>
+    
+    <xsl:template match="d:ThenConstructReference | d:ElseConstructReference" mode="makeBranch">
+        <sqbl:Branch name="{r:ID/text()}">
+            <sqbl:BranchLogic>
+                <xsl:apply-templates select="."/>
+            </sqbl:BranchLogic>
+        </sqbl:Branch>
     </xsl:template>
     
     <xsl:template match="d:QuestionScheme">       
@@ -119,7 +181,7 @@
                 </sqbl:TextComponent>
             </xsl:for-each>
             <sqbl:ResponseType>
-                <xsl:apply-templates select="d:TextDomain | d:NumericDomain | d:CodeDomain | d:StructuredMixedResponseDomain/*"/>
+                <xsl:apply-templates select="d:TextDomain | d:NumericDomain | d:CodeDomain | d:StructuredMixedResponseDomain/* | d:DateTimeDomain | d:CategoryDomain"/>
             </sqbl:ResponseType>
         </sqbl:Question>
     </xsl:template>
@@ -130,6 +192,11 @@
                 <sqbl:MaximumLength><xsl:value-of select="@maxLength"/></sqbl:MaximumLength>
             </xsl:if>
         </sqbl:Text>
+    </xsl:template>
+
+    <!-- TODO: Need to do this better -->
+    <xsl:template match="d:DateTimeDomain">
+        <sqbl:Text/>
     </xsl:template>
     
     <xsl:template match="d:NumericDomain">
@@ -153,6 +220,26 @@
                 </sqbl:Prefix>
             </xsl:for-each>
         </sqbl:Number>
+    </xsl:template>
+    
+    <xsl:template match="d:CategoryDomain">
+        <xsl:variable name="catsId" select="r:CategorySchemeReference/r:ID"/>
+        <xsl:comment><xsl:value-of select="$catsId"/></xsl:comment>
+        <xsl:apply-templates select="//l:CategoryScheme[@id = $catsId]" />
+    </xsl:template>
+    
+    <xsl:template match="l:CategoryScheme">
+        <sqbl:CodeList>
+            <sqbl:Codes>
+                <xsl:for-each select="l:Category">
+                   <sqbl:CodePair>
+                       <xsl:attribute name="code"><xsl:value-of select="position()"/></xsl:attribute>
+                       <xsl:apply-templates select="." />
+                   </sqbl:CodePair>
+               </xsl:for-each>
+            </sqbl:Codes>
+            <sqbl:MaximumSelections value="{count(l:Category)}"/>
+        </sqbl:CodeList>
     </xsl:template>
     
     <xsl:template match="d:CodeDomain">
@@ -226,5 +313,10 @@
                 <xsl:value-of select="."/>
             </sqbl:TextComponent>
         </xsl:for-each>
+    </xsl:template>
+    
+    <!-- We will need more ways to bring rich text across, but for now this will do. -->
+    <xsl:template match="@*|node()" mode="convertRichText">
+        <xsl:value-of select="."/>
     </xsl:template>
 </xsl:stylesheet>
