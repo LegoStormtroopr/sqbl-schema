@@ -1,0 +1,27 @@
+<QuestionModule xmlns="sqbl:1" name="IASSIST2013_Survey" version="1">
+            <TextComponent xml:lang="en"><LongName>IASSIST2013 Survey</LongName><Title>IASSIST 2013 Survey</Title><TargetRespondent>All IASSIST Attendees</TargetRespondent></TextComponent><ModuleLogic><Question name="Is_Best_IASSIST">
+            <TextComponent xml:lang="en"><QuestionText>Is this the best IASSIST Ever?</QuestionText></TextComponent><ResponseType>
+                <CodeList>
+            <Codes><CodePair code="Y"><TextComponent xml:lang="en">Yes</TextComponent></CodePair><CodePair code="N"><TextComponent xml:lang="en">No</TextComponent></CodePair></Codes>
+          </CodeList></ResponseType>
+        </Question><ConditionalTree name="Best_IASSIST_Branch">
+            <TextComponent xml:lang="en"/><SequenceGuide>
+            <Condition resultBranch="Not_best_IASSIST"><ValueOf question="Is_Best_IASSIST" is="equal_to">N</ValueOf></Condition></SequenceGuide>
+        <Branch name="Not_best_IASSIST">
+            <TextComponent xml:lang="en"><TargetRespondent>People who don't think 2013 was the best IASSIST [i.e. noone]</TargetRespondent><Purpose></Purpose></TextComponent><BranchLogic>
+            <Question name="Which_is_better">
+            <TextComponent xml:lang="en"><QuestionText>Which IASSIST was better than Cologne 2013?</QuestionText></TextComponent><ResponseType>
+                <Text/>
+            </ResponseType>
+        </Question></BranchLogic>
+        </Branch></ConditionalTree><Question name="Favourite_moment">
+            <TextComponent xml:lang="en"><QuestionText>What was your favourite #IASSIST2013 moment?</QuestionText></TextComponent><ResponseType>
+                <Text/>
+            </ResponseType>
+        </Question><Question name="Koelsch">
+            <TextComponent xml:lang="en"><QuestionText>What is the best K&#246;lsch?</QuestionText></TextComponent><ResponseType>
+                <CodeList>
+            <Codes><CodePair code="1"><TextComponent xml:lang="en">Fosters</TextComponent></CodePair><CodePair code="2"><TextComponent xml:lang="en">Fr&#252;h</TextComponent></CodePair><CodePair code="3"><TextComponent xml:lang="en">Budweiser</TextComponent></CodePair><CodePair code="4" freeText="true"><TextComponent xml:lang="en">Other</TextComponent></CodePair></Codes>
+          </CodeList></ResponseType>
+        </Question></ModuleLogic>  
+        </QuestionModule>

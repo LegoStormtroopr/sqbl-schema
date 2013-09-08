@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.1" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
 <!--
 
@@ -110,7 +110,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                   <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
                      <xs:complexType>
                         <xs:all>
-                           <xs:element name="LongName" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:element name="LongName" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
                               <xs:annotation>
                                  <xs:documentation>The human readable name of this module, used in searching. When
                                     comparing the Long Name and Title of a module, the Long Name should be considered
@@ -122,19 +122,19 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                  </xs:documentation>
                               </xs:annotation>
                            </xs:element>
-                           <xs:element name="Title" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:element name="Title" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
                               <xs:annotation>
                                  <xs:documentation>The name of this module as presented to a respondent of a survey.
                                  </xs:documentation>
                               </xs:annotation>
                            </xs:element>
-                           <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
                               <xs:annotation>
                                  <xs:documentation>Why this specific set of questions is being asked of the chosen
                                     respondents in this collection?</xs:documentation>
                               </xs:annotation>
                            </xs:element>
-                           <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:string">
+                           <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
                               <xs:annotation>
                                  <xs:documentation>Who this module is attempting gather data from in a short and general sense.</xs:documentation>
                               </xs:annotation>
@@ -233,6 +233,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    </xs:complexType>
 
    <xs:complexType name="RichTextContent" mixed="true">
+      <xs:annotation>
+         <xs:documentation>
+            The RichTextContent type allows for the capturing of text that requires specific markup for semantic purposes within questions and statements.
+            Because of the very short and specific nature of questions, there is a very small subset of semantic tags available.
+            
+            RichTextContent is a mixed type that allows text and XML element to be interspersed. When this occurs applications MUST normalise all whitespace,
+            with leading and trailing whitespace characters removed, and all combinations of whitespace replaces with a single space. 
+         </xs:documentation>
+      </xs:annotation>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:group ref="RichTextContent.group" />
       </xs:choice>
@@ -243,7 +252,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          <xs:annotation>
             <xs:documentation>Here we do a hackjob reimplementation of a subset of HTML elements to support a very restricted set of rich-text elements.</xs:documentation>
          </xs:annotation>
-         <xs:element name="strong" type="RichTextContent" />
          <xs:element name="em" type="RichTextContent" />
          <xs:element name="p" type="RichTextContent" />
          <xs:element name="sub" type="WordSubRef">
@@ -306,13 +314,13 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="static" type="xs:string" use="optional">
+      <xs:attribute name="static" type="xs:normalizedString" use="optional">
          <xs:annotation>
             <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
                web-forms or paper-based forms.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="default" type="xs:string" use="optional">
+      <xs:attribute name="default" type="xs:normalizedString" use="optional">
          <xs:annotation>
             <xs:documentation>The initial value of the text field.</xs:documentation>
          </xs:annotation>
@@ -606,8 +614,11 @@ or FITNESS FOR A PARTICULAR PURPOSE.
               
             A CodeList has a minimum and maximum selection range for capturing how many options a respondant is allowed to
             select. If neither the minimum or maximum are set, they are both equal to '1' so a selection MUST be required.
-            For application developers, the minimum and maximum MUST be stored and displayed correctly, so if a minimum is
-            larger than the maximim, this MUST be corrected however, how this is managed is managed at an application
+            When only a minimum is set the maximum is MUST default to the length of the total number of options.
+            When only a maximum is set the minimum is assumed to be 1 - i.e to allow for zero possible options this must be explicitly stated. 
+            
+            For developers of application that produce SQBL documents, the minimum and maximum MUST be stored and displayed correctly, so if a minimum is
+            larger than the maximum, this MUST be corrected however, how this is managed is managed at an application
             level; eg. software can switch the values behind the scenes or may prompt the user for a correction.
             
             Systems that consume SQBL documents for creating forms SHOULD be permissive and considerate to the intent of
@@ -669,7 +680,14 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             <xs:complexType>
                <xs:complexContent>
                   <xs:extension base="MultilingualPlainTextType">
-                     <xs:attribute name="value" use="required" type="xs:positiveInteger" />
+                     
+                     <xs:attribute name="value" use="required" type="positiveIntegerOrAll">
+                        <xs:annotation>
+                           <xs:documentation>
+                              If the @value attribute is omitted, the maximum number of options defaults to the total number of codes.                              
+                           </xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
                   </xs:extension>
                </xs:complexContent>
             </xs:complexType>
@@ -677,6 +695,19 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:all>
 
    </xs:complexType>
+   <xs:simpleType name="positiveIntegerOrAll">
+      <xs:union>
+         <xs:simpleType>
+            <xs:restriction base="xs:positiveInteger"/>
+         </xs:simpleType>
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="#all"/>
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:union>
+      
+   </xs:simpleType>
 
    <xs:complexType name="MultilingualPlainTextType">
       <xs:annotation>

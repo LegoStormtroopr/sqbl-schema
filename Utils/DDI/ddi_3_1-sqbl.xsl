@@ -3,9 +3,10 @@
     Document   : ddi_3_1-sbql.xsl
     Created on : den 2 juni 2013, 14:32
     Author     : Olof Olsson <borsna@gmail.com>
-    License    : Public domain    
+    License    : Public domain
+    Type       : 
     Description:
-        Transform DDI 3.1 Questionaires to SBQL
+        Transform DDI 3.1 Questionaires to SQBL
     
     TODO:
         cover sequences

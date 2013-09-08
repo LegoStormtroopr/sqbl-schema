@@ -1,5 +1,4 @@
-<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO"
-    xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
     <TextComponent xml:lang="en">
         <TargetRespondent>All Persons</TargetRespondent>
         <LongName>Dog Demographics Demonstration Module</LongName>
@@ -55,8 +54,7 @@
             </Condition>
         </ModuleExitPoint -->
         <Question name="Has_dog">
-            <TextComponent xml:lang="en">
-                <QuestionText>Do you have a dog?</QuestionText>
+            <TextComponent xml:lang="en"><QuestionText>Do you have a dog?</QuestionText>
                 <QuestionIntent>To find out about dogs.</QuestionIntent>
             </TextComponent>
             <TextComponent xml:lang="de">
@@ -80,9 +78,7 @@
         </Question>
         <ConditionalTree name="Split_dogs">
             <TextComponent xml:lang="en">
-                <Purpose>To split respondents into Dog Owners and non-dog owners, to target specific questions
-                    effectively.</Purpose>
-                <Instruction><p><br /></p></Instruction>
+                <Purpose>To split respondents into Dog Owners and non-dog owners, to target specific questions effectively.</Purpose>
             </TextComponent>
             <SequenceGuide>
                 <Condition resultBranch="No_dog">
@@ -91,7 +87,7 @@
                 <Condition resultBranch="Does_have_dog">
                     <ValueOf question="Has_dog" is="equal_to">Y</ValueOf>
                 </Condition>
-                <Otherwise branch="No_dog" />
+                <Otherwise branch="No_dog"/>
             </SequenceGuide>
             <Branch name="Does_have_dog">
                 <TextComponent xml:lang="en">
@@ -106,14 +102,13 @@
                             <QuestionText>Namen?</QuestionText>
                         </TextComponent>
                         <ResponseType>
-                            <Text />
+                            <Text/>
                         </ResponseType>
                     </Question>
-                    <Question name="Dog_sex"
-                        dataElementReference="http://meteor.aihw.gov.au/content/index.phtml/itemId/269716">
+                    <Question name="Dog_sex" dataElementReference="http://www.wikidata.org/wiki/Property:P21">
                         <TextComponent xml:lang="en">
-                            <QuestionText>What is the sex of <sub ref="Dog_name" />?</QuestionText>
-                        </TextComponent>
+                            <QuestionText>What is the <em>sex</em> of <sub ref="Dog_name"/>?</QuestionText>
+                        <QuestionIntent/></TextComponent>
                         <ResponseType>
                             <CodeList>
                                 <Codes>
@@ -131,7 +126,7 @@
                         <TextComponent xml:lang="en">
                             <QuestionText>In whole dollars, how much do you spend on the following items for the last
                                 month?</QuestionText>
-                            <QuestionIntent />
+                            <QuestionIntent/>
                         </TextComponent>
                         <ResponseType canRefuse="true" canNotKnow="true">
                             <Number>
@@ -151,7 +146,7 @@
                     </Question>
                     <Question name="Dog_age">
                         <TextComponent xml:lang="en">
-                            <QuestionText>What was <sub ref="Dog_name" />'s age on <sub ref="sex-pronoun" /> last
+                            <QuestionText>What was <sub ref="Dog_name"/>'s age on <sub ref="sex-pronoun"/> last
                                 birthday?</QuestionText>
                             <Instruction>Please enter the dogs age at its last birthday. If the dog is less than 1 year
                                 old, answer "0".</Instruction>
@@ -175,7 +170,7 @@
                         </ResponseType>
                     </Question>
                     <ConditionalTree name="Health_by_sex">
-                        <TextComponent xml:lang="en" />
+                        <TextComponent xml:lang="en"/>
                         <SequenceGuide>
                             <Condition resultBranch="Puppy_health">
                                 <ValueOf question="Dog_age" is="less_than_eq">1</ValueOf>
@@ -244,9 +239,8 @@
                             <BranchLogic>
                                 <QuestionGroup name="Vaccinated">
                                     <TextComponent xml:lang="en">
-                                        <QuestionText>Please tell us about your puppies vaccination
-                                            record.</QuestionText>
-                                    </TextComponent>
+                                        <QuestionText>Please tell us about your puppies vaccination record.</QuestionText>
+                                    <QuestionIntent/></TextComponent>
                                     <GroupedQuestions>
                                         <Question name="CommonVaccines">
                                             <TextComponent xml:lang="en">
@@ -273,13 +267,13 @@
                                                 </SubQuestion>
                                             </SubQuestions>
                                         </Question>
-                                        <Question name="OtherVaccines">
+                                        <Question name="Other_Vaccines">
                                             <TextComponent xml:lang="en">
                                                 <QuestionText>Please list any other vaccines your puppy has
                                                     recieved.</QuestionText>
                                             </TextComponent>
                                             <ResponseType>
-                                                <Text />
+                                                <Text/>
                                             </ResponseType>
                                         </Question>
                                     </GroupedQuestions>
@@ -296,7 +290,7 @@
                         </TextComponent>
                         <ResponseType>
                             <CodeList>
-                                <MaximumSelections value="7" />
+                                <MaximumSelections value="#all"/>
                                 <Codes>
                                     <CodePair code="Sun">
                                         <TextComponent xml:lang="en">Sunday</TextComponent>
@@ -325,7 +319,7 @@
                     </Question>
                     <ForLoop name="Days_Walked_Loop" question="Days_Walked">
                         <TextComponent xml:lang="en">
-                            <Instruction />
+                            <Instruction/>
                             <Purpose>This assists in determining the total amount of exercise the dog gets.</Purpose>
                             <TargetRespondent>Persons who have walked their dog during the past week</TargetRespondent>
                         </TextComponent>
@@ -334,7 +328,7 @@
                                 <TextComponent xml:lang="en">
                                     <QuestionText>On the day in question, how many minutes did you walk the dog
                                         for?</QuestionText>
-                                    <QuestionIntent />
+                                    <QuestionIntent/>
                                 </TextComponent>
                                 <ResponseType canRefuse="true" canNotKnow="true">
                                     <Number>
@@ -377,7 +371,7 @@
                                         <TextComponent xml:lang="en">Other, please specify</TextComponent>
                                     </CodePair>
                                 </Codes>
-                                <MaximumSelections value="3" />
+                                <MaximumSelections value="3"/>
                             </CodeList>
                         </ResponseType>
                     </Question>
