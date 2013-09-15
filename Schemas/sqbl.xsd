@@ -167,7 +167,12 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:annotation>
                      <xs:complexType>
                         <xs:sequence>
-                           <xs:element name="WordSub" type="WordSubType" />
+                           <xs:element name="WordSub" type="WordSubType">
+                              <xs:unique name="WordSubTextLanguageMustBeUnique">
+                                 <xs:selector xpath="sqbl:TextComponent" />
+                                 <xs:field xpath="@xml:lang" />
+                              </xs:unique>
+                           </xs:element>
                         </xs:sequence>
                      </xs:complexType>
                   </xs:element>
@@ -295,6 +300,36 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             reusable within a module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
+         <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation> The Text component of a question is all of the human readable parts that help
+                  describe a question. These are grouped like this to make parsing easy from a systems point of
+                  view, as it make the repetition of repeatable language parts easier to manage. The xml:lang
+                  attribute for the TextComponent question MUST be unique for a given question, and is enforced in
+                  schema. </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="Intent" type="xs:normalizedString" minOccurs="0" maxOccurs="1">
+                     <xs:annotation>
+                        <xs:documentation>The purpose of the word substitution</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="Static" type="xs:normalizedString" minOccurs="0" maxOccurs="1">
+                     <xs:annotation>
+                        <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
+                           web-forms or paper-based forms.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="Default" type="xs:normalizedString" minOccurs="0" maxOccurs="1">
+                     <xs:annotation>
+                        <xs:documentation>The initial value of the text field.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:all>
+               <xs:attribute ref="xml:lang" use="required" />
+            </xs:complexType>
+         </xs:element>
          <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>The order of Condition elements in a sequence guide is important and MUST NOT be
@@ -314,17 +349,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="static" type="xs:normalizedString" use="optional">
-         <xs:annotation>
-            <xs:documentation>The value of the field if Dynamicness can't be performs, eg. Javascript disabled
-               web-forms or paper-based forms.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-      <xs:attribute name="default" type="xs:normalizedString" use="optional">
-         <xs:annotation>
-            <xs:documentation>The initial value of the text field.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
       <xs:attribute name="name" type="xs:ID" />
    </xs:complexType>
 
@@ -360,7 +384,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                               response. </xs:documentation>
                         </xs:annotation>
                      </xs:element>
-                     <xs:element name="QuestionIntent" type="xs:string" minOccurs="0" maxOccurs="1">
+                     <xs:element name="QuestionIntent" type="xs:normalizedString" minOccurs="0" maxOccurs="1">
                         <xs:annotation>
                            <xs:documentation>Why this question is included in this module, and why it is being asked
                               in this way. This is content that is not presented to a respondent.</xs:documentation>

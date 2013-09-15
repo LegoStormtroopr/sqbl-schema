@@ -5,7 +5,15 @@
         <Title>Dog Demographics Module</Title>
     </TextComponent>
     <WordSubstitutions>
-        <WordSub name="sex-pronoun" default="your dog" static="your dog">
+        <WordSub name="sex-pronoun">
+            <TextComponent xml:lang="en">
+                <Static>your dog</Static>
+                <Default>your dog</Default>
+            </TextComponent>
+            <TextComponent xml:lang="de">
+                <Static>Ihren Hund</Static>
+                <Default>Ihren Hund</Default>
+            </TextComponent>
             <Condition>
                 <ResultString>
                     <TextComponent xml:lang="en">his</TextComponent>
