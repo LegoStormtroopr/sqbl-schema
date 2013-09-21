@@ -167,7 +167,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      </xs:annotation>
                      <xs:complexType>
                         <xs:sequence>
-                           <xs:element name="WordSub" type="WordSubType">
+                           <xs:element name="WordSub" type="WordSubType" minOccurs="0" maxOccurs="unbounded">
                               <xs:unique name="WordSubTextLanguageMustBeUnique">
                                  <xs:selector xpath="sqbl:TextComponent" />
                                  <xs:field xpath="@xml:lang" />
@@ -331,21 +331,14 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
          <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>The order of Condition elements in a sequence guide is important and MUST NOT be
-                  changed without a survey editors understanding. Since it is the first condition that is true that is
-                  evaluated, changing the order of conditionals my change the order of a survey.</xs:documentation>
-            </xs:annotation>
             <xs:complexType>
-               <xs:sequence>
-                  <xs:element name="ResultString" type="MultilingualPlainTextType" />
-                  <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
-                     <xs:annotation>
-                        <xs:documentation>The order of the ValueOf elements does not matter, as they are all boolean
-                           'and'ed together to for the final condition</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
-               </xs:sequence>
+               <xs:complexContent>
+                  <xs:extension base="ConditionType">
+                     <xs:sequence>
+                        <xs:element name="ResultString" type="MultilingualPlainTextType" />
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
             </xs:complexType>
          </xs:element>
       </xs:sequence>
@@ -1048,24 +1041,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:complexContent>
                   <xs:extension base="LogicNode">
                      <xs:sequence>
-                        <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
-                           <xs:annotation>
-                              <xs:documentation>The condition elements he order of Condition elements in a sequence
-                                 guide is important and MUST NOT be changed without a survey editors understanding.
-                                 Since it is the first condition that is true that is evaluated, changing the order of
-                                 conditionals my change the order of a survey.</xs:documentation>
-                           </xs:annotation>
-                           <xs:complexType>
-                              <xs:sequence>
-                                 <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
-                                    <xs:annotation>
-                                       <xs:documentation>The order of the ValueOf elements does not matter, as they are
-                                          all boolean 'and'ed together to for the final condition</xs:documentation>
-                                    </xs:annotation>
-                                 </xs:element>
-                              </xs:sequence>
-                           </xs:complexType>
-                        </xs:element>
+                        <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded" type="ConditionType"/>
                      </xs:sequence>
                   </xs:extension>
                </xs:complexContent>
@@ -1155,29 +1131,19 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:annotation>
       <xs:sequence>
          <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>The order of Condition elements in a sequence guide is important and MUST NOT be
-                  changed without a survey editors understanding. Since it is the first condition that is true that is
-                  evaluated, changing the order of conditionals my change the order of a survey.</xs:documentation>
-            </xs:annotation>
             <xs:complexType>
-               <xs:sequence>
-                  <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
-                     <xs:annotation>
-                        <xs:documentation>The order of the ValueOf elements does not matter, as they are all boolean
-                           'and'ed together to for the final condition</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
-               </xs:sequence>
-               <xs:attribute name="resultBranch" use="required" type="xs:IDREF">
-                  <xs:annotation>
-                     <xs:documentation> The ResultBranch is the name of the local path of population that is considered
-                        to be 'active' if this condition is evaluated as 'True'. The name referenced here MUST be the
-                        name of an immediate child object of the object that contains this DecisionTable. This should be
-                        possible to enforce in schema, but a solution is still being sought. </xs:documentation>
-                  </xs:annotation>
-               </xs:attribute>
-
+               <xs:complexContent>
+                  <xs:extension base="ConditionType">
+                     <xs:attribute name="resultBranch" use="required" type="xs:IDREF">
+                        <xs:annotation>
+                           <xs:documentation> The ResultBranch is the name of the local path of population that is considered
+                              to be 'active' if this condition is evaluated as 'True'. The name referenced here MUST be the
+                              name of an immediate child object of the object that contains this DecisionTable. This should be
+                              possible to enforce in schema, but a solution is still being sought. </xs:documentation>
+                        </xs:annotation>
+                     </xs:attribute>
+                  </xs:extension>
+               </xs:complexContent>
             </xs:complexType>
          </xs:element>
          <xs:element name="Otherwise" minOccurs="0" maxOccurs="1">
@@ -1195,6 +1161,28 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+   
+   <xs:complexType name="ConditionType">
+      <xs:annotation>
+         <xs:documentation>The condition elements he order of Condition elements in a sequence
+            guide is important and MUST NOT be changed without a survey editors understanding.
+            Since it is the first condition that is true that is evaluated, changing the order of
+            conditionals my change the order of a survey.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="ValueOf" minOccurs="0" maxOccurs="unbounded" type="ValueOfType">
+            <xs:annotation>
+               <xs:documentation>The order of the ValueOf elements does not matter, as they are
+                  all boolean 'and'ed together to for the final condition.
+                  We allow zero ValueOfs to allow incomplete documents to be saved, but a completed survey
+                  SHOULD have at least 1 ValueOfs. A developer of a survey engine can consider zero ValueOfs
+                  as an edge case that may produce unpredictable results.
+               </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+
    <xs:complexType name="ValueOfType">
       <xs:annotation>
          <xs:documentation><![CDATA[
