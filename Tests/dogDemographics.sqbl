@@ -5,6 +5,36 @@
         <Title>Dog Demographics Module</Title>
     </TextComponent>
     <WordSubstitutions>
+        <WordSub name="dogType">
+            <TextComponent xml:lang="en">
+                <Static>your dogs</Static>
+                <Default>a dog</Default>
+            </TextComponent>
+            <TextComponent xml:lang="de">
+                <Static>Ihren Hund</Static>
+                <Default>Ihren Hund</Default>
+            </TextComponent>
+            <Condition>
+                <ValueOf question="Dog_age" is="less_than_eq">1</ValueOf>
+                <ResultString>
+                    <TextComponent xml:lang="en">Puppy</TextComponent>
+                </ResultString>
+            </Condition>
+            <Condition>
+                <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
+                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
+                <ResultString>
+                    <TextComponent xml:lang="en">Lady dog</TextComponent>
+                <TextComponent xml:lang="de"/></ResultString>
+            </Condition>
+            <Condition>
+                <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
+                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
+                <ResultString>
+                    <TextComponent xml:lang="en">Gentleman dog</TextComponent>
+                <TextComponent xml:lang="de"/></ResultString>
+            </Condition>
+        </WordSub>
         <WordSub name="sex-pronoun">
             <TextComponent xml:lang="en">
                 <Static>your dog</Static>
@@ -27,37 +57,7 @@
                 </ResultString>
             </Condition>
         </WordSub>
-        <WordSub name="dogType">
-            <TextComponent xml:lang="en">
-                <Static>your dogs</Static>
-                <Default>your dog</Default>
-            </TextComponent>
-            <TextComponent xml:lang="de">
-                <Static>Ihren Hund</Static>
-                <Default>Ihren Hund</Default>
-            </TextComponent>
-            <Condition>
-                <ValueOf question="Dog_age" is="less_than_eq">12</ValueOf>
-                <ResultString>
-                    <TextComponent xml:lang="en">Puppy</TextComponent>
-                </ResultString>
-            </Condition>
-            <Condition>
-                <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
-                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
-                <ResultString>
-                    <TextComponent xml:lang="en">Lady dog</TextComponent>
-                </ResultString>
-            </Condition>
-            <Condition>
-                <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
-                <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
-                <ResultString>
-                    <TextComponent xml:lang="en">Gentleman dog</TextComponent>
-                </ResultString>
-            </Condition>
-        </WordSub>
-    </WordSubstitutions>
+    <WordSub name="NewWordSub"/></WordSubstitutions>
     <ModuleLogic>
         <Statement name="About_dogs">
             <TextComponent xml:lang="en">
@@ -204,6 +204,12 @@
                             </Number>
                         </ResponseType>
                     </Question>
+                    <Statement name="GrayedExplain">
+                        <TextComponent xml:lang="en">
+                            <StatementText>We've disabled some of the following questions. We will only ask you questions about your
+                                <sub ref="dogType"/>, <sub ref="Dog_name"/></StatementText>
+                        </TextComponent>
+                    </Statement>
                     <ConditionalTree name="Health_by_sex">
                         <TextComponent xml:lang="en"/>
                         <SequenceGuide>

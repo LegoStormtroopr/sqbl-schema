@@ -330,7 +330,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:attribute ref="xml:lang" use="required" />
             </xs:complexType>
          </xs:element>
-         <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
+         <xs:element name="Condition" minOccurs="0" maxOccurs="unbounded">
             <xs:complexType>
                <xs:complexContent>
                   <xs:extension base="ConditionType">
@@ -342,7 +342,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             </xs:complexType>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="name" type="xs:ID" />
+      <xs:attribute name="name" type="xs:ID" use="required" />
    </xs:complexType>
 
    <xs:complexType name="BaseQuestionType">
