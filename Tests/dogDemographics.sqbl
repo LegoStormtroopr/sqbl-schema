@@ -1,9 +1,11 @@
 <QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
-    <TextComponent xml:lang="en">
-        <TargetRespondent>All Persons</TargetRespondent>
-        <LongName>Dog Demographics Demonstration Module</LongName>
-        <Title>Dog Demographics Module</Title>
-    </TextComponent>
+    <TextComponents>
+        <TextComponent xml:lang="en">
+            <TargetRespondent>All Persons</TargetRespondent>
+            <LongName>Dog Demographics Demonstration Module</LongName>
+            <Title>Dog Demographics Module</Title>
+        </TextComponent>
+    </TextComponents>
     <WordSubstitutions>
         <WordSub name="dogType">
             <TextComponent xml:lang="en">
@@ -25,14 +27,16 @@
                 <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
                 <ResultString>
                     <TextComponent xml:lang="en">Lady dog</TextComponent>
-                <TextComponent xml:lang="de"/></ResultString>
+                    <TextComponent xml:lang="de"/>
+                </ResultString>
             </Condition>
             <Condition>
                 <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
                 <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
                 <ResultString>
                     <TextComponent xml:lang="en">Gentleman dog</TextComponent>
-                <TextComponent xml:lang="de"/></ResultString>
+                    <TextComponent xml:lang="de"/>
+                </ResultString>
             </Condition>
         </WordSub>
         <WordSub name="sex-pronoun">
@@ -57,7 +61,7 @@
                 </ResultString>
             </Condition>
         </WordSub>
-    <WordSub name="NewWordSub"/></WordSubstitutions>
+        </WordSubstitutions>
     <ModuleLogic>
         <Statement name="About_dogs">
             <TextComponent xml:lang="en">
@@ -92,12 +96,13 @@
             </Condition>
         </ModuleExitPoint -->
         <Question name="Has_dog">
-            <TextComponent xml:lang="en"><QuestionText>Do you have a dog?</QuestionText>
-                <QuestionIntent>To find out about dogs.</QuestionIntent>
+            <TextComponent xml:lang="en">
+                <QuestionText>Do you have a dog?</QuestionText>
+                <QuestionIntent>To find out about dogs..</QuestionIntent>
             </TextComponent>
             <TextComponent xml:lang="de">
                 <QuestionText>Has du einen hund?</QuestionText>
-                <QuestionIntent>To find out about dogs.</QuestionIntent>
+                <QuestionIntent>To find out about dogs... but in german</QuestionIntent>
             </TextComponent>
             <ResponseType canRefuse="true">
                 <CodeList>
@@ -143,7 +148,8 @@
                     <Question name="Dog_sex" dataElementReference="http://www.wikidata.org/wiki/Property:P21">
                         <TextComponent xml:lang="en">
                             <QuestionText>What is the <em>sex</em> of <sub ref="Dog_name"/>?</QuestionText>
-                        <QuestionIntent/></TextComponent>
+                            <QuestionIntent/>
+                        </TextComponent>
                         <ResponseType>
                             <CodeList>
                                 <Codes>
@@ -206,15 +212,14 @@
                     </Question>
                     <Statement name="GrayedExplain">
                         <TextComponent xml:lang="en">
-                            <StatementText>We've disabled some of the following questions. We will only ask you questions about your
-                                <sub ref="dogType"/>, <sub ref="Dog_name"/></StatementText>
+                            <StatementText>We've disabled some of the following questions. We will only ask you
+                                questions about your <sub ref="dogType"/>, <sub ref="Dog_name"/></StatementText>
                         </TextComponent>
                     </Statement>
                     <ConditionalTree name="Health_by_sex">
                         <TextComponent xml:lang="en"/>
                         <SequenceGuide>
-                            <Condition resultBranch="Puppy_health">
-                            </Condition>
+                            <Condition resultBranch="Puppy_health"> </Condition>
                             <Condition resultBranch="Female_health">
                                 <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
                                 <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
@@ -279,8 +284,10 @@
                             <BranchLogic>
                                 <QuestionGroup name="Vaccinated">
                                     <TextComponent xml:lang="en">
-                                        <QuestionText>Please tell us about your puppies vaccination record.</QuestionText>
-                                    <QuestionIntent/></TextComponent>
+                                        <QuestionText>Please tell us about your puppies vaccination
+                                            record.</QuestionText>
+                                        <QuestionIntent/>
+                                    </TextComponent>
                                     <GroupedQuestions>
                                         <Question name="CommonVaccines">
                                             <TextComponent xml:lang="en">

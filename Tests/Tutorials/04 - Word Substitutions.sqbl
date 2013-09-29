@@ -1,24 +1,36 @@
-<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1" xsi:schemaLocation="sqbl:1 ../../Schemas/sqbl.xsd">
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1"
+    xsi:schemaLocation="sqbl:1 ../../Schemas/sqbl.xsd">
     <WordSubstitutions>
-        <WordSub name="sex-pronoun" default="your dogs" static="your dogs">
+        <WordSub name="sex_pronoun">
+            <TextComponent xml:lang="en">
+                <Default>their</Default>
+            </TextComponent>
             <Condition>
-                <ResultString>
-                    <TextComponent xml:lang="en">his</TextComponent>
-                </ResultString>
-                <ValueOf question="Sex" is="equal_to">M</ValueOf>
-            </Condition>
-            <Condition>
+                <ValueOf question="Sex" is="equal_to">F</ValueOf>
                 <ResultString>
                     <TextComponent xml:lang="en">her</TextComponent>
                 </ResultString>
-                <ValueOf question="Sex" is="equal_to">F</ValueOf>
+            </Condition>
+            <Condition>
+                <ValueOf question="Sex" is="equal_to">M</ValueOf>
+                <ResultString>
+                    <TextComponent xml:lang="en">his</TextComponent>
+                </ResultString>
             </Condition>
         </WordSub>
     </WordSubstitutions>
     <ModuleLogic>
+        <Question name="Dog_name">
+            <TextComponent xml:lang="en">
+                <QuestionText>What is your dog's name?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Text />
+            </ResponseType>
+        </Question>
         <Question name="Sex">
             <TextComponent xml:lang="en">
-                <QuestionText>What is the sex of your dog?</QuestionText>
+                <QuestionText>What is the sex of <sub ref="Dog_name" />?</QuestionText>
             </TextComponent>
             <ResponseType>
                 <CodeList>
@@ -35,10 +47,10 @@
         </Question>
         <Question name="Name">
             <TextComponent xml:lang="en">
-                <QuestionText>What is <sub ref="sex-pronoun"/> name?</QuestionText>
+                <QuestionText>What is the dogs name?</QuestionText>
             </TextComponent>
             <ResponseType>
-                <Text/>
+                <Text />
             </ResponseType>
         </Question>
     </ModuleLogic>

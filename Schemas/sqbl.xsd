@@ -106,47 +106,57 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       <xs:complexType>
          <xs:complexContent>
             <xs:extension base="Versionable">
-               <xs:sequence>
-                  <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+               <xs:all>
+                  <xs:element name="TextComponents" minOccurs="0" maxOccurs="1">
                      <xs:complexType>
-                        <xs:all>
-                           <xs:element name="LongName" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
-                              <xs:annotation>
-                                 <xs:documentation>The human readable name of this module, used in searching. When
-                                    comparing the Long Name and Title of a module, the Long Name should be considered
-                                    the "internal or private" name and as a stand alone title, whereas the title would
-                                    be "external or public" title presented to a user, within the context of the greater
-                                    questionnaire. For example, two modules may share the Title "Pet Ownership" as
-                                    presented to a user, while one has the more descriptive Long Name "Pet Ownership,
-                                    2013 Long Form edition", the other "Pet Ownership, Short (4 Question) edition"
-                                 </xs:documentation>
-                              </xs:annotation>
+                        <xs:sequence>
+                           <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+                              <xs:complexType>
+                                 <xs:all>
+                                    <xs:element name="LongName" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
+                                       <xs:annotation>
+                                          <xs:documentation>The human readable name of this module, used in searching. When
+                                             comparing the Long Name and Title of a module, the Long Name should be considered
+                                             the "internal or private" name and as a stand alone title, whereas the title would
+                                             be "external or public" title presented to a user, within the context of the greater
+                                             questionnaire. For example, two modules may share the Title "Pet Ownership" as
+                                             presented to a user, while one has the more descriptive Long Name "Pet Ownership,
+                                             2013 Long Form edition", the other "Pet Ownership, Short (4 Question) edition"
+                                          </xs:documentation>
+                                       </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="Title" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
+                                       <xs:annotation>
+                                          <xs:documentation>The name of this module as presented to a respondent of a survey.
+                                          </xs:documentation>
+                                       </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
+                                       <xs:annotation>
+                                          <xs:documentation>Why this specific set of questions is being asked of the chosen
+                                             respondents in this collection?</xs:documentation>
+                                       </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
+                                       <xs:annotation>
+                                          <xs:documentation>Who this module is attempting gather data from in a short and general sense.</xs:documentation>
+                                       </xs:annotation>
+                                    </xs:element>
+                                 </xs:all>
+                                 <xs:attribute ref="xml:lang">
+                                    <xs:annotation>
+                                       <xs:documentation>The ISO language code for this TextComponent. This must be unique and is
+                                          enfored in schema.</xs:documentation>
+                                    </xs:annotation>
+                                 </xs:attribute>
+                              </xs:complexType>
                            </xs:element>
-                           <xs:element name="Title" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
-                              <xs:annotation>
-                                 <xs:documentation>The name of this module as presented to a respondent of a survey.
-                                 </xs:documentation>
-                              </xs:annotation>
-                           </xs:element>
-                           <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
-                              <xs:annotation>
-                                 <xs:documentation>Why this specific set of questions is being asked of the chosen
-                                    respondents in this collection?</xs:documentation>
-                              </xs:annotation>
-                           </xs:element>
-                           <xs:element name="TargetRespondent" minOccurs="0" maxOccurs="1" type="xs:normalizedString">
-                              <xs:annotation>
-                                 <xs:documentation>Who this module is attempting gather data from in a short and general sense.</xs:documentation>
-                              </xs:annotation>
-                           </xs:element>
-                        </xs:all>
-                        <xs:attribute ref="xml:lang">
-                           <xs:annotation>
-                              <xs:documentation>The ISO language code for this TextComponent. This must be unique and is
-                                 enfored in schema.</xs:documentation>
-                           </xs:annotation>
-                        </xs:attribute>
+                        </xs:sequence>
                      </xs:complexType>
+                     <xs:unique name="QuestionModuleTextLanguageMustBeUnique">
+                        <xs:selector xpath="sqbl:TextComponent" />
+                        <xs:field xpath="@xml:lang" />
+                     </xs:unique>
                   </xs:element>
                   <xs:element name="InputDataElements" minOccurs="0" maxOccurs="1"/>
                   <xs:element name="IncomingPopulation" minOccurs="0" maxOccurs="1" type="ReferenceType">
@@ -159,7 +169,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         </xs:documentation>
                      </xs:annotation>
                   </xs:element>
-                  <xs:element name="WordSubstitutions" minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="WordSubstitutions" minOccurs="0" maxOccurs="1">
                      <xs:annotation>
                         <xs:documentation>
                            Contains a list of locally defines variables for producing dynamic text in questions based on responses to other questions.
@@ -220,14 +230,10 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         </xs:sequence>
                      </xs:complexType>
                   </xs:element>
-               </xs:sequence>
+               </xs:all>
             </xs:extension>
          </xs:complexContent>
       </xs:complexType>
-      <xs:unique name="QuestionModuleTextLanguageMustBeUnique">
-         <xs:selector xpath="sqbl:TextComponent" />
-         <xs:field xpath="@xml:lang" />
-      </xs:unique>
    </xs:element>
    <xs:complexType name="DerivedDataItemType">
       <xs:annotation>
@@ -1219,14 +1225,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    <xs:complexType name="Versionable">
       <xs:complexContent>
          <xs:extension base="BaseNamedType">
-            <xs:sequence>
-               <xs:element name="VersioningRationale" type="xs:string" minOccurs="0" maxOccurs="1">
-                  <xs:annotation>
-                     <xs:documentation>Textual description of the rationale/purpose for a version change. This should
-                        describe why a change has been made to the object.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-            </xs:sequence>
             <xs:attribute name="version">
                <xs:simpleType>
                   <xs:restriction base="xs:nonNegativeInteger" />
