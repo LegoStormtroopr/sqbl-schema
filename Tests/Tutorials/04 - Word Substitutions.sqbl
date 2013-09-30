@@ -1,36 +1,18 @@
-<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1"
-    xsi:schemaLocation="sqbl:1 ../../Schemas/sqbl.xsd">
-    <WordSubstitutions>
-        <WordSub name="sex_pronoun">
-            <TextComponent xml:lang="en">
-                <Default>their</Default>
-            </TextComponent>
-            <Condition>
-                <ValueOf question="Sex" is="equal_to">F</ValueOf>
-                <ResultString>
-                    <TextComponent xml:lang="en">her</TextComponent>
-                </ResultString>
-            </Condition>
-            <Condition>
-                <ValueOf question="Sex" is="equal_to">M</ValueOf>
-                <ResultString>
-                    <TextComponent xml:lang="en">his</TextComponent>
-                </ResultString>
-            </Condition>
-        </WordSub>
-    </WordSubstitutions>
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Tutorial-4_Word-subs" version="1" xsi:schemaLocation="sqbl:1 https://raw.github.com/LegoStormtroopr/sqbl-schema/master/Schemas/sqbl.xsd">
+    <TextComponents><TextComponent xml:lang="en"><LongName>Tutorial 4: Word Substitutions</LongName><Title>Tutorial 4: Word Substitutions</Title><TargetRespondent/></TextComponent></TextComponents><WordSubstitutions>
+        <WordSub name="pronoun"><TextComponent xml:lang="en"><Default>his/her</Default></TextComponent><Condition><ValueOf question="Sex" is="equal_to">M</ValueOf><ResultString><TextComponent xml:lang="en">his</TextComponent></ResultString></Condition><Condition><ValueOf question="Sex" is="equal_to">F</ValueOf><ResultString><TextComponent xml:lang="en">her</TextComponent></ResultString></Condition></WordSub><WordSub name="goose_type"><TextComponent xml:lang="en"><Default>goose</Default><Static></Static></TextComponent><Condition><ValueOf question="Age" is="less_than_eq">1</ValueOf><ResultString><TextComponent xml:lang="en">gosling</TextComponent></ResultString></Condition><Condition><ValueOf question="Age" is="greater_than">1</ValueOf><ValueOf question="Sex" is="equal_to">M</ValueOf><ResultString><TextComponent xml:lang="en">gander</TextComponent></ResultString></Condition><Condition><ValueOf question="Age" is="greater_than">1</ValueOf><ValueOf question="Sex" is="equal_to">F</ValueOf><ResultString><TextComponent xml:lang="en">goose</TextComponent></ResultString></Condition></WordSub></WordSubstitutions>
     <ModuleLogic>
-        <Question name="Dog_name">
+        <Question name="Name">
             <TextComponent xml:lang="en">
-                <QuestionText>What is your dog's name?</QuestionText>
-            </TextComponent>
+                <QuestionText>What is your goose's name?</QuestionText>
+            <QuestionIntent/></TextComponent>
             <ResponseType>
-                <Text />
+                <Text/>
             </ResponseType>
         </Question>
         <Question name="Sex">
             <TextComponent xml:lang="en">
-                <QuestionText>What is the sex of <sub ref="Dog_name" />?</QuestionText>
+                <QuestionText>What is the sex of <sub ref="Name"/>?</QuestionText>
             </TextComponent>
             <ResponseType>
                 <CodeList>
@@ -45,13 +27,12 @@
                 </CodeList>
             </ResponseType>
         </Question>
-        <Question name="Name">
+        <Question name="Age">
             <TextComponent xml:lang="en">
-                <QuestionText>What is the dogs name?</QuestionText>
+                <QuestionText>What is <sub ref="pronoun"/> age?</QuestionText>
             </TextComponent>
             <ResponseType>
-                <Text />
-            </ResponseType>
+                <Number><Step value="0"/></Number></ResponseType>
         </Question>
-    </ModuleLogic>
+    <Statement name="Thanks"><TextComponent xml:lang="en"><StatementText>Thanks for telling us about your <sub ref="goose_type"/>, <sub ref="Name"/>.</StatementText></TextComponent></Statement></ModuleLogic>
 </QuestionModule>
