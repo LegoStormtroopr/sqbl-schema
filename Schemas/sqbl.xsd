@@ -369,7 +369,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                </xs:annotation>
                <xs:complexType>
                   <xs:all>
-                     <xs:element name="QuestionText" type="DynamicTextType" minOccurs="1" maxOccurs="1">
+                     <xs:element name="QuestionText" type="DynamicTextType" minOccurs="0" maxOccurs="1">
                         <xs:annotation>
                            <xs:documentation>The text of the question presented in the instrument that is presented
                               to a respondent.</xs:documentation>
@@ -821,8 +821,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                                  <xs:element name="Instruction" minOccurs="0" maxOccurs="1" />
                                  <xs:element name="Purpose" minOccurs="0" maxOccurs="1" type="xs:string">
                                     <xs:annotation>
-                                       <xs:documentation>Why is this action being
-                                          taken?</xs:documentation>
+                                       <xs:documentation>Why is this action being taken?</xs:documentation>
                                     </xs:annotation>
                                  </xs:element>
                               </xs:all>
@@ -1013,7 +1012,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:annotation>
                            <xs:complexType>
                               <xs:all>
-                                 <xs:element name="StatementText" maxOccurs="1" type="DynamicTextType">
+                                 <xs:element name="StatementText" minOccurs="0" maxOccurs="1" type="DynamicTextType">
                                     <xs:annotation>
                                        <xs:documentation>A string to be displayed in the instrument.</xs:documentation>
                                     </xs:annotation>
