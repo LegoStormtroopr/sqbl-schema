@@ -209,10 +209,12 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            logic. </xs:documentation>
                      </xs:annotation>
                      <xs:complexType>
-                        <xs:sequence>
+                        <xs:choice>
                            <xs:element name="DerivedDataItem" type="DerivedDataItemType" minOccurs="0"
                               maxOccurs="unbounded" />
-                        </xs:sequence>
+                           <xs:element name="CalculatedDataItem" type="CalculatedDataItemType" minOccurs="0"
+                              maxOccurs="unbounded" />
+                        </xs:choice>
                      </xs:complexType>
                   </xs:element>
                   <xs:element name="Submodules" minOccurs="0" maxOccurs="1">
@@ -241,8 +243,60 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             links to questions IN THIS MODULE and specifies how the responses to those decitate how a complete data element
             is populated with data.</xs:documentation>
       </xs:annotation>
+      <xs:sequence>
+         <xs:element name="TextComponent" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:all>
+                  <xs:element name="Intent" type="xs:normalizedString" minOccurs="0" maxOccurs="1">
+                     <xs:annotation>
+                        <xs:documentation>A simple text field allowing for a description of the rationale for the derivation in plain text.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:all>
+               <xs:attribute ref="xml:lang" use="required" />
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="Condition" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="ConditionType">
+                     <xs:attribute name="resultValue" type="xs:anySimpleType" use="required"/>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="Otherwise" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+               <xs:documentation> The branch is the name of the local path of population that is considered to be
+                  'active' if no other condition in the sequence guide is evaluated as 'True'. The name referenced here
+                  MUST be the name of an immediate child object of the object that contains this DecisionTable. This
+                  should be possible to enforce in schema, but a solution is still being sought. The specification of
+                  one branch as the "default" within the "otherwise" reference, DOES NOT restrict it as being used in as
+                  the result branch of a condition. </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+               <xs:attribute name="resultValue" use="required" type="xs:anySimpleType" />
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="dataElementReference" type="xs:anyURI" use="optional">
+         <xs:annotation>
+            <xs:documentation>When deriving a value, a reference to a data element can be included.
+               When a reference is included, it MUST be interpretted that the derived value is the value for the data element for a given instance of a survey and should be stored in a survey system as such.
+               E.g. For example, a series of questions about employment types are used to derive an employment status (full-time, part-time or not employed), this derived value would then be captured and stored against the "labour force status" data element for usse in future modules for each respondent.   
+            </xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="name" type="xs:ID" use="required" />
    </xs:complexType>
-
+   <xs:complexType name="CalculatedDataItemType">
+      <xs:annotation>
+         <xs:documentation> Still under development. Will contain a reference to a Data Element and a decision table that
+            links to questions IN THIS MODULE and specifies how the responses to those decitate how a complete data element
+            is populated with data.</xs:documentation>
+      </xs:annotation>
+   </xs:complexType>
+   
    <xs:complexType name="RichTextContent" mixed="true">
       <xs:annotation>
          <xs:documentation>
@@ -421,13 +475,24 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                   </xs:annotation>
                   <xs:complexType>
                      <xs:choice minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="Boolean">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0" maxOccurs="1">
+                                    <xs:annotation>
+                                       <xs:documentation> Shown near the boolean field as a hint for respondent completion.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                              </xs:all>
+                           </xs:complexType>
+                        </xs:element>
                         <xs:element name="Text">
                            <xs:complexType>
                               <xs:all>
                                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
                                     <xs:annotation>
-                                       <xs:documentation> The text fields under here will be displayed if the string the
-                                          user requires information on what can be entered under for this value.
+                                       <xs:documentation>Text that helps a respondent complete this response, like a placeholder in an electronic form.
                                        </xs:documentation>
                                     </xs:annotation>
                                  </xs:element>
@@ -485,8 +550,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                               <xs:all>
                                  <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
                                     <xs:annotation>
-                                       <xs:documentation> The text fields under here will be displayed if the string the
-                                          user requires information on what can be entered under for this value.
+                                       <xs:documentation>Text that helps a respondent complete this response, like a placeholder in an electronic form.
                                        </xs:documentation>
                                     </xs:annotation>
                                  </xs:element>
@@ -551,19 +615,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:complexType>
                         </xs:element>
                         <xs:element name="CodeList" type="CodeListType" />
-                        <!-- xs:element name="ValueDomainReference">
-                           <xs:annotation>
-                              <xs:documentation>A reference to a defined 111-79 Value domain for the question. When
-                                 attempting to perform cross module routing, such as in population routing or branching,
-                                 rather than reference the value of a question, "Data Elements" as identified by their
-                                 DataElementConceptReference (aka. the ObjectClass and Property) joined with their value
-                                 domain. As such, if you wish to have the value of a response for a question used to
-                                 apply routing across other surveys, linking to an existing value domain is required.
-                                 
-                                 A question MUST ONLY have a Value Domain Reference if it includes a valid "DataElementConceptReference". 
-                              </xs:documentation>
-                           </xs:annotation>
-                        </xs:element -->
                      </xs:choice>
                      <xs:attribute name="canRefuse" default="false" type="xs:boolean">
                         <xs:annotation>
@@ -578,7 +629,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         <xs:annotation>
                            <xs:documentation> Indicates that a respondent can EXPLICITLY indicate that they do not know
                               the answer to answer a question. What happens if a user is unable to answer because they
-                              do not know how to answer a question where the "canNotKnow" attribute is set tofalse is an
+                              do not know how to answer a question where the "canNotKnow" attribute is set to false is an
                               agency issue of policy and proceedure and is considered strictly out-of-scope of SQBL.
                            </xs:documentation>
                         </xs:annotation>
@@ -605,7 +656,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      for example [http://meteor.aihw.gov.au/content/index.phtml/itemId/287316] or a URN to a Data
                      Element described in another standard, such as DDI.                     
                      
-                     In future versions of SQBL cross-module will be incorporated using 11179 references.
+                     In future versions of SQBL cross-module data-sharing will be incorporated using 11179 references.
                   </xs:documentation>
                </xs:annotation>
             </xs:attribute>
@@ -883,7 +934,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                         <xs:annotation>
                            <xs:documentation>
                               A reference to the question that will be looped over.
-                              This MUST be a reference to a quesiton with a single reponse value of either an integer number
+                              This MUST be a reference to a quesiton with a single response value of either an integer number
                               or a multiple-selection codelist.
                               References to other types of responses may cause side-effects.
                            </xs:documentation>
@@ -1072,7 +1123,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             of SourceQuestionReferences in the parent DecisionTableType object.
             
             When evaluating a sequence guide all conditions are considered to be false, and each
-            condition is lazily evaluated from top to bottom, so that as oon as a condition is met the value of that
+            condition is lazily evaluated from top to bottom, so that as soon as a condition is met the value of that
             condition is considered the value of the table itself. When evaluating a condition if every 'check'
             evaluates to true, the condition is considered to be true and the 'result' of that condition MUST to used as
             the evaluated value of the decision table. 
@@ -1169,18 +1220,18 @@ or FITNESS FOR A PARTICULAR PURPOSE.
    
    <xs:complexType name="ConditionType">
       <xs:annotation>
-         <xs:documentation>The condition elements he order of Condition elements in a sequence
+         <xs:documentation>The order of Condition elements in a sequence
             guide is important and MUST NOT be changed without a survey editors understanding.
             Since it is the first condition that is true that is evaluated, changing the order of
-            conditionals my change the order of a survey.</xs:documentation>
+            conditionals may change the logical behaviour of a survey.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element name="ValueOf" minOccurs="0" maxOccurs="unbounded" type="ValueOfType">
             <xs:annotation>
                <xs:documentation>The order of the ValueOf elements does not matter, as they are
                   all boolean 'and'ed together to for the final condition.
-                  We allow zero ValueOfs to allow incomplete documents to be saved, but a completed survey
-                  SHOULD have at least 1 ValueOfs. A developer of a survey engine can consider zero ValueOfs
+                  We allow zero 'ValueOf's to allow incomplete documents to be saved, but a Condition in a completed survey
+                  SHOULD have at least 1 'ValueOf's. A developer of a survey engine MAY consider zero ValueOfs
                   as an edge case that may produce unpredictable results.
                </xs:documentation>
             </xs:annotation>
