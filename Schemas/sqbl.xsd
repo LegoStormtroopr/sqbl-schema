@@ -20,6 +20,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 -->
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="sqbl:1" xmlns:qwac="qwac:reusable:1" xmlns:sqbl="sqbl:1"
+   xmlns:sch="http://www.ascc.net/xml/schematron"
    targetNamespace="sqbl:1" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="./xml.xsd" />
    <xs:annotation>
@@ -36,6 +37,9 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          the dogDemographics.sqbl should be considered the definative test case, and any systems that work with this
          document MUST meet the requirements of this document, and MAY meet the optional requirements.
       </xs:documentation>
+      <xs:appinfo>
+         <sch:ns uri="sqbl:1" prefix="sqbl"/>         
+      </xs:appinfo>
    </xs:annotation>
    <!-- 
       Need to determine if a questionnaire is just a Question Module that has been "blessed" for a specific usage.
@@ -267,12 +271,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
          </xs:element>
          <xs:element name="Otherwise" minOccurs="0" maxOccurs="1">
             <xs:annotation>
-               <xs:documentation> The branch is the name of the local path of population that is considered to be
-                  'active' if no other condition in the sequence guide is evaluated as 'True'. The name referenced here
-                  MUST be the name of an immediate child object of the object that contains this DecisionTable. This
-                  should be possible to enforce in schema, but a solution is still being sought. The specification of
-                  one branch as the "default" within the "otherwise" reference, DOES NOT restrict it as being used in as
-                  the result branch of a condition. </xs:documentation>
+               <xs:documentation> The default value for a data item, if no condition is met.</xs:documentation>
             </xs:annotation>
             <xs:complexType>
                <xs:attribute name="resultValue" use="required" type="xs:anySimpleType" />
@@ -1187,6 +1186,15 @@ or FITNESS FOR A PARTICULAR PURPOSE.
       </xs:annotation>
       <xs:sequence>
          <xs:element name="Condition" minOccurs="1" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:appinfo>
+                  <sch:pattern name="Result branch">
+                     <sch:rule context="sqbl:Condition">
+                        <sch:assert test="sqbl:Condition[../../sqbl:Branch/@name=@resultBranch]">Condition/@resultBranch must reference a Branch of the current ConditionTree</sch:assert>
+                     </sch:rule>
+                  </sch:pattern>
+               </xs:appinfo>
+            </xs:annotation>
             <xs:complexType>
                <xs:complexContent>
                   <xs:extension base="ConditionType">
