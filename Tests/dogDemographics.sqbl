@@ -120,7 +120,7 @@
             </ResponseType>
         </Question>
         <ConditionalTree name="Split_dogs">
-            <TextComponent xml:lang="en">
+            <TextComponent xml:lang="de"/><TextComponent xml:lang="en">
                 <Purpose>To split respondents into Dog Owners and non-dog owners, to target specific questions effectively.</Purpose>
             </TextComponent>
             <SequenceGuide>
@@ -217,9 +217,8 @@
                         </TextComponent>
                     </Statement>
                     <ConditionalTree name="Health_by_sex">
-                        <TextComponent xml:lang="en"/>
+                        <TextComponent xml:lang="de"/><TextComponent xml:lang="en"/>
                         <SequenceGuide>
-                            <Condition resultBranch="Puppy_health"> </Condition>
                             <Condition resultBranch="Female_health">
                                 <ValueOf question="Dog_sex" is="equal_to">F</ValueOf>
                                 <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
@@ -228,6 +227,7 @@
                                 <ValueOf question="Dog_sex" is="equal_to">M</ValueOf>
                                 <ValueOf question="Dog_age" is="greater_than">1</ValueOf>
                             </Condition>
+                            <Otherwise branch="Puppy_health"/>
                         </SequenceGuide>
                         <Branch name="Female_health">
                             <TextComponent xml:lang="en">
@@ -426,7 +426,7 @@
             </Branch>
         </ConditionalTree>
         <Question name="Comments">
-            <TextComponent xml:lang="en">
+            <TextComponent xml:lang="de"/><TextComponent xml:lang="en">
                 <QuestionText>Do you have any comments on this survey?</QuestionText>
             </TextComponent>
             <ResponseType>

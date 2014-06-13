@@ -1234,13 +1234,10 @@ or FITNESS FOR A PARTICULAR PURPOSE.
             conditionals may change the logical behaviour of a survey.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="ValueOf" minOccurs="0" maxOccurs="unbounded" type="ValueOfType">
+         <xs:element name="ValueOf" minOccurs="1" maxOccurs="unbounded" type="ValueOfType">
             <xs:annotation>
                <xs:documentation>The order of the ValueOf elements does not matter, as they are
                   all boolean 'and'ed together to for the final condition.
-                  We allow zero 'ValueOf's to allow incomplete documents to be saved, but a Condition in a completed survey
-                  SHOULD have at least 1 'ValueOf's. A developer of a survey engine MAY consider zero ValueOfs
-                  as an edge case that may produce unpredictable results.
                </xs:documentation>
             </xs:annotation>
          </xs:element>

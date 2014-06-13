@@ -1,0 +1,28 @@
+<QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="NEW_MODULE" version="1" xsi:schemaLocation="sqbl:1 ./Github/sqbl-schema/schemas/sqbl.xsd">
+    <ModuleLogic>
+        <Question name="DoesDriveCar">
+            <TextComponent xml:lang="en">
+                <QuestionText>Did you drive a car?</QuestionText>
+            </TextComponent>
+            <ResponseType><CodeList>
+            <Codes><CodePair code="Y"><TextComponent xml:lang="en">Yes</TextComponent></CodePair><CodePair code="N"><TextComponent xml:lang="en">No</TextComponent></CodePair></Codes>
+          </CodeList></ResponseType>
+        </Question>
+        <Question name="PetrolCost">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Do you think petrol costs too much?</QuestionText>
+                        </TextComponent>
+                        <ResponseType><CodeList>
+            <Codes><CodePair code="Y"><TextComponent xml:lang="en">Yes</TextComponent></CodePair><CodePair code="N"><TextComponent xml:lang="en">No</TextComponent></CodePair></Codes>
+          </CodeList></ResponseType>
+                    </Question>
+                    <Question name="WhyNotDrive">
+                        <TextComponent xml:lang="en">
+                            <QuestionText>Why do you not drive?</QuestionText>
+                        </TextComponent>
+                        <ResponseType>
+                            <Text/>
+                        </ResponseType>
+                    </Question>
+                </ModuleLogic>
+</QuestionModule>
