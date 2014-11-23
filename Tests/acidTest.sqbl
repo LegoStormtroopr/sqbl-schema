@@ -1,9 +1,11 @@
 <QuestionModule xmlns="sqbl:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1" name="DOG_DEMO" xsi:schemaLocation="sqbl:1 ../schemas/sqbl.xsd">
-    <TextComponent xml:lang="en">
-        <TargetRespondent>No-one ever</TargetRespondent>
-        <LongName>SQBL/Canard Acid Test</LongName>
-        <Title>SQBL/Canard Acid Test</Title>
-    </TextComponent>
+    <TextComponents>
+        <TextComponent xml:lang="en">
+            <TargetRespondent>No-one ever</TargetRespondent>
+            <LongName>SQBL/Canard Acid Test</LongName>
+            <Title>SQBL/Canard Acid Test</Title>
+        </TextComponent>
+    </TextComponents>
     <ModuleLogic>
         <Statement name="Statement">
             <TextComponent xml:lang="en">
@@ -18,10 +20,14 @@
             </TextComponent>
             <ResponseType canRefuse="true">
                 <Number>
-                    <Suffix><TextComponent xml:lang="en">hrs</TextComponent></Suffix>
+                    <Suffix>
+                        <TextComponent xml:lang="en">hrs</TextComponent>
+                    </Suffix>
                 </Number>
                 <Number>
-                    <Suffix><TextComponent xml:lang="en">mins</TextComponent></Suffix>
+                    <Suffix>
+                        <TextComponent xml:lang="en">mins</TextComponent>
+                    </Suffix>
                 </Number>
             </ResponseType>
         </Question>
@@ -32,11 +38,15 @@
                 <Instruction>Test a question with 2 responses</Instruction>
             </TextComponent>
             <ResponseType canRefuse="true">
-                <Text/>
+                <Text />
             </ResponseType>
             <SubQuestions>
-                <SubQuestion><TextComponent xml:lang="en">First:</TextComponent></SubQuestion>
-                <SubQuestion><TextComponent xml:lang="en">Last:</TextComponent></SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">First:</TextComponent>
+                </SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">Last:</TextComponent>
+                </SubQuestion>
             </SubQuestions>
         </Question>
         <Question name="MultiResponseMultiQuestion">
@@ -47,18 +57,26 @@
             </TextComponent>
             <ResponseType canRefuse="true">
                 <Number>
-                    <Suffix><TextComponent xml:lang="en">hrs</TextComponent></Suffix>
+                    <Suffix>
+                        <TextComponent xml:lang="en">hrs</TextComponent>
+                    </Suffix>
                 </Number>
                 <Number>
-                    <Suffix><TextComponent xml:lang="en">mins</TextComponent></Suffix>
+                    <Suffix>
+                        <TextComponent xml:lang="en">mins</TextComponent>
+                    </Suffix>
                 </Number>
             </ResponseType>
             <SubQuestions>
-                <SubQuestion><TextComponent xml:lang="en">to write SQBL?</TextComponent></SubQuestion>
-                <SubQuestion><TextComponent xml:lang="en">to write Canard?</TextComponent></SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">to write SQBL?</TextComponent>
+                </SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">to write Canard?</TextComponent>
+                </SubQuestion>
             </SubQuestions>
         </Question>
-    <Question name="SingleResponseSingleQuestion">
+        <Question name="SingleResponseSingleQuestion">
             <TextComponent xml:lang="en">
                 <QuestionText>Testing some choices:</QuestionText>
                 <QuestionIntent>Testing SingleResponseSingleQuestion and "Other/please specify"</QuestionIntent>
@@ -82,9 +100,55 @@
                             <TextComponent xml:lang="en">Other choice with text: Please specify:</TextComponent>
                         </CodePair>
                     </Codes>
-                    <MaximumSelections value="3"/>
+                    <MaximumSelections value="3" />
                 </CodeList>
             </ResponseType>
         </Question>
-        </ModuleLogic>
+        <Question name="DateTimeQuestion">
+            <TextComponent xml:lang="en">
+                <QuestionText>When did you first learn about SQBL?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <Date>
+                    <Minimum value="2013-01-01" />
+                    <Maximum value="#today" />
+                </Date>
+                <Time />
+            </ResponseType>
+        </Question>
+        <Question name="LikertScaleTest" presentationTypes="likert">
+            <TextComponent xml:lang="en">
+                <QuestionText>How do you feel about the following?</QuestionText>
+            </TextComponent>
+            <ResponseType>
+                <CodeList>
+                    <Codes>
+                        <CodePair code="1">
+                            <TextComponent xml:lang="en">Strongly Agree</TextComponent>
+                        </CodePair>
+                        <CodePair code="2">
+                            <TextComponent xml:lang="en">Agree</TextComponent>
+                        </CodePair>
+                        <CodePair code="3">
+                            <TextComponent xml:lang="en">Neutral</TextComponent>
+                        </CodePair>
+                        <CodePair code="4">
+                            <TextComponent xml:lang="en">Disgree</TextComponent>
+                        </CodePair>
+                        <CodePair code="5">
+                            <TextComponent xml:lang="en">Strongly Disgree</TextComponent>
+                        </CodePair>
+                    </Codes>
+                </CodeList>
+            </ResponseType>
+            <SubQuestions>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">This document is well formed</TextComponent>
+                </SubQuestion>
+                <SubQuestion>
+                    <TextComponent xml:lang="en">This document complies with the SQBL Schema</TextComponent>
+                </SubQuestion>
+            </SubQuestions>
+        </Question>
+    </ModuleLogic>
 </QuestionModule>

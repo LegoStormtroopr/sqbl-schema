@@ -614,6 +614,94 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                            </xs:complexType>
                         </xs:element>
                         <xs:element name="CodeList" type="CodeListType" />
+                        <xs:element name="Date">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>Text that helps a respondent complete this response, like a placeholder in an electronic form.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                                 <xs:element name="Maximum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the maximum (latest) date allowed for
+                                          this response. The text fields under here will be displayed if the date the
+                                          user enters is later than this.
+                                          If omitted, any date greater than the Minimum date (if present) is permitted.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xsDateOrToday" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="Minimum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the minimum (earliest) date allowed for
+                                          this response. The text fields under here will be displayed if the date the
+                                          user enters is earlier than this.
+                                          If omitted, any date less than the Maximum date (if present) is permitted.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xsDateOrToday" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                              </xs:all>
+                           </xs:complexType>
+                        </xs:element>
+                        <xs:element name="Time">
+                           <xs:complexType>
+                              <xs:all>
+                                 <xs:element name="Hint" type="MultilingualPlainTextType" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>Text that helps a respondent complete this response, like a placeholder in an electronic form.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                 </xs:element>
+                                 <xs:element name="Maximum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the maximum (latest) time allowed for
+                                          this response. The text fields under here will be displayed if the time the
+                                          user enters is later than this.
+                                          If omitted, any time greater than the Minimum time (if present) is permitted.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:time" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                                 <xs:element name="Minimum" minOccurs="0">
+                                    <xs:annotation>
+                                       <xs:documentation>The "value" attribute defines the minimum (earliest) time allowed for
+                                          this response. The text fields under here will be displayed if the time the
+                                          user enters is earlier than this.
+                                          If omitted, any time less than the Maximum time (if present) is permitted.
+                                       </xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                       <xs:complexContent>
+                                          <xs:extension base="MultilingualPlainTextType">
+                                             <xs:attribute name="value" use="required" type="xs:time" />
+                                          </xs:extension>
+                                       </xs:complexContent>
+                                    </xs:complexType>
+                                 </xs:element>
+                              </xs:all>
+                           </xs:complexType>
+                        </xs:element>
                      </xs:choice>
                      <xs:attribute name="canRefuse" default="false" type="xs:boolean">
                         <xs:annotation>
@@ -651,9 +739,8 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                      about. While optional, it is recommended that where possible questionnaire designers include
                      links to 11179 Data Elements as a matter of good practise for metadata description.
                      
-                     Areference to a 11179 Data Element may be a link to a webpage that describes the Data Element, 
-                     for example [http://meteor.aihw.gov.au/content/index.phtml/itemId/287316] or a URN to a Data
-                     Element described in another standard, such as DDI.                     
+                     A reference to a 11179 Data Element may be a link to a webpage that describes the Data Element, 
+                     or a URN to a Data Element described in another standard, such as DDI.                     
                      
                      In future versions of SQBL cross-module data-sharing will be incorporated using 11179 references.
                   </xs:documentation>
@@ -778,8 +865,25 @@ or FITNESS FOR A PARTICULAR PURPOSE.
                <xs:enumeration value="#all"/>
             </xs:restriction>
          </xs:simpleType>
+      </xs:union>         
+   </xs:simpleType>
+   <xs:simpleType name="xsDateOrToday">
+      <xs:annotation>
+         <xs:documentation>
+            Used to allow a designer to say that a maximum or minimum value for a date response is "today", relative to when the
+            respondant fills out the form.
+         </xs:documentation>
+      </xs:annotation>
+      <xs:union>
+         <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+         </xs:simpleType>
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="#today"/>
+            </xs:restriction>
+         </xs:simpleType>
       </xs:union>
-      
    </xs:simpleType>
 
    <xs:complexType name="MultilingualPlainTextType">

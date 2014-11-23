@@ -197,6 +197,9 @@
                                 <Minimum value="0.0">
                                     <TextComponent xml:lang="en">Age must be greater than 0</TextComponent>
                                 </Minimum>
+                                <Maximum value="100.0">
+                                    <TextComponent xml:lang="en">Age must be less than 100</TextComponent>
+                                </Maximum>
                                 <Step value="1">
                                     <TextComponent xml:lang="en">Age must be in whole numbers</TextComponent>
                                 </Step>
